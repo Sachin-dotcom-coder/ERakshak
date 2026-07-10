@@ -1,0 +1,27 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+
+# Environments & Dependencies
+.env
+.venv
+venv/
+env/
+node_modules/
+dist/
+build/
+
+# ML Weights (Person A)
+vision-service/models/*.pt
+*.weights
+
+# SUMO / Simulation outputs (Person B)
+signal-optimizer/sumo/*.log
+*.sbnd
+
+# OS / IDE details
+.DS_Store
+.vscode/
+.idea/
