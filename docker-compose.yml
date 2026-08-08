@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  postgres:
+    image: postgis/postgis:16-3.4
+    environment:
+      POSTGRES_USER: traffic_admin
+      POSTGRES_PASSWORD: changeme
+      POSTGRES_DB: traffic_intel
+    ports:
+      - "5432:5432"
