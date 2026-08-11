@@ -3,15 +3,13 @@ event_modes.py — Event Mode Profiles (Festival / School / Office / Weekend / R
 ===================================================================================
 Different traffic patterns need different algorithm parameters, not different
 algorithms.  This module provides a config-driven parameter lookup so that
-``max_pressure.py`` uses one line to get its tuning constants:
+``max_pressure.py`` uses one line to get its tuning constants.
 
-    params = get_mode_params(active_mode)
+Enhanced with:
+  - Weather-specific control policy parameters (aggressiveness, safety margin)
+  - Additional per-mode tuning knobs beyond min/max green
 
-Mode selection priority (highest to lowest):
-  1. External override (emergency flag, weather API, festival calendar)
-  2. Manual override (dashboard toggle from Person D)
-  3. Scheduled (time-of-day / day-of-week rules)
-  4. Default → ``"office_hours"``
+Improvement #21 from new_instruct.md.
 """
 
 from __future__ import annotations
@@ -19,6 +17,7 @@ from __future__ import annotations
 import datetime
 from dataclasses import dataclass
 from typing import Optional
+
 
 # ---------------------------------------------------------------------------
 # Mode profile definition
@@ -33,6 +32,12 @@ class ModeProfile:
     pressure_weight: float # multiplier on max-pressure score (>1 = more aggressive)
     description: str = ""
 
+    # --- Enhanced: Weather-aware control policy (Improvement #21) ---
+    aggressiveness: float = 1.0    # multiplier on growth/prediction bonuses (lower = more cautious)
+    safety_margin_sec: float = 0.0 # additional seconds added to min_green for safety
+    max_cycle_delta: float = 20.0  # max cycle-time change per step (seconds)
+    switching_penalty_mult: float = 1.0  # multiplier on the base switching penalty
+
 
 # ---------------------------------------------------------------------------
 # Mode registry
@@ -45,6 +50,10 @@ MODES: dict[str, ModeProfile] = {
         min_green=15,
         pressure_weight=1.0,
         description="Standard weekday commuter flow.",
+        aggressiveness=1.0,
+        safety_margin_sec=0.0,
+        max_cycle_delta=20.0,
+        switching_penalty_mult=1.0,
     ),
     "school_hours": ModeProfile(
         name="school_hours",
@@ -52,6 +61,10 @@ MODES: dict[str, ModeProfile] = {
         min_green=20,
         pressure_weight=0.8,
         description="Predictable, shorter cycles; prioritise pedestrian clearance.",
+        aggressiveness=0.8,
+        safety_margin_sec=3.0,
+        max_cycle_delta=15.0,
+        switching_penalty_mult=1.2,
     ),
     "weekend": ModeProfile(
         name="weekend",
@@ -59,6 +72,10 @@ MODES: dict[str, ModeProfile] = {
         min_green=15,
         pressure_weight=0.9,
         description="Relaxed flow, slightly reduced pressure weight.",
+        aggressiveness=0.9,
+        safety_margin_sec=0.0,
+        max_cycle_delta=18.0,
+        switching_penalty_mult=0.8,
     ),
     "festival": ModeProfile(
         name="festival",
@@ -66,13 +83,43 @@ MODES: dict[str, ModeProfile] = {
         min_green=20,
         pressure_weight=1.3,
         description="Heavy, less predictable flows; allow long greens.",
+        aggressiveness=1.3,
+        safety_margin_sec=2.0,
+        max_cycle_delta=25.0,
+        switching_penalty_mult=1.5,
     ),
     "rain": ModeProfile(
         name="rain",
         max_green=55,
         min_green=20,
         pressure_weight=0.7,
-        description="Cautious mode — ties into confidence.py to reduce erratic swings.",
+        description="Cautious mode — reduced aggressiveness, larger safety margins.",
+        aggressiveness=0.6,
+        safety_margin_sec=5.0,
+        max_cycle_delta=10.0,
+        switching_penalty_mult=1.5,
+    ),
+    "fog": ModeProfile(
+        name="fog",
+        max_green=50,
+        min_green=22,
+        pressure_weight=0.65,
+        description="Very cautious — poor visibility, strong safety margins.",
+        aggressiveness=0.5,
+        safety_margin_sec=6.0,
+        max_cycle_delta=8.0,
+        switching_penalty_mult=2.0,
+    ),
+    "night": ModeProfile(
+        name="night",
+        max_green=45,
+        min_green=12,
+        pressure_weight=0.85,
+        description="Low traffic, shorter cycles, slightly reduced weight.",
+        aggressiveness=0.8,
+        safety_margin_sec=2.0,
+        max_cycle_delta=15.0,
+        switching_penalty_mult=0.7,
     ),
 }
 
@@ -103,16 +150,13 @@ def select_mode(
     Parameters
     ----------
     manual_override:
-        Mode name sent from Person D's dashboard toggle (highest priority after
-        external events).
+        Mode name sent from Person D's dashboard toggle.
     weather_flag:
-        Current weather string from Person A or a weather API.  ``"rain"`` or
-        ``"fog"`` will activate the ``rain`` mode when no manual override is set.
+        Current weather string from Person A or a weather API.
     festival_active:
-        ``True`` when an external festival calendar says today is a festival.
+        ``True`` when a festival calendar says today is a festival.
     now:
-        Current datetime; defaults to ``datetime.datetime.now()`` if not
-        supplied.  Used for time-of-day scheduling.
+        Current datetime; defaults to ``datetime.datetime.now()``.
 
     Returns
     -------
@@ -126,7 +170,12 @@ def select_mode(
     if festival_active:
         return "festival"
     if weather_flag and weather_flag.lower() in ("rain", "fog", "snow"):
-        return "rain"
+        weather_mode = weather_flag.lower()
+        if weather_mode == "snow":
+            weather_mode = "rain"  # treat snow like rain
+        return weather_mode if weather_mode in MODES else "rain"
+    if weather_flag and weather_flag.lower() == "night":
+        return "night"
 
     # 2. Manual override from dashboard
     if manual_override and manual_override in MODES:
@@ -145,12 +194,15 @@ def _scheduled_mode(now: datetime.datetime) -> str:
         return "weekend"
 
     # Weekday time-of-day rules (India IST assumed)
-    if 7 <= hour < 9 or 15 <= hour < 18:   # School rush: morning + afternoon
+    if 7 <= hour < 9 or 15 <= hour < 18:
         return "school_hours"
-    if 9 <= hour < 19:                      # Office hours
+    if 9 <= hour < 19:
         return "office_hours"
 
-    # Night / off-peak — use weekend params (light flow)
+    # Night / off-peak
+    if hour >= 21 or hour < 6:
+        return "night"
+
     return "weekend"
 
 
@@ -160,9 +212,12 @@ def _scheduled_mode(now: datetime.datetime) -> str:
 if __name__ == "__main__":
     for mode, profile in MODES.items():
         print(f"{mode:15s}  max_green={profile.max_green}  "
-              f"min_green={profile.min_green}  weight={profile.pressure_weight}")
+              f"min_green={profile.min_green}  weight={profile.pressure_weight}  "
+              f"aggress={profile.aggressiveness}  safety={profile.safety_margin_sec}s  "
+              f"max_delta={profile.max_cycle_delta}s")
 
     print("\nScheduled mode right now:", select_mode())
     print("With rain flag         :", select_mode(weather_flag="rain"))
+    print("With fog flag          :", select_mode(weather_flag="fog"))
     print("Festival override      :", select_mode(festival_active=True))
     print("Manual dashboard       :", select_mode(manual_override="school_hours"))

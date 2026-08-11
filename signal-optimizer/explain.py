@@ -1,18 +1,14 @@
 """
-explain.py — Decision Reasoning Generator
-==========================================
+explain.py — Quantitative Decision Reasoning Generator
+========================================================
 Every signal decision carries a plain-English ``reason`` string built from the
 same variables that fed the decision — not computed separately, so it always
 matches the actual logic.
 
-Priority order for the headline reason (most urgent first):
-  1. Emergency vehicle
-  2. BRTS priority
-  3. Confidence / weather caution
-  4. Prediction (rising trend)
-  5. Baseline max-pressure
+Enhanced with quantitative explanations including exact pressure scores,
+growth rates, predicted values, starvation times, and downstream penalties.
 
-All contributing factors are also collected so Person D can show detail.
+Improvement #41 from new_instruct.md.
 """
 
 from __future__ import annotations
@@ -44,6 +40,14 @@ def build_reason(
     predicted_extra_vehicles: Optional[float] = None,
     # --- Priority ---
     priority: Optional[PriorityResult] = None,
+    # --- Enhanced: quantitative details (Improvement #41) ---
+    pressure_scores: Optional[dict[str, float]] = None,
+    growth_rates: Optional[dict[str, float]] = None,
+    starvation_sec: Optional[dict[str, float]] = None,
+    decision_confidence: Optional[float] = None,
+    anomaly_level: Optional[str] = None,
+    downstream_penalty: Optional[float] = None,
+    prediction_uncertainty: Optional[float] = None,
 ) -> tuple[str, list[str]]:
     """Generate the headline reason string and a list of all contributing factors.
 
@@ -64,17 +68,24 @@ def build_reason(
             f"Emergency vehicle detected on {pr.emergency_approach} approach; "
             f"forced green corridor for {pr.emergency_hold_sec:.0f}s."
         )
+        if pr.emergency_eta_sec is not None:
+            msg += f" ETA to downstream junction: {pr.emergency_eta_sec:.0f}s."
         factors.append(msg)
 
     # 2. BRTS priority
     if pr.brts_triggered and pr.brts_approach and not pr.emergency_triggered:
         msg = (
             f"BRTS bus priority given on {pr.brts_approach} approach "
-            f"(pressure boosted by {pr.brts_pressure_boost:.1f})."
+            f"(pressure boosted by {pr.brts_pressure_boost:.2f})."
         )
         factors.append(msg)
 
-    # 3. Confidence / weather caution
+    # 3. Anomaly detection
+    if anomaly_level and anomaly_level != "normal":
+        msg = f"Traffic anomaly detected: {anomaly_level.replace('_', ' ')} level."
+        factors.append(msg)
+
+    # 4. Confidence / weather caution
     if confidence < CONFIDENCE_THRESHOLD:
         delta_str = ""
         if cycle_delta_sec is not None:
@@ -86,24 +97,56 @@ def build_reason(
         )
         factors.append(msg)
 
-    # 4. Rising congestion prediction
-    if trend == "rising" and predicted_extra_vehicles is not None:
+    # 5. Rising congestion prediction (quantitative)
+    if trend == "rising":
+        growth_str = ""
+        if growth_rates and dominant_approach in growth_rates:
+            gr = growth_rates[dominant_approach]
+            growth_str = f", rising at {gr:+.1f} veh/sample"
+        pred_str = ""
+        if predicted_extra_vehicles is not None:
+            pred_str = f", predicted +{predicted_extra_vehicles:.0f} vehicles in ~5 min"
+        uncert_str = ""
+        if prediction_uncertainty is not None and prediction_uncertainty > 0:
+            uncert_str = f" (±{prediction_uncertainty:.1f})"
         msg = (
-            f"Queue trend rising (predicted +{predicted_extra_vehicles:.0f} vehicles "
-            f"in ~5 min on {dominant_approach}); green extended pre-emptively."
+            f"Queue trend rising on {dominant_approach}"
+            f"{growth_str}{pred_str}{uncert_str}; green extended pre-emptively."
         )
         factors.append(msg)
-    elif trend == "rising":
+
+    # 6. Starvation warning
+    if starvation_sec:
+        for phase_name, starv_time in starvation_sec.items():
+            if starv_time > 60:
+                factors.append(
+                    f"Phase {phase_name} starved for {starv_time:.0f}s; "
+                    f"fairness bonus applied."
+                )
+
+    # 7. Downstream congestion
+    if downstream_penalty is not None and downstream_penalty > 0.5:
         factors.append(
-            f"Queue trend rising on {dominant_approach}; green extended pre-emptively."
+            f"Downstream congestion detected (penalty {downstream_penalty:.1f}); "
+            f"spillback protection active."
         )
 
-    # 5. Baseline max-pressure (always included)
+    # 8. Baseline max-pressure (always included, now quantitative)
+    pressure_detail = ""
+    if pressure_scores:
+        scores_str = ", ".join(
+            f"{k}={v:.1f}" for k, v in sorted(pressure_scores.items(), key=lambda x: -x[1])
+        )
+        pressure_detail = f" Pressure scores: [{scores_str}]."
     factors.append(
         f"{dominant_approach} approach queue ({dominant_queue} vehicles) exceeds "
         f"{secondary_approach} ({secondary_queue} vehicles); "
-        f"cycle set to {recommended_cycle_sec}s."
+        f"cycle set to {recommended_cycle_sec}s.{pressure_detail}"
     )
+
+    # 9. Decision confidence footer
+    if decision_confidence is not None:
+        factors.append(f"Decision confidence: {decision_confidence:.2f}.")
 
     headline = factors[0] if factors else "Normal operation."
     return headline, factors
@@ -122,6 +165,7 @@ def reason_string(
     trend: TrendLabel = "stable",
     predicted_extra_vehicles: Optional[float] = None,
     priority: Optional[PriorityResult] = None,
+    **kwargs,
 ) -> str:
     """Convenience wrapper that returns only the headline reason string."""
     headline, _ = build_reason(
@@ -136,6 +180,7 @@ def reason_string(
         trend=trend,
         predicted_extra_vehicles=predicted_extra_vehicles,
         priority=priority,
+        **kwargs,
     )
     return headline
 
@@ -146,29 +191,36 @@ def reason_string(
 if __name__ == "__main__":
     from priority import PriorityResult
 
-    # Normal max-pressure scenario
+    # Quantitative max-pressure scenario
     h, factors = build_reason(
         dominant_approach="NS",
-        dominant_queue=14,
+        dominant_queue=22,
         secondary_approach="EW",
-        secondary_queue=5,
-        recommended_cycle_sec=38,
+        secondary_queue=8,
+        recommended_cycle_sec=42,
         confidence=0.62,
         weather_flag="rain",
         cycle_delta_sec=8.0,
         trend="rising",
         predicted_extra_vehicles=6.0,
+        pressure_scores={"NS_green": 31.4, "EW_green": 14.2},
+        growth_rates={"NS": 4.2, "EW": 0.4},
+        starvation_sec={"NS_green": 5, "EW_green": 65},
+        decision_confidence=0.78,
+        anomaly_level="elevated",
+        prediction_uncertainty=2.3,
     )
     print("Headline:", h)
-    print("All factors:")
+    print("\nAll factors:")
     for f in factors:
         print(" -", f)
 
-    # Emergency scenario
+    # Emergency scenario with ETA
     pr = PriorityResult(
         emergency_triggered=True,
         emergency_approach="north",
         emergency_hold_sec=15.0,
+        emergency_eta_sec=12.5,
     )
     h2, _ = build_reason(
         dominant_approach="NS",

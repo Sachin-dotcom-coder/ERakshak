@@ -1,32 +1,17 @@
 """
-traci_runner.py — TraCI-Based SUMO Runner with Adaptive Signal Control
-=======================================================================
+traci_runner.py — TraCI-Based SUMO Runner with Enhanced Adaptive Signal Control
+=================================================================================
 Connects to SUMO via TraCI, runs the simulation step-by-step, and applies
-the max-pressure algorithm at each decision cycle.
+the enhanced max-pressure algorithm at each decision cycle.
+
+Enhanced with:
+  - Full decision trace output to output/adaptive_traces.jsonl
+  - Expanded summary with health metrics, prediction error stats
+  - Support for all new scenario types
 
 Works in two modes:
-  1. MOCK mode  — SUMO is not installed.  Simulates detector readings using
-                  the mock_event_feed generator and prints the decisions.
-                  Useful for algorithm validation without a SUMO installation.
-
-  2. SUMO mode  — Requires ``sumo`` (or ``sumo-gui``) in PATH and the
-                  ``traci`` Python package (installed with SUMO).
-                  Reads real detector data from loop detectors / inductionLoop
-                  definitions and applies phase overrides via TraCI.
-
-Usage
------
-    # Mock run (no SUMO needed):
-    python traci_runner.py --mock
-
-    # Real SUMO run:
-    python traci_runner.py [--gui] [--scenario normal|congested|festival|rain]
-
-Output
-------
-After the run, prints a summary table comparing fixed-timer vs. adaptive
-metrics (avg wait, throughput, peak queue), and writes the decisions log to
-``output/adaptive_decisions.jsonl``.
+  1. MOCK mode  — SUMO not installed. Uses mock_event_feed generator.
+  2. SUMO mode  — Requires SUMO + traci Python package.
 """
 
 from __future__ import annotations
@@ -42,8 +27,6 @@ from typing import Optional
 # ---------------------------------------------------------------------------
 # Project imports
 # ---------------------------------------------------------------------------
-# Add parent dir to path so we can import signal-optimizer modules from
-# within the sumo/ subdirectory.
 _THIS_DIR = Path(__file__).parent
 _SIGNAL_DIR = _THIS_DIR.parent
 sys.path.insert(0, str(_SIGNAL_DIR))
@@ -66,24 +49,27 @@ except ImportError:
 # ---------------------------------------------------------------------------
 JUNCTION_ID    = "junction_01"
 TL_ID          = "tl_junction_01"
-DECISION_EVERY = 30          # seconds between max-pressure decision cycles
-SIM_DURATION   = 3600        # seconds
-STEP_LENGTH    = 1           # seconds per SUMO step
+DECISION_EVERY = 30
+SIM_DURATION   = 3600
+STEP_LENGTH    = 1
 
-# SUMO detector IDs (must match induction-loop IDs if defined in network)
-# For this demo we read lane vehicle counts via traci.lane.getLastStepVehicleNumber
 LANE_MAP = {
-    "lane_NS_1": "edge_N_in_0",   # (edge_id, lane_index) alias
+    "lane_NS_1": "edge_N_in_0",
     "lane_NS_2": "edge_N_in_1",
     "lane_EW_1": "edge_E_in_0",
     "lane_EW_2": "edge_E_in_1",
 }
 
-# Phase index in SUMO tlLogic that corresponds to each signal phase
 SUMO_PHASE_INDEX = {
-    "NS_green": 0,   # matches phase 0 in network.net.xml
-    "EW_green": 3,   # matches phase 3 in network.net.xml
+    "NS_green": 0,
+    "EW_green": 3,
 }
+
+AVAILABLE_SCENARIOS = [
+    "normal", "congested", "festival", "rain",
+    "peak_ns", "peak_ew", "sudden_inflow", "dissipating",
+    "downstream_blockage", "oscillation",
+]
 
 
 # ---------------------------------------------------------------------------
@@ -101,7 +87,7 @@ def _write_decision(fp, decision: dict) -> None:
     fp.flush()
 
 
-def _print_summary(decisions: list[dict], mode_label: str) -> None:
+def _print_summary(decisions: list[dict], mode_label: str, health_report: dict = None) -> None:
     if not decisions:
         print(f"\n[{mode_label}] No decisions recorded.")
         return
@@ -109,16 +95,44 @@ def _print_summary(decisions: list[dict], mode_label: str) -> None:
     confs  = [d["confidence"] for d in decisions]
     em_cnt = sum(1 for d in decisions if d["emergency_priority_triggered"])
     brts_cnt = sum(1 for d in decisions if d["brts_priority_triggered"])
-    print(f"\n{'='*60}")
-    print(f"  Run summary: {mode_label}")
-    print(f"{'='*60}")
-    print(f"  Total decisions : {len(decisions)}")
-    print(f"  Avg cycle time  : {sum(cycles)/len(cycles):.1f}s")
-    print(f"  Min/Max cycle   : {min(cycles)}s / {max(cycles)}s")
-    print(f"  Avg confidence  : {sum(confs)/len(confs):.3f}")
-    print(f"  Emergency events: {em_cnt}")
-    print(f"  BRTS events     : {brts_cnt}")
-    print(f"{'='*60}\n")
+
+    # Phase switch counting
+    phase_switches = 0
+    prev_phase = None
+    for d in decisions:
+        if prev_phase is not None and d["phase"] != prev_phase:
+            phase_switches += 1
+        prev_phase = d["phase"]
+
+    # Decision confidence stats
+    dec_confs = [d.get("decision_confidence") for d in decisions if d.get("decision_confidence") is not None]
+
+    # Anomaly stats
+    anomaly_counts = {}
+    for d in decisions:
+        level = d.get("anomaly_level", "normal")
+        anomaly_counts[level] = anomaly_counts.get(level, 0) + 1
+
+    print(f"\n{'='*70}")
+    print(f"  Run Summary: {mode_label}")
+    print(f"{'='*70}")
+    print(f"  Total decisions       : {len(decisions)}")
+    print(f"  Avg cycle time        : {sum(cycles)/len(cycles):.1f}s")
+    print(f"  Min/Max cycle         : {min(cycles)}s / {max(cycles)}s")
+    print(f"  Avg sensor confidence : {sum(confs)/len(confs):.3f}")
+    if dec_confs:
+        print(f"  Avg decision conf     : {sum(dec_confs)/len(dec_confs):.3f}")
+    print(f"  Emergency events      : {em_cnt}")
+    print(f"  BRTS events           : {brts_cnt}")
+    print(f"  Phase switches        : {phase_switches}")
+    print(f"  Anomaly distribution  : {anomaly_counts}")
+
+    if health_report:
+        print(f"\n  --- Controller Health ---")
+        for k, v in health_report.items():
+            print(f"  {k:30s} : {v}")
+
+    print(f"{'='*70}\n")
 
 
 # ---------------------------------------------------------------------------
@@ -130,35 +144,53 @@ def run_mock(scenario: str = "normal", steps: int = 60) -> None:
     print(f"\n[MOCK] Running {steps} decision cycles — scenario: {scenario}")
     out_dir = _ensure_output_dir()
     out_path = out_dir / "adaptive_decisions.jsonl"
+    trace_path = out_dir / "adaptive_traces.jsonl"
 
     ctrl = MaxPressureController(JUNCTION_ID)
     decisions: list[dict] = []
 
-    with open(out_path, "w", encoding="utf-8") as fp:
-        # Inject emergency at step 30, BRTS at step 45
+    with open(out_path, "w", encoding="utf-8") as fp, \
+         open(trace_path, "w", encoding="utf-8") as tp:
+
+        inject_em = steps // 2 if steps > 10 else None
+        inject_brts = int(steps * 0.75) if steps > 10 else None
+
         for i, ev in enumerate(
             event_stream(
                 count=steps,
                 scenario=scenario,
-                inject_emergency_at=30,
-                inject_brts_at=45,
+                inject_emergency_at=inject_em,
+                inject_brts_at=inject_brts,
             )
         ):
             decision = ctrl.decide(ev)
             decisions.append(decision)
             _write_decision(fp, decision)
 
-            if i % 10 == 0:
+            # Write full decision trace (includes all enhanced fields)
+            trace = {
+                "step": i,
+                "event": ev,
+                "decision": decision,
+            }
+            tp.write(json.dumps(trace) + "\n")
+            tp.flush()
+
+            if i % 10 == 0 or i == steps - 1:
                 print(
                     f"  Step {i:3d}: cycle={decision['recommended_cycle_time_sec']}s "
                     f"phase={decision['phase']:12s} "
                     f"conf={decision['confidence']:.2f} "
+                    f"d_conf={decision.get('decision_confidence', 'N/A')} "
                     f"trend={decision['predicted_congestion_5min']:7s} "
+                    f"anomaly={decision.get('anomaly_level', 'N/A'):15s} "
                     f"em={decision['emergency_priority_triggered']}"
                 )
 
-    _print_summary(decisions, f"MOCK / {scenario}")
+    health_report = ctrl.health.report()
+    _print_summary(decisions, f"MOCK / {scenario}", health_report)
     print(f"[MOCK] Decisions written to {out_path}")
+    print(f"[MOCK] Decision traces written to {trace_path}")
 
 
 # ---------------------------------------------------------------------------
@@ -170,7 +202,6 @@ def _read_lane_queues() -> dict[str, float]:
     queues: dict[str, float] = {}
     for lane_id, sumo_lane in LANE_MAP.items():
         try:
-            # getLastStepHaltingNumber = vehicles stopped (best proxy for queue)
             q = traci.lane.getLastStepHaltingNumber(sumo_lane)
             queues[lane_id] = float(q)
         except Exception:
@@ -195,7 +226,7 @@ def _build_event_from_sumo(step: int) -> dict:
             "speed_mps": round(speed, 2),
         }
 
-    # Check for emergency vehicle (any vehicle type == "emergency" in sim)
+    # Check for emergency vehicle
     emergency_detected = False
     emergency_approach = None
     try:
@@ -204,7 +235,6 @@ def _build_event_from_sumo(step: int) -> dict:
             if traci.vehicle.getTypeID(vid) == "emergency"
         ]
         if em_vehicles:
-            # Check if approaching junction (within 150 m)
             for vid in em_vehicles:
                 road = traci.vehicle.getRoadID(vid)
                 if "N_in" in road:
@@ -241,7 +271,6 @@ def _apply_decision_to_sumo(decision: dict) -> None:
     """Apply the max-pressure decision to the SUMO traffic light via TraCI."""
     phase_name = decision.get("phase", "NS_green")
     cycle_sec  = decision.get("recommended_cycle_time_sec", 40)
-
     phase_idx = SUMO_PHASE_INDEX.get(phase_name, 0)
     try:
         traci.trafficlight.setPhase(TL_ID, phase_idx)
@@ -272,11 +301,13 @@ def run_sumo(scenario: str = "normal", gui: bool = False) -> None:
 
     out_dir  = _ensure_output_dir()
     out_path = out_dir / "adaptive_decisions.jsonl"
+    trace_path = out_dir / "adaptive_traces.jsonl"
     ctrl     = MaxPressureController(JUNCTION_ID)
     decisions: list[dict] = []
     next_decision_step = 0
 
-    with open(out_path, "w", encoding="utf-8") as fp:
+    with open(out_path, "w", encoding="utf-8") as fp, \
+         open(trace_path, "w", encoding="utf-8") as tp:
         step = 0
         while step < SIM_DURATION:
             traci.simulationStep()
@@ -286,6 +317,11 @@ def run_sumo(scenario: str = "normal", gui: bool = False) -> None:
                 decision = ctrl.decide(ev)
                 decisions.append(decision)
                 _write_decision(fp, decision)
+
+                trace = {"step": step, "event": ev, "decision": decision}
+                tp.write(json.dumps(trace) + "\n")
+                tp.flush()
+
                 _apply_decision_to_sumo(decision)
                 next_decision_step = step + DECISION_EVERY
 
@@ -300,8 +336,10 @@ def run_sumo(scenario: str = "normal", gui: bool = False) -> None:
             step += STEP_LENGTH
 
     traci.close()
-    _print_summary(decisions, f"SUMO adaptive / {scenario}")
+    health_report = ctrl.health.report()
+    _print_summary(decisions, f"SUMO adaptive / {scenario}", health_report)
     print(f"[SUMO] Decisions written to {out_path}")
+    print(f"[SUMO] Decision traces written to {trace_path}")
     print(f"[SUMO] Trip info at {out_dir / 'adaptive_tripinfo.xml'}")
 
 
@@ -311,7 +349,7 @@ def run_sumo(scenario: str = "normal", gui: bool = False) -> None:
 
 def main() -> None:
     parser = argparse.ArgumentParser(
-        description="ERakshak signal-optimizer TraCI runner"
+        description="ERakshak signal-optimizer TraCI runner (enhanced)"
     )
     parser.add_argument(
         "--mock",
@@ -325,7 +363,7 @@ def main() -> None:
     )
     parser.add_argument(
         "--scenario",
-        choices=["normal", "congested", "festival", "rain"],
+        choices=AVAILABLE_SCENARIOS,
         default="normal",
         help="Traffic scenario preset",
     )

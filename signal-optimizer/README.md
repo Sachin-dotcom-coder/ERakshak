@@ -50,114 +50,71 @@ flowchart TD
 
 ## 2. Core Modules Breakdown
 
-### 2.1 [max_pressure.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/max_pressure.py) — Core Adaptive Signal Controller
-The central controller ([MaxPressureController](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/max_pressure.py#L106-L336)) implements the network-wide **Max-Pressure (Back-Pressure)** control policy:
+The Signal Optimizer's architecture has been significantly upgraded with **temporal intelligence, historical profiling, anomaly engine detection, safety layers, and health metrics monitoring**.
 
-$$\text{Pressure}(P) = \sum_{i \in \text{Upstream}(P)} w_i \cdot Q_i - \sum_{j \in \text{Downstream}(P)} w_j \cdot Q_j$$
+### 2.1 [controller_config.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/controller_config.py) — Centralized Configuration
+Consolidates all tunable parameters for the signal optimizer engine into a single source of truth:
+* **Tunable Parameters**: Features 56 configurable options including temporal smoothing alpha weights, hysteresis limits, starvation windows, and adaptive green scaling factors.
+* **Declarative Calibrations**: Supports JSON/YAML loading, allowing city engineers to recalibrate optimizer behaviors without modifications to the Python logic.
 
-* **Phase Selection**: Computes the net differential between vehicles queuing to enter the intersection vs. capacity/queue in downstream receiving lanes, scaled by active mode weights. The phase maximizing net throughput is chosen.
-* **Cycle Duration**: Computes theoretical minimum delay cycle time using Webster's equation, constrained between active mode boundaries ($\text{min\_green} \le C \le \text{max\_green}$).
-* **Decision Lifecycle**: Executes the 9-step decision pipeline on each iteration of [decide()](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/max_pressure.py#L125-L298).
+### 2.2 [traffic_state.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/traffic_state.py) — Temporal Intelligence Engine
+Extracts deep insights by tracking queue measurements over time (derived from the same telemetry contract):
+* **Queue Growth Rate**: Computes the velocity of queue length changes ($\Delta\text{Queue} / \Delta t$) per lane.
+* **Queue Acceleration**: Computes the rate of change of growth ($\Delta\text{Growth} / \Delta t$) to forecast traffic surges.
+* **Normalized Congestion Score**: Blends occupancy, speed drop ($1 - v/v_{\text{free}}$), and growth into a $[0, 1]$ congestion index.
+* **Flow Rates**: Estimates arrival rates during red phases and clearance rates during green phases.
+* **Time-to-Congestion**: Predicts seconds remaining before a lane exceeds its maximum capacity based on current growth velocity.
 
----
+### 2.3 [historical.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/historical.py) — Profiles & Anomaly Detection
+Maintains a persistent profile registry of historical traffic patterns:
+* **Multi-Keyed Profiles**: Stores average queues, speeds, and growth rates keyed by `(junction, lane, day_of_week, 5-min time slot, mode)`.
+* **Z-Score Anomaly Engine**: Detects unusual traffic deviations ($Z = \frac{x - \mu}{\sigma}$). Categorizes anomalies into: `normal`, `elevated` ($Z \ge 1.5$), `high_anomaly` ($Z \ge 2.0$), and `extreme_anomaly` ($Z \ge 3.0$) to automatically adjust optimization profiles.
 
-### 2.2 [webster_formula.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/webster_formula.py) — Webster's Delay-Minimization Model
-Provides the analytical benchmark and numeric backbone for cycle length computation using F.V. Webster's (1958) formula:
+### 2.4 [safety.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/safety.py) — Safety Constraint Layer
+Sits directly in front of actuation to ensure no dangerous signal transitions are ever dispatched:
+* **Phase Lock Guard**: Enforces that active green phases cannot be aborted before completing a minimum green duration (default $7\text{ s}$).
+* **Clearance Constraints**: Validates and holds safe inter-green yellow splits ($3\text{ s}$) and all-red clearance intervals ($2\text{ s}$).
+* **Bounds Clamp**: Prevents cycle durations from exceeding legal parameters ($[20\text{ s}, 180\text{ s}]$).
 
-$$C_{\text{opt}} = \frac{1.5 L + 5}{1 - Y}$$
+### 2.5 [health.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/health.py) — Self-Evaluation & Diagnostic Engine
+Monitors the operational performance and algorithmic correctness of the controller:
+* **System Metrics**: Tracks execution latency (ms), decision frequency, and phase switches per minute.
+* **Prediction Diagnostics**: Computes rolling Mean Absolute Error (MAE) and Root Mean Squared Error (RMSE) of the forecast models.
+* **Decision Effectiveness**: Evaluates if the controller's phase choice successfully cleared/reduced the queue after green actuation elapsed.
 
-Where:
-* $L = \sum l_i$: Total lost time across all phases per cycle (inter-green + clearance times, default $4.0\text{ s}$ per phase).
-* $Y = \sum y_i = \sum \frac{v_i}{s_i}$: Sum of critical lane flow ratios (flow rate $v_i$ divided by saturation flow $s_i = 1800\text{ veh/h}$).
-* Functions:
-  * [optimal_cycle()](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/webster_formula.py#L52-L80): Calculates optimal cycle duration clamped to $[20\text{ s}, 180\text{ s}]$.
-  * [split_green_times()](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/webster_formula.py#L82-L117): Allocates effective green time $g_i = \frac{y_i}{Y} (C - L)$ proportionally across phases.
+### 2.6 [max_pressure.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/max_pressure.py) — Core Adaptive Controller
+Integrates all parameters, models, and priority layers to execute the **Enhanced Max-Pressure** algorithm:
+* **Enhanced Decision Function**:
+  $$\text{EnhancedPressure} = \text{BasePressure} + \text{GrowthBonus} + \text{PredictionBonus} + \text{StarvationBonus} + \text{PriorityBonus} - \text{SwitchingPenalty} - \text{DownstreamPenalty}$$
+* **Spillback Protection**: Tracks downstream occupancy; heavily penalizes incoming green phases when downstream lanes exceed $80\%$ occupancy to prevent corridor blockages.
+* **Adaptive Green Duration**: Dynamically scales green split durations based on queue sizes, growth trends, and forecasted queues:
+  $$g_i = g_{\text{base}} + f_{\text{queue}} \cdot Q_{\text{upstream}} + f_{\text{growth}} \cdot \text{Growth} + f_{\text{prediction}} \cdot Q_{\text{extra}}$$
+* **Hysteresis & Decision Confidence**: Prevents signal thrashing by requiring competing phases to exceed current pressure by a threshold scaled with sensor confidence. Evaluates overall decision confidence.
 
----
+### 2.7 [webster_formula.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/webster_formula.py) — Analytical Base Calculator
+Calculates optimal theoretical cycle lengths based on incoming lane flow ratio benchmarks.
 
-### 2.3 [confidence.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/confidence.py) — Sensor Confidence & Weather Awareness
-Prevents sensor noise, camera occlusion, lens flare, fog, or heavy rain from causing erratic signal thrashing:
+### 2.8 [confidence.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/confidence.py) — Adaptive Parameter Blending
+Features confidence bands (`normal`, `cautious`, `smoothed`, `fallback`). Adjusts EMA alpha parameters and hysteresis thresholds dynamically based on real-time sensor/weather quality ratings.
 
-1. **Confidence Score Calculation** ([compute_confidence](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/confidence.py#L44-L66)):
-   $$\text{Confidence} = \text{clamp}_{[0, 1]}(\text{detection\_confidence} \times \text{multiplier}_{\text{weather}})$$
-   * Weather Multipliers: `clear`: $1.0$, `cloudy`: $0.95$, `rain`: $0.75$, `glare`: $0.70$, `fog`: $0.65$, `snow`: $0.60$, `night`: $0.80$.
-2. **Historical Blending** ([blend_density](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/confidence.py#L68-L95)):
-   $$Q_{\text{blended}} = \text{Confidence} \cdot Q_{\text{live}} + (1 - \text{Confidence}) \cdot Q_{\text{historical}}$$
-3. **Cycle Delta Clamping** ([cap_cycle_delta](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/confidence.py#L97-L123)):
-   * When $\text{Confidence} < 0.60$, cycle time changes between consecutive steps are strictly capped at $\pm 8\text{ s}$.
+### 2.9 [prediction.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/prediction.py) — Ensemble Forecast Models
+Replaces the single linear predictor with an **Ensemble Predictor** weighting Linear Regression ($35\%$), Simple Moving Average ($20\%$), Exponential Moving Average ($20\%$), and Historical Baselines ($25\%$). Includes uncertainty estimation modeled from prediction residuals.
 
----
+### 2.10 [event_modes.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/event_modes.py) — Context-Aware Operations
+Configures aggressiveness and minimum safety green padding for distinct weather conditions and event classifications (e.g., `rain`, `fog`, `school_hours`, `festival`, `night`).
 
-### 2.4 [prediction.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/prediction.py) — Short-Horizon Congestion Forecasting
-Enables proactive traffic management before intersections experience physical gridlock:
+### 2.11 [priority.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/priority.py) — Priority Management
+Ramps soft BRTS bus biases smoothly over time using a Hermite interpolation curve instead of static step increments. Estimates emergency vehicle ETA for multi-junction progression.
 
-* **Rolling Window Linear Regression** ([LanePredictor](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/prediction.py#L44-L93)): Maintains the last $10$ queue measurements ($\sim 5\text{ minutes}$) and fits a degree-1 polynomial $y = m x + c$ via `numpy.polyfit`.
-* **Trend Classification**:
-  * **Rising**: Slope $m > +0.5\text{ veh/sample}$.
-  * **Falling**: Slope $m < -0.5\text{ veh/sample}$.
-  * **Stable**: $-0.5 \le m \le +0.5\text{ veh/sample}$.
-* **Extrapolation**: Proactively projects queue $10$ samples ahead ($Q_{\text{pred}} = \max(0, c + m(n - 1 + 10))$) and feeds it into the max-pressure queue estimator to extend green times early.
+### 2.12 [explain.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/explain.py) — Decision Audit Trails
+Generates human-readable, quantitative rationales detailing exact pressure differentials, growth velocities, anomaly rankings, and downstream bottlenecks.
 
----
+### 2.13 [green_wave.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/green_wave.py) — Multi-Junction Arterial Coordination
+Calculates signal progression offsets and schedules green clearing corridors for approaching emergency vehicles.
 
-### 2.5 [event_modes.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/event_modes.py) — Context-Aware Operating Profiles
-Adapts control bounds and sensitivity based on urban context without altering the underlying algorithmic codebase:
+### 2.14 [sumo/traci_runner.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/sumo/traci_runner.py) & [mock_event_feed.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/mock_event_feed.py) — Execution & Test Matrix
+Schedules micro-simulated trials against 10 test scenarios (`sudden_inflow`, `downstream_blockage`, `oscillation`, `festival`, `rain`, etc.). Logs detailed step-by-step decision traces (`adaptive_traces.jsonl`) for validation.
 
-| Mode Profile | Min Green ($s$) | Max Green ($s$) | Pressure Weight | Target Scenario |
-| :--- | :---: | :---: | :---: | :--- |
-| **`office_hours`** | $15$ | $60$ | $1.0$ | Standard weekday commuter flow |
-| **`school_hours`** | $20$ | $45$ | $0.8$ | Predictable cycles, prioritizes pedestrian clearance |
-| **`weekend`** | $15$ | $50$ | $0.9$ | Relaxed off-peak and night flow |
-| **`festival`** | $20$ | $90$ | $1.3$ | Heavy, irregular surges needing extended green phases |
-| **`rain`** | $20$ | $55$ | $0.7$ | Cautious, stabilized control under reduced traction & visibility |
-
-* Mode Resolution Hierarchy ([select_mode](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/event_modes.py#L95-L137)):
-  1. External triggers (`festival_active` or severe `weather_flag`)
-  2. Manual operator dashboard toggle (`manual_override`)
-  3. Time-of-day / Day-of-week schedule (Morning $07:00-09:00$ & Afternoon $15:00-18:00 \to$ `school_hours`, $09:00-19:00 \to$ `office_hours`, Weekends/Nights $\to$ `weekend`)
-  4. Default $\to$ `office_hours`
-
----
-
-### 2.6 [priority.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/priority.py) — Transit & Emergency Preemption Hierarchy
-Handles two distinct prioritization layers with a deterministic conflict resolution rule:
-
-1. **Emergency Vehicle Priority (Hard Preemption)**:
-   * Triggers when an ambulance, fire truck, or police vehicle is detected.
-   * **Action**: Immediately forces an unconditional green phase for the emergency approach, holding for $\max(15\text{ s}, \frac{30\text{ m}}{v_{\text{mps}}})$.
-2. **BRTS Bus Priority (Soft Pressure Biasing)**:
-   * Triggers when a BRTS bus waits $> 20\text{ s}$ at the stop-line.
-   * **Action**: Adds an additive bias $\Delta \text{Pressure} = \min(3.0, 0.1 \times t_{\text{wait}})$ to the approach's max-pressure score so it receives green sooner without abruptly cutting off conflicting traffic.
-3. **Conflict Resolution**: Emergency **strictly outranks** BRTS. When both co-occur, emergency override executes immediately, and BRTS pressure boost is deferred to subsequent cycles.
-
----
-
-### 2.7 [explain.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/explain.py) — Explainable Decision Generator
-Produces human-readable, transparent audit trails directly from internal math variables for city traffic operators and dashboards:
-
-* **Hierarchy of Explanations**:
-  1. `Emergency`: *"Emergency vehicle detected on north approach; forced green corridor for 15s."*
-  2. `BRTS`: *"BRTS bus priority given on east approach (pressure boosted by 3.0)."*
-  3. `Caution/Weather`: *"Confidence lowered to 0.58 due to rain — change capped at +8s; acting cautiously."*
-  4. `Prediction`: *"Queue trend rising (predicted +8 vehicles in ~5 min on NS); green extended pre-emptively."*
-  5. `Baseline Max-Pressure`: *"NS approach queue (14 vehicles) exceeds EW (5 vehicles); cycle set to 38s."*
-
----
-
-### 2.8 [green_wave.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/green_wave.py) — Multi-Junction Arterial Coordination
-Coordinates chains of sequential intersections along major urban corridors:
-
-1. **Green Wave Progression Offsets**:
-   Calculates coordinated phase start offsets based on inter-junction distances and design speed:
-   $$\text{Offset}_{k+1} = \text{Offset}_k + \frac{d_{k, k+1}}{v_{\text{design}}}$$
-2. **Emergency Corridor Cascading**:
-   When an emergency vehicle is detected at junction $J_k$, the coordinator immediately signals downstream junctions ($J_{k+1}, J_{k+2}$) to prepare and pre-clear the approach before the vehicle reaches them.
-
----
-
-### 2.9 [sumo/traci_runner.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/sumo/traci_runner.py) & [mock_event_feed.py](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/mock_event_feed.py) — Simulation & Validation Engine
-* **SUMO / TraCI Mode**: Directly couples with the **SUMO** (Simulation of Urban MObility) microscopic simulation engine via TraCI socket commands ([traci.trafficlight.setPhase](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/sumo/traci_runner.py#L247) and [traci.trafficlight.setPhaseDuration](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/signal-optimizer/sumo/traci_runner.py#L248)), reading live loop detectors and testing traffic throughput.
-* **Mock Standalone Mode**: Generates synthetic stream events for development, unit testing, and benchmarking without requiring local SUMO binaries installed.
 
 ---
 
@@ -201,9 +158,31 @@ Coordinates chains of sequential intersections along major urban corridors:
   "predicted_congestion_5min": "rising",
   "brts_priority_triggered": false,
   "emergency_priority_triggered": false,
-  "reason": "Queue trend rising (predicted +6 vehicles in ~5 min on NS); green extended pre-emptively."
+  "reason": "Queue trend rising on NS, rising at +4.2 veh/sample, predicted +6 vehicles in ~5 min; green extended pre-emptively. Pressure scores: [NS_green=31.4, EW_green=14.2].",
+  
+  "decision_confidence": 0.91,
+  "growth_rates": {
+    "NS": 4.2,
+    "EW": 0.4
+  },
+  "anomaly_level": "elevated",
+  "starvation_sec": {
+    "NS_green": 5.0,
+    "EW_green": 42.0
+  },
+  "pressure_scores": {
+    "NS_green": 31.4,
+    "EW_green": 14.2
+  },
+  "prediction_uncertainty": 0.15,
+  "all_factors": [
+    "Queue trend rising on NS, rising at +4.2 veh/sample, predicted +6 vehicles in ~5 min.",
+    "NS approach queue (22 vehicles) exceeds EW (8 vehicles); cycle set to 42s. Pressure scores: [NS_green=31.4, EW_green=14.2].",
+    "Decision confidence: 0.91."
+  ]
 }
 ```
+
 
 ---
 
