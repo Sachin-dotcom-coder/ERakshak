@@ -1,0 +1,71 @@
+# Camera Calibration Configuration — ERH26_PS_08
+# ================================================
+# Per-camera homography reference points for pixel → real-world-meter conversion.
+#
+# HOW TO FILL THIS IN:
+# 1. Open a frame from the video in an image viewer
+# 2. Identify 4+ ground-plane reference points with known real-world distances:
+#    - Lane-width markings (~3.5m per lane, IRC standard)
+#    - Stop line edges
+#    - Zebra crossing corners
+#    - Curb corners with known spacing
+# 3. Record the pixel coordinates (x, y) of each point
+# 4. Record the corresponding real-world coordinates (X, Y) in meters
+#    (pick an arbitrary origin, e.g., bottom-left corner of the junction)
+# 5. The homography will be computed automatically from these point pairs.
+#
+# IMPORTANT: Use at least 4 points. More points = more robust calibration.
+#            Points should NOT all be collinear — spread them across the frame.
+
+cameras:
+  junction_01:
+    name: "Gaurav Path - Towards Kargil Chowk"
+    video_file: "sample_videos/raw/Export__GauravPath - Towards Kargil Chowk_Monday July 27 2026122148  aa50cd0.avi"
+    fps: 20.0
+
+    # Left side of frame = dedicated BRTS lane (see zones/zone_config.yaml
+    # for the brts_corridor polygon — NOT part of this homography set).
+    # Right side = 2 regular carriageway lanes, calibrated below.
+
+    pixel_points:
+      - [978, 1072]   # near-left  (closest to camera, left edge of near lane)
+      - [1713, 952]   # near-right (closest to camera, right/outer edge)
+      - [876, 338]    # far-left   (~25m up the road, left edge)
+      - [1198, 317]   # far-right  (~25m up the road, right/outer edge)
+
+    world_points:
+      - [0.0, 0.0]    # origin: near-left
+      - [3.5, 0.0]    # one lane width (3.5m, IRC standard) to the right
+      - [0.0, 25.0]   # 25m up the road — ESTIMATE, adjust if you have a
+                       # better read on the actual distance in this frame
+      - [3.5, 25.0]
+
+    # Stop line not clearly visible/relevant in this stretch of road —
+    # leaving null. Fill in if one becomes visible in a later segment.
+    stop_line_world: [0.0, 0.0]
+
+  junction_02:
+    name: "Rokadiya Hanuman - Towards Bhatena"
+    video_file: "sample_videos/raw/Export__Rokadiya Hanuman-Towards Bhatena_Monday July 27 2026123151  e6f4a55.avi"
+    fps: 20.0
+
+    # Road has 3 lanes total; calibrated on the middle lane (cleanest visible
+    # boundaries, least occlusion from roadside barriers/parked vehicles).
+    # Calibration applies to the whole frame regardless of which lane was used.
+
+    pixel_points:
+      - [658, 1028]   # near-left  (closest to camera, left edge of chosen lane)
+      - [1193, 1020]  # near-right (closest to camera, right edge)
+      - [796, 353]    # far-left   (~25m up the road, left edge)
+      - [970, 355]    # far-right  (~25m up the road, right edge)
+
+    world_points:
+      - [0.0, 0.0]    # origin: near-left
+      - [3.5, 0.0]    # one lane width (3.5m, IRC standard) to the right
+      - [0.0, 25.0]   # 25m up the road — ESTIMATE, adjust if you have a
+                       # better read on the actual distance in this frame
+      - [3.5, 25.0]
+
+    # Stop line not clearly visible/relevant in this stretch of road —
+    # leaving null. Fill in if one becomes visible in a later segment.
+    stop_line_world: [0.0, 0.0]

@@ -1,0 +1,28 @@
+# Custom BoT-SORT Configuration — ERH26_PS_08
+# ==============================================
+# Tuned for dense Indian traffic: frequent occlusion (two-wheelers behind buses),
+# mixed vehicle sizes, and crowded intersections.
+#
+# Copied from ultralytics/cfg/trackers/botsort.yaml and adjusted.
+# Do NOT edit the default ultralytics file — it gets overwritten on package updates.
+
+tracker_type: botsort
+
+# --- Detection Thresholds ---
+track_high_thresh: 0.25       # Lowered from 0.5 — Indian traffic has many small/occluded detections
+track_low_thresh: 0.1        # Second-pass threshold for unmatched detections
+new_track_thresh: 0.25       # Min confidence to initialize a new track
+track_buffer: 60             # Frames to keep a lost track alive (raised from 30)
+match_thresh: 0.8            # IoU matching threshold between frames
+
+# --- Re-identification & Proximity ---
+proximity_thresh: 0.5
+appearance_thresh: 0.8
+with_reid: false             # Set to false by default unless custom reid weights provided
+model: auto
+
+# --- Global Motion Compensation ---
+gmc_method: sparseOptFlow    # Camera motion compensation method
+
+# --- Fuse Score ---
+fuse_score: true             # Fuse detection confidence with IoU for matching

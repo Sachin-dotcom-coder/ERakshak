@@ -1,0 +1,51 @@
+# Zone Configuration for Computer Vision Traffic Monitoring — ERH26_PS_08
+# Frame Resolution Standard: 1920x1080 Native
+# Geometry Standard: Perimeter Ordered (Far-Left -> Far-Right -> Near-Right -> Near-Left)
+
+junction_01:
+  brts_corridor:
+    polygon:
+      - [747, 113]    # Far-Left
+      - [827, 116]    # Far-Right
+      - [791, 1029]   # Near-Right
+      - [250, 1006]   # Near-Left
+  lanes:
+    lane_1:
+      polygon:
+        - [849, 145]    # Far-Left
+        - [928, 144]    # Far-Right
+        - [1376, 976]   # Near-Right
+        - [967, 1027]   # Near-Left
+    lane_2:
+      polygon:
+        - [909, 103]    # Far-Left
+        - [967, 103]    # Far-Right
+        - [1728, 948]   # Near-Right
+        - [1431, 1015]  # Near-Left
+
+junction_02:
+  brts_corridor:
+    polygon:
+      - [382, 181]    # Far-Left
+      - [602, 193]    # Far-Right
+      - [459, 315]    # Near-Right
+      - [118, 291]    # Near-Left
+  lanes:
+    lane_1:
+      polygon:
+        - [689, 181]    # Far-Left
+        - [797, 188]    # Far-Right
+        - [618, 1044]   # Near-Right
+        - [44, 1044]    # Near-Left
+    lane_2:
+      polygon:
+        - [802, 200]    # Far-Left
+        - [915, 204]    # Far-Right
+        - [1206, 1053]  # Near-Right
+        - [656, 1054]   # Near-Left
+    lane_3:
+      polygon:
+        - [915, 205]    # Far-Left
+        - [986, 205]    # Far-Right
+        - [1667, 1037]  # Near-Right
+        - [1253, 1068]  # Near-Left

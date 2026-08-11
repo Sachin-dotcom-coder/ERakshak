@@ -1,0 +1,106 @@
+# ============================================================
+# Vision Service Configuration — ERH26_PS_08
+# All thresholds, paths, and magic numbers live here.
+# Do NOT hardcode values in Python files — reference this config.
+# ============================================================
+
+# --- Model Configuration ---
+model:
+  weights: "yolo26s.pt"                  # Stock weights initially; swap for fine-tuned after Phase 2
+  confidence_threshold: 0.35             # Minimum detection confidence
+  iou_threshold: 0.45                    # IoU threshold (YOLO26 is NMS-free, but kept for filtering)
+  image_size: 640                        # Inference image size (pixels)
+  device: "auto"                         # "auto" picks GPU if available, else CPU
+  half_precision: true                   # FP16 on GPU for faster inference
+
+  # Custom class mapping (index → name)
+  # Used AFTER fine-tuning. Stock COCO model uses a separate remap (see detector.py).
+  classes:
+    0: "car"
+    1: "bus"
+    2: "brts_bus"
+    3: "truck"
+    4: "two_wheeler"
+    5: "auto_rickshaw"
+    6: "cycle"
+
+# --- Tracker Configuration ---
+tracker:
+  config: "trackers/botsort_custom.yaml"  # Custom BoT-SORT config (tuned for dense Indian traffic)
+
+# --- PCU Factors (IRC:106 working defaults) ---
+# Passenger Car Unit equivalents for each vehicle type.
+# Person B's signal algorithm consumes these directly.
+# Verify exact IRC:106 table values before final report.
+pcu_factors:
+  car: 1.0
+  bus: 3.0
+  brts_bus: 3.0
+  truck: 3.0
+  two_wheeler: 0.5
+  auto_rickshaw: 0.8
+  cycle: 0.5
+
+# --- Video Sources ---
+# Per-junction video configuration.
+# fps: MUST be set from ffprobe output — do NOT hardcode a universal value.
+# Some CCTV exports have inconsistent/low fps (6-10), which directly affects
+# speed-estimation math (frame-to-frame displacement ÷ dt).
+video_sources:
+  junction_01:
+    name: "Gaurav Path - Towards Kargil Chowk"
+    path: "sample_videos/raw/Export__GauravPath - Towards Kargil Chowk_Monday July 27 2026122148  aa50cd0.avi"
+    fps: 20.0
+    junction_notes: "Gaurav Path towards Kargil Chowk — daytime footage"
+
+  junction_02:
+    name: "Rokadiya Hanuman - Towards Bhatena"
+    path: "sample_videos/raw/Export__Rokadiya Hanuman-Towards Bhatena_Monday July 27 2026123151  e6f4a55.avi"
+    fps: 20.0
+    junction_notes: "Rokadiya Hanuman towards Bhatena — daytime footage"
+
+# --- Preprocessing ---
+# Lighting-aware preprocessing: CLAHE engages automatically when frame is dark.
+preprocessing:
+  enable_adaptive: true
+  luminance_threshold: 80                # Mean pixel luminance below which CLAHE activates (0-255)
+  clahe_clip_limit: 3.0                  # CLAHE contrast limiting parameter
+  clahe_grid_size: [8, 8]                # CLAHE tile grid size
+
+# --- Violation Detection ---
+violations:
+  lane_change:
+    min_dwell_frames: 10                 # Frames vehicle must stay in adjacent lane to flag violation
+                                         # (single-frame crossing = tracker noise or legit lane change)
+
+  brts_intrusion:
+    authorized_classes: ["bus", "brts_bus"]  # Vehicle types allowed in BRTS corridor
+    min_dwell_time_s: 1.5               # Seconds inside BRTS corridor before flagging
+    max_angle_to_corridor_deg: 30.0      # Max angle between motion vector and corridor axis
+                                         # (perpendicular crossing = turning, not intrusion)
+
+# --- Incident Detection ---
+incidents:
+  stall:
+    speed_threshold_kmph: 2.0            # Below this → considered stationary
+    min_duration_s: 15.0                 # Stationary for this long → flag as stall/breakdown
+    stop_line_exclusion_radius_m: 5.0    # Ignore vehicles near known stop lines (red-light stops)
+
+# --- Event Publisher ---
+publisher:
+  mode: "mock"                           # "mock" (stdout + file) or "kafka"
+  emit_interval_frames: 30               # Publish an event every N frames (not every single frame)
+  mock:
+    output_dir: "output"                 # Directory for mock event output
+    output_file: "output/events.jsonl"   # JSONL file for event stream
+    pretty_print: true                   # Human-readable JSON for debugging
+  kafka:
+    broker: "localhost:9092"
+    topic: "vision_events"
+
+# --- Evaluation ---
+evaluation:
+  test_split_ratio: 0.1                  # 10% held out for final metrics
+  val_split_ratio: 0.1                   # 10% for validation during training
+  annotations_dir: "data_pipeline/labels_corrected"  # Where corrected labels live
+  report_output: "evaluation/results_report.md"

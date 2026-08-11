@@ -1,0 +1,29 @@
+# Vision Service — Dependencies
+# ERH26_PS_08: Data-Driven Traffic Optimization
+# ================================================
+# Install: pip install -r requirements.txt
+# Note: SAM 3.1 dependencies are separate (see data_pipeline/auto_label.py)
+#        — they may run on Colab/Kaggle if local VRAM is tight.
+
+# --- Core Detection & Tracking ---
+ultralytics>=8.4.0          # YOLO26 + BoT-SORT tracker
+
+# --- Image / Video Processing ---
+opencv-python-headless>=4.9.0
+numpy>=1.24.0
+Pillow>=10.0.0
+
+# --- Configuration ---
+PyYAML>=6.0
+
+# --- Geometry (polygon operations for zone logic) ---
+shapely>=2.0.0
+
+# --- Evaluation Metrics ---
+scikit-learn>=1.3.0
+
+# --- Logging ---
+colorlog>=6.7.0
+
+# --- Event Publishing (uncomment when integrating with Person C's backend) ---
+# kafka-python>=2.0.0
