@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  network.net.xml — SUMO Network: Single Test Junction (junction_01)
+  ==================================================================
+  A simple 4-way intersection with:
+    - 2 NS approach lanes (North → South, South → North)
+    - 2 EW approach lanes (East → West, West → East)
+    - Standard traffic-light node
+
+  Generated for ERakshak signal-optimizer SUMO validation.
+  Intended for use with fixed_timer.sumocfg and adaptive_timer.sumocfg.
+-->
+<net version="1.16" junctionCornerDetail="5" limitTurnSpeed="5.83"
+     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+     xsi:noNamespaceSchemaLocation="http://sumo.dlr.de/xsd/net_file.xsd">
+
+    <!-- ===== Edge types ===== -->
+    <type id="highway.primary" priority="9" numLanes="2" speed="13.89"
+          disallow="tram rail_urban rail rail_electric rail_fast ship"/>
+
+    <!-- ===== Nodes ===== -->
+    <!-- Approach stubs (100 m out from junction) -->
+    <node id="node_N"  x="0.00"   y="100.00"  type="priority"/>
+    <node id="node_S"  x="0.00"   y="-100.00" type="priority"/>
+    <node id="node_E"  x="100.00" y="0.00"    type="priority"/>
+    <node id="node_W"  x="-100.00" y="0.00"   type="priority"/>
+
+    <!-- Central signalised junction -->
+    <node id="junction_01" x="0.00" y="0.00" type="traffic_light">
+        <param key="tl" value="tl_junction_01"/>
+    </node>
+
+    <!-- ===== Edges (approaches) ===== -->
+    <!-- North → Junction -->
+    <edge id="edge_N_in"  from="node_N" to="junction_01" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_NS_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_NS_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+    <!-- Junction → South -->
+    <edge id="edge_S_out" from="junction_01" to="node_S" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_NS_out_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_NS_out_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+
+    <!-- South → Junction -->
+    <edge id="edge_S_in"  from="node_S" to="junction_01" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_SN_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_SN_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+    <!-- Junction → North -->
+    <edge id="edge_N_out" from="junction_01" to="node_N" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_SN_out_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_SN_out_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+
+    <!-- East → Junction -->
+    <edge id="edge_E_in"  from="node_E" to="junction_01" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_EW_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_EW_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+    <!-- Junction → West -->
+    <edge id="edge_W_out" from="junction_01" to="node_W" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_EW_out_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_EW_out_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+
+    <!-- West → Junction -->
+    <edge id="edge_W_in"  from="node_W" to="junction_01" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_WE_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_WE_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+    <!-- Junction → East -->
+    <edge id="edge_E_out" from="junction_01" to="node_E" priority="9"
+          numLanes="2" speed="13.89" spreadType="center">
+        <lane id="lane_WE_out_1" index="0" speed="13.89" length="100.00" width="3.20"/>
+        <lane id="lane_WE_out_2" index="1" speed="13.89" length="100.00" width="3.20"/>
+    </edge>
+
+    <!-- ===== Connections ===== -->
+    <connection from="edge_N_in"  to="edge_S_out" fromLane="0" toLane="0" tl="tl_junction_01" linkIndex="0"/>
+    <connection from="edge_N_in"  to="edge_S_out" fromLane="1" toLane="1" tl="tl_junction_01" linkIndex="1"/>
+    <connection from="edge_S_in"  to="edge_N_out" fromLane="0" toLane="0" tl="tl_junction_01" linkIndex="2"/>
+    <connection from="edge_S_in"  to="edge_N_out" fromLane="1" toLane="1" tl="tl_junction_01" linkIndex="3"/>
+    <connection from="edge_E_in"  to="edge_W_out" fromLane="0" toLane="0" tl="tl_junction_01" linkIndex="4"/>
+    <connection from="edge_E_in"  to="edge_W_out" fromLane="1" toLane="1" tl="tl_junction_01" linkIndex="5"/>
+    <connection from="edge_W_in"  to="edge_E_out" fromLane="0" toLane="0" tl="tl_junction_01" linkIndex="6"/>
+    <connection from="edge_W_in"  to="edge_E_out" fromLane="1" toLane="1" tl="tl_junction_01" linkIndex="7"/>
+
+    <!-- ===== Traffic Light Program (initial fixed-timer — overridden by TraCI) ===== -->
+    <tlLogic id="tl_junction_01" type="static" programID="fixed" offset="0">
+        <!-- Phase 0: NS green (40 s) -->
+        <phase duration="40" state="GGrrGGrr"/>
+        <!-- Phase 1: NS yellow (4 s) -->
+        <phase duration="4"  state="yyrryyrr"/>
+        <!-- Phase 2: All red (2 s) -->
+        <phase duration="2"  state="rrrrrrrr"/>
+        <!-- Phase 3: EW green (30 s) -->
+        <phase duration="30" state="rrGGrrGG"/>
+        <!-- Phase 4: EW yellow (4 s) -->
+        <phase duration="4"  state="rryyrryy"/>
+        <!-- Phase 5: All red (2 s) -->
+        <phase duration="2"  state="rrrrrrrr"/>
+    </tlLogic>
+
+</net>

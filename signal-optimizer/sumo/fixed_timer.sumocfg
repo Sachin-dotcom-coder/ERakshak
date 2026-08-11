@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  fixed_timer.sumocfg — SUMO Configuration: Fixed-Timer Baseline
+  ==============================================================
+  Runs the simulation with the static traffic-light program defined in
+  network.net.xml (Phase durations: NS=40s green, EW=30s green).
+  This is the CONTROL condition — no adaptive logic, no TraCI.
+
+  Outputs:
+    - tripinfo.xml  : per-vehicle trip statistics (wait times, travel times)
+    - summary.xml   : per-step network-wide statistics
+    - queue.xml     : per-edge queue lengths over time
+
+  Usage:
+    sumo -c fixed_timer.sumocfg
+    (or sumo-gui -c fixed_timer.sumocfg for visualisation)
+-->
+<configuration>
+
+    <input>
+        <net-file      value="network.net.xml"/>
+        <route-files   value="routes.rou.xml"/>
+    </input>
+
+    <time>
+        <begin value="0"/>
+        <end   value="3600"/>   <!-- 1-hour simulation -->
+        <step-length value="1"/>
+    </time>
+
+    <output>
+        <tripinfo-output value="output/fixed_tripinfo.xml"/>
+        <summary-output  value="output/fixed_summary.xml"/>
+        <queue-output    value="output/fixed_queue.xml"/>
+        <statistic-output value="output/fixed_statistics.xml"/>
+    </output>
+
+    <processing>
+        <time-to-teleport value="-1"/>   <!-- no teleporting — let queues build -->
+        <collision.action value="warn"/>
+    </processing>
+
+    <report>
+        <verbose value="true"/>
+        <no-step-log value="false"/>
+    </report>
+
+</configuration>
