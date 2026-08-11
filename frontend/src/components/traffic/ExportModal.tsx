@@ -88,6 +88,22 @@ export function ExportModal({ open, onClose }: { open: boolean; onClose: () => v
           <button
             onClick={() => {
               setDone(true);
+              if (format === "pdf") {
+                window.open("http://localhost:8000/api/reports/download/pdf", "_blank");
+              } else if (format === "csv") {
+                window.open("http://localhost:8000/api/reports/download/csv", "_blank");
+              } else {
+                fetch("http://localhost:8000/api/junctions")
+                  .then((res) => res.json())
+                  .then((data) => {
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement("a");
+                    a.href = url;
+                    a.download = "erakshak_telemetry.json";
+                    a.click();
+                  });
+              }
               setTimeout(() => {
                 setDone(false);
                 onClose();

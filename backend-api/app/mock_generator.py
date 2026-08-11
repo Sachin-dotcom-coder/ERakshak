@@ -7,6 +7,20 @@ from app.models import Junction, Lane, TrafficMetric, Violation, Recommendation
 from app.event_bus import event_bus
 from app.recommendations import run_recommendation_engine
 
+import sys
+import os
+from pathlib import Path
+
+# Add signal-optimizer to sys.path so MaxPressureController can be imported
+optimizer_path = Path(__file__).resolve().parent.parent.parent / "signal-optimizer"
+if str(optimizer_path) not in sys.path:
+    sys.path.insert(0, str(optimizer_path))
+
+try:
+    from max_pressure import MaxPressureController
+except ImportError:
+    MaxPressureController = None
+
 # Surat vehicle configurations
 VEHICLES = ["auto", "motorcycle", "car", "suv", "citybus", "truck"]
 VIOLATION_VEHICLES = ["auto", "motorcycle", "car", "suv"]
@@ -182,7 +196,7 @@ async def start_mock_traffic_loop():
                         })
 
                 # 4. Run rule-based recommendations engine
-                run_recommendation_engine(db, junction.id)
+                await run_recommendation_engine(db, junction.id)
                 
                 # Fetch recommendations to send count of current active ones
                 active_recs = db.query(Recommendation).filter(

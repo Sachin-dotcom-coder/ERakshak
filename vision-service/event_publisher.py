@@ -261,6 +261,27 @@ class KafkaPublisher(EventPublisher):
                 logger.error(f"Error closing Kafka producer: {e}")
 
 
+class HTTPRestPublisher(EventPublisher):
+    """Publishes events via HTTP POST to the backend REST ingestion endpoint."""
+
+    def __init__(self, config: dict) -> None:
+        self._url = config.get("url", "http://localhost:8000/api/events/")
+        logger.info(f"HTTPRestPublisher initialized for endpoint: {self._url}")
+
+    def publish(self, event: dict[str, Any]) -> None:
+        try:
+            import urllib.request
+            data = json.dumps(event).encode("utf-8")
+            req = urllib.request.Request(self._url, data=data, headers={"Content-Type": "application/json"})
+            with urllib.request.urlopen(req, timeout=5) as resp:
+                pass
+        except Exception as e:
+            logger.error(f"HTTPRestPublisher failed to POST event: {e}")
+
+    def close(self) -> None:
+        logger.info("HTTPRestPublisher closed")
+
+
 # ─── Factory ─────────────────────────────────────────────────────────
 
 def create_publisher(config: dict) -> EventPublisher:
@@ -270,11 +291,14 @@ def create_publisher(config: dict) -> EventPublisher:
         config: Dict from config.yaml under 'publisher' key.
 
     Returns:
-        EventPublisher instance (MockPublisher or KafkaPublisher).
+        EventPublisher instance (MockPublisher, KafkaPublisher, or HTTPRestPublisher).
     """
-    mode = config.get("mode", "mock")
+    mode = config.get("mode", "http")
 
     if mode == "kafka":
         return KafkaPublisher(config.get("kafka", {}))
+    elif mode == "http" or mode == "rest":
+        return HTTPRestPublisher(config.get("http", {}))
     else:
         return MockPublisher(config.get("mock", {}))
+

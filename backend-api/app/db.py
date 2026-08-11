@@ -2,7 +2,7 @@ import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import declarative_base, sessionmaker
 
-DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///d:/Users/harkh/E-Rakshak/backend-api/traffic.db")
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./traffic.db")
 
 # Check if SQLite is being used
 if DATABASE_URL.startswith("sqlite"):

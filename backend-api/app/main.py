@@ -8,6 +8,7 @@ from typing import List
 from fastapi import FastAPI, Depends, WebSocket, HTTPException, status
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import StreamingResponse, JSONResponse
+from sqlalchemy import func
 from sqlalchemy.orm import Session
 
 from app.db import get_db, SessionLocal
@@ -17,6 +18,7 @@ from app.mock_generator import start_mock_traffic_loop
 from app.event_bus import event_bus
 from app.report_generator import generate_pdf_report
 from app.schemas import Junction as JunctionSchema
+from app.routers_events import router as vision_events_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -214,6 +216,42 @@ def download_pdf_report(db: Session = Depends(get_db)):
     filename = f"erakshak_traffic_report_{datetime.datetime.now().strftime('%d-%m-%Y_%H%M')}.pdf"
     headers = {"Content-Disposition": f"attachment; filename={filename}"}
     return StreamingResponse(pdf_stream, media_type="application/pdf", headers=headers)
+
+@app.get("/api/analytics/heatmap")
+def get_analytics_heatmap(db: Session = Depends(get_db)):
+    """
+    Aggregates average vehicle count and queue length by junction + hour
+    using SQL GROUP BY.
+    """
+    # SQLite strftime format to group by YYYY-MM-DD HH:00:00
+    if db.bind.dialect.name == "sqlite":
+        hour_expr = func.strftime("%Y-%m-%d %H:00:00", TrafficMetric.timestamp)
+    else:
+        # Postgres expression
+        hour_expr = func.date_trunc('hour', TrafficMetric.timestamp)
+
+    results = (
+        db.query(
+            Lane.junction_id,
+            hour_expr.label("hour"),
+            func.avg(TrafficMetric.vehicle_count).label("avg_vehicles"),
+            func.avg(TrafficMetric.queue_length_m).label("avg_queue")
+        )
+        .join(TrafficMetric, Lane.id == TrafficMetric.lane_id)
+        .group_by(Lane.junction_id, "hour")
+        .order_by(Lane.junction_id, "hour")
+        .all()
+    )
+
+    return [
+        {
+            "junction_id": r.junction_id,
+            "hour": r.hour if isinstance(r.hour, str) else r.hour.isoformat(),
+            "avg_vehicle_count": round(float(r.avg_vehicles or 0.0), 2),
+            "avg_queue_length_m": round(float(r.avg_queue or 0.0), 2)
+        }
+        for r in results
+    ]
 
 # --- WEBSOCKET ENGINE ---
 

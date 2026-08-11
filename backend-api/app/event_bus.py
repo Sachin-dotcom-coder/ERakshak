@@ -1,8 +1,12 @@
 import json
-import redis
 import os
 import asyncio
 from typing import Set
+
+try:
+    import redis
+except ImportError:
+    redis = None
 
 class EventBus:
     def __init__(self):
@@ -13,6 +17,11 @@ class EventBus:
         self._connect()
 
     def _connect(self):
+        if redis is None:
+            print("EventBus: Redis module not installed. Running in pure in-memory broker mode.")
+            self.redis_client = None
+            return
+
         try:
             self.redis_client = redis.Redis(
                 host=self.redis_host, 

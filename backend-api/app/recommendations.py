@@ -1,14 +1,19 @@
 import datetime
 from sqlalchemy.orm import Session
-from app.models import Recommendation, Violation, TrafficMetric, Lane
+from app.models import Junction, Recommendation, Violation, TrafficMetric, Lane
+from app.event_bus import event_bus
 
-def run_recommendation_engine(db: Session, junction_id: str):
+async def run_recommendation_engine(db: Session, junction_id: str):
     """
     Analyzes recent metrics and violations for a junction,
     and logs engineering recommendations if thresholds are crossed.
     """
     now = datetime.datetime.utcnow()
     ten_minutes_ago = now - datetime.timedelta(minutes=10)
+
+    # Resolve junction name for logging/publishing
+    junction = db.query(Junction).filter(Junction.id == junction_id).first()
+    junction_name = junction.name if junction else "Unknown Junction"
 
     # Rule 1: High BRTS Intrusion Rate
     # If there are >= 3 intrusions in the last 10 minutes on any BRTS lane of this junction,
@@ -43,6 +48,19 @@ def run_recommendation_engine(db: Session, junction_id: str):
                 db.add(rec)
                 db.commit()
                 print(f"Recommendation logged: BRTS Intrusion Heavy at {junction_id}")
+
+                await event_bus.publish("traffic_live_events", {
+                    "type": "new_recommendation",
+                    "id": rec.id,
+                    "junction_id": junction_id,
+                    "junction_name": junction_name,
+                    "timestamp": rec.timestamp.isoformat(),
+                    "issue_type": rec.issue_type,
+                    "severity": rec.severity,
+                    "description": rec.description,
+                    "suggested_action": rec.suggested_action,
+                    "status": rec.status
+                })
 
     # Rule 2: Asymmetric Traffic Flow (Dynamic Lane Reversal)
     # Compare North-South or East-West queues. If queue in direction A is > 2.5x direction B,
@@ -88,6 +106,19 @@ def run_recommendation_engine(db: Session, junction_id: str):
                 db.commit()
                 print(f"Recommendation logged: Asymmetric Flow at {junction_id}")
 
+                await event_bus.publish("traffic_live_events", {
+                    "type": "new_recommendation",
+                    "id": rec.id,
+                    "junction_id": junction_id,
+                    "junction_name": junction_name,
+                    "timestamp": rec.timestamp.isoformat(),
+                    "issue_type": rec.issue_type,
+                    "severity": rec.severity,
+                    "description": rec.description,
+                    "suggested_action": rec.suggested_action,
+                    "status": rec.status
+                })
+
     # Rule 3: Heavy Queue Spillback (Phase Timing / Bottleneck)
     # If average queue length across non-BRTS lanes is > 70m, recommend signal timing recalibration
     non_brts_lanes = [l for l in lanes if not l.is_brts]
@@ -120,3 +151,16 @@ def run_recommendation_engine(db: Session, junction_id: str):
                 db.add(rec)
                 db.commit()
                 print(f"Recommendation logged: Queue Spillback at {junction_id}")
+
+                await event_bus.publish("traffic_live_events", {
+                    "type": "new_recommendation",
+                    "id": rec.id,
+                    "junction_id": junction_id,
+                    "junction_name": junction_name,
+                    "timestamp": rec.timestamp.isoformat(),
+                    "issue_type": rec.issue_type,
+                    "severity": rec.severity,
+                    "description": rec.description,
+                    "suggested_action": rec.suggested_action,
+                    "status": rec.status
+                })
