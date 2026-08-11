@@ -1,0 +1,293 @@
+@import "leaflet/dist/leaflet.css";
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --radius-sm: 2px;
+  --radius-md: 3px;
+  --radius-lg: 4px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-panel: var(--panel);
+  --color-panel-raised: var(--panel-raised);
+  --color-live: var(--live);
+  --color-warn: var(--warn);
+  --color-crit: var(--crit);
+  --color-ok: var(--ok);
+  --color-predict: var(--predict);
+  --color-grid: var(--grid-line);
+  --font-mono:
+    "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+}
+
+:root {
+  --radius: 3px;
+  --background: #050608;
+  --foreground: #e6edf3;
+  --panel: #0a0d14;
+  --panel-raised: #0f141f;
+  --card: #0a0d14;
+  --card-foreground: #e6edf3;
+  --popover: #0a0d14;
+  --popover-foreground: #e6edf3;
+  --primary: #00f3ff;
+  --primary-foreground: #040810;
+  --secondary: #131a26;
+  --secondary-foreground: #e6edf3;
+  --muted: #131a26;
+  --muted-foreground: #7d8f9f;
+  --accent: #172233;
+  --accent-foreground: #f0f6fc;
+  --destructive: #ff3366;
+  --destructive-foreground: #ffffff;
+  --border: #1a2233;
+  --input: #1a2233;
+  --ring: #00f3ff;
+  --live: #00f3ff;
+  --warn: #ffcc00;
+  --crit: #ff3366;
+  --ok: #00ff88;
+  --predict: #b55fe6;
+  --grid-line: #131b2b;
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #050608;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--color-border);
+    border-radius: 2px;
+  }
+}
+
+@utility panel-surface {
+  background-color: var(--color-panel);
+  border: 1px solid var(--color-border);
+}
+
+@utility label-xs {
+  font-size: 10px;
+  line-height: 14px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--color-muted-foreground);
+  font-weight: 600;
+}
+
+@utility num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.02em;
+}
+
+@keyframes ts-pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  70% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes ts-blink {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.25;
+  }
+}
+
+@keyframes ts-dash {
+  to {
+    stroke-dashoffset: -24;
+  }
+}
+
+@keyframes ts-flash {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.35;
+  }
+}
+
+@keyframes ts-scan {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(1000%);
+  }
+}
+
+@utility animate-pulse-ring {
+  animation: ts-pulse-ring 2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+@utility animate-blink {
+  animation: ts-blink 1.4s ease-in-out infinite;
+}
+@utility animate-dash {
+  animation: ts-dash 1.2s linear infinite;
+}
+@utility animate-flash {
+  animation: ts-flash 0.7s steps(2, end) infinite;
+}
+@utility animate-scan {
+  animation: ts-scan 4s linear infinite;
+}
+
+/* Leaflet Dark Customizations */
+.leaflet-container {
+  background-color: #05070a !important;
+  font-family: var(--font-sans) !important;
+}
+
+/* Dark mode tile overlay styling when using standard OSM tiles */
+.leaflet-tile-pane .leaflet-layer.osm-dark-tiles {
+  filter: brightness(0.6) invert(100%) hue-rotate(190deg) saturate(300%) contrast(130%);
+}
+
+.leaflet-control-container .leaflet-control-zoom {
+  border: 1px solid #1a2233 !important;
+  background: #0a0d14 !important;
+  border-radius: 4px !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6) !important;
+  overflow: hidden;
+}
+
+.leaflet-control-container .leaflet-control-zoom a {
+  background: #0a0d14 !important;
+  color: #00f3ff !important;
+  border-bottom: 1px solid #1a2233 !important;
+}
+
+.leaflet-control-container .leaflet-control-zoom a:hover {
+  background: #131a26 !important;
+  color: #ffffff !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background: #0a0d14 !important;
+  color: #e6edf3 !important;
+  border: 1px solid #1a2233 !important;
+  border-radius: 6px !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.8) !important;
+  padding: 4px !important;
+}
+
+.leaflet-popup-tip {
+  background: #0a0d14 !important;
+  border: 1px solid #1a2233 !important;
+}
+
+/* Custom Signal Marker HTML */
+.signal-marker-container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.signal-beacon {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.signal-beacon:hover {
+  transform: scale(1.3);
+  z-index: 999;
+}
+
+.signal-beacon.green {
+  background: #00ff88;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 14px #00ff88, inset 0 0 4px rgba(0,0,0,0.5);
+}
+
+.signal-beacon.yellow {
+  background: #ffcc00;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 14px #ffcc00, inset 0 0 4px rgba(0,0,0,0.5);
+}
+
+.signal-beacon.red {
+  background: #ff3366;
+  border: 2px solid #ffffff;
+  box-shadow: 0 0 16px #ff3366, inset 0 0 4px rgba(0,0,0,0.5);
+}
+
+.signal-pulse {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  animation: ts-pulse-ring 2.2s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+}
+
+.signal-pulse.green { box-shadow: 0 0 0 2px #00ff88; }
+.signal-pulse.yellow { box-shadow: 0 0 0 2px #ffcc00; }
+.signal-pulse.red { box-shadow: 0 0 0 2px #ff3366; }
+
+.signal-badge {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  color: #040810;
+  line-height: 1;
+}
+
