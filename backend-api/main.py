@@ -6,7 +6,9 @@ import database
 from routers import events
 
 app = FastAPI(docs_url=None, redoc_url=None)
-
+@app.get("/")
+def root():
+    return {"message": "API is running"}
 
 app.include_router(events.router)
 
@@ -30,8 +32,3 @@ def get_db():
         yield db
     finally:
         db.close()
-
-
-
-
-

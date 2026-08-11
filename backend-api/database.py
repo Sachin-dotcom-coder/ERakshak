@@ -5,7 +5,7 @@ from sqlalchemy.orm import sessionmaker, declarative_base
 
 load_dotenv()
 
-DATABASE_URL = os.getenv("DATABASE_URL")
+DATABASE_URL = os.getenv("postgresql://postgres.kclwyeskjpazesycrpmo:npZVKRC5NgM1LTEu@aws-1-ap-south-1.pooler.supabase.com:6543/postgres")
 
 connect_args = {}
 if DATABASE_URL and DATABASE_URL.startswith("sqlite"):
@@ -32,4 +32,4 @@ def get_db():
 
 import models
 Base.metadata.create_all(bind=engine)
-
+
