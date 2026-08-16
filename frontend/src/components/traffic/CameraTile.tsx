@@ -1,6 +1,15 @@
 import { CLASS_COLOR } from "@/lib/mock-traffic";
 import type { CameraFeed } from "@/lib/traffic-types";
 
+const VIDEO_SOURCES: Record<string, string> = {
+  "JN-01": "/videos/traffic_demo.mp4",
+  "JN-02": "/videos/traffic_demo.mp4",
+  "JN-03": "/videos/traffic_demo.mp4",
+  "JN-04": "/videos/traffic_demo.mp4",
+  "JN-05": "/videos/traffic_demo.mp4",
+  "JN-07": "/videos/traffic_demo.mp4",
+};
+
 export function CameraTile({
   feed,
   overlays,
@@ -15,24 +24,35 @@ export function CameraTile({
   large?: boolean;
 }) {
   const Wrapper = onClick ? "button" : "div";
+  const videoUrl = VIDEO_SOURCES[feed.junctionId] || "/videos/traffic_demo.mp4";
+
   return (
     <Wrapper
       {...(onClick ? { onClick, type: "button" as const } : {})}
       className="group relative block h-fit w-full overflow-hidden border border-border bg-[oklch(0.14_0.02_264)] text-left"
     >
-      <div className="relative aspect-video w-full">
-        {/* mock feed surface */}
-        <div className="absolute inset-0 opacity-40 [background-image:repeating-linear-gradient(0deg,transparent_0_3px,oklch(0.26_0.02_258)_3px_4px)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,oklch(0.3_0.04_240/0.5),transparent_60%)]" />
-        {feed.online && <div className="absolute inset-x-0 h-10 bg-primary/[0.07] animate-scan" />}
-
-        {!feed.online && (
-          <div className="absolute inset-0 grid place-items-center bg-background/70">
-            <span className="num border border-crit/50 bg-crit/10 px-2 py-1 text-[10px] font-semibold text-crit">
-              SIGNAL LOST
+      <div className="relative aspect-video w-full overflow-hidden">
+        {/* Real moving CCTV video background */}
+        {feed.online ? (
+          <video
+            src={videoUrl}
+            autoPlay
+            loop
+            muted
+            playsInline
+            className="absolute inset-0 h-full w-full object-cover opacity-80"
+          />
+        ) : (
+          <div className="absolute inset-0 grid place-items-center bg-background/90">
+            <span className="num border border-crit/50 bg-crit/10 px-2.5 py-1 text-[11px] font-semibold text-crit">
+              SIGNAL LOST — CAMERA OFFLINE
             </span>
           </div>
         )}
+
+        {/* Scan line effect overlay */}
+        <div className="pointer-events-none absolute inset-0 opacity-20 [background-image:repeating-linear-gradient(0deg,transparent_0_3px,oklch(0.26_0.02_258)_3px_4px)]" />
+        {feed.online && <div className="pointer-events-none absolute inset-x-0 h-10 bg-primary/[0.12] animate-scan" />}
 
         {/* annotation overlays */}
         {feed.online && overlays && (

@@ -52,6 +52,15 @@ async def start_mock_traffic_loop():
         while True:
             junctions = db.query(Junction).all()
             for junction in junctions:
+                # Check if junction is actively receiving live Vision Service events (within last 15s)
+                latest_live_metric = db.query(TrafficMetric).join(Lane).filter(
+                    Lane.junction_id == junction.id
+                ).order_by(TrafficMetric.timestamp.desc()).first()
+
+                if latest_live_metric and (datetime.datetime.utcnow() - latest_live_metric.timestamp).total_seconds() < 15:
+                    # Skip mock simulation for this junction — let live Vision Service drive it!
+                    continue
+
                 # 1. Manage signal phases based on mode
                 if junction.id not in phase_counters:
                     phase_counters[junction.id] = 0

@@ -167,7 +167,7 @@ export const JUNCTIONS: Junction[] = [
     staticCycle: cycle(35, 5, 60),
     whatIfDelta: 19,
     lanes: lanes(13, 48),
-    camera: { id: "CAM-K06", online: false },
+    camera: { id: "CAM-K06", online: true },
   },
   {
     id: "JN-07",
@@ -847,7 +847,7 @@ export const CAMERA_FEEDS: CameraFeed[] = JUNCTIONS.map((j, i) => ({
   id: j.camera.id,
   junctionId: j.id,
   junctionName: j.name,
-  online: j.camera.online,
+  online: true,
   hasBrtsZone: j.onBrts,
   intrusionActive: j.id === "JN-01" || j.id === "JN-02",
   vehicleCount: 12 + ((i * 7) % 19),

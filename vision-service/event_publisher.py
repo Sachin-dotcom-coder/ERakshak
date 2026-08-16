@@ -275,8 +275,16 @@ class HTTPRestPublisher(EventPublisher):
             req = urllib.request.Request(self._url, data=data, headers={"Content-Type": "application/json"})
             with urllib.request.urlopen(req, timeout=5) as resp:
                 pass
+            
+            lanes = event.get("lanes", [])
+            total_v = sum(l.get("vehicle_count", 0) for l in lanes)
+            has_brts_violation = event.get("brts_violation", False)
+            logger.info(
+                f"[VISION PIPELINE -> BACKEND] Published Event for {event.get('junction_id')} "
+                f"| Vehicles Detected: {total_v} | BRTS Intrusion: {has_brts_violation}"
+            )
         except Exception as e:
-            logger.error(f"HTTPRestPublisher failed to POST event: {e}")
+            logger.error(f"HTTPRestPublisher failed to POST event to {self._url}: {e}")
 
     def close(self) -> None:
         logger.info("HTTPRestPublisher closed")

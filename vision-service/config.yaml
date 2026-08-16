@@ -6,12 +6,12 @@
 
 # --- Model Configuration ---
 model:
-  weights: "yolo26s.pt"                  # Stock weights initially; swap for fine-tuned after Phase 2
+  weights: "yolov8n.pt"                  # Light-weight nano model tuned for real-time CPU performance
   confidence_threshold: 0.35             # Minimum detection confidence
-  iou_threshold: 0.45                    # IoU threshold (YOLO26 is NMS-free, but kept for filtering)
-  image_size: 640                        # Inference image size (pixels)
+  iou_threshold: 0.45                    # IoU threshold
+  image_size: 320                        # Fast 320px inference size for CPU real-time playback
   device: "auto"                         # "auto" picks GPU if available, else CPU
-  half_precision: true                   # FP16 on GPU for faster inference
+  half_precision: false                  # False on CPU for stability
 
   # Custom class mapping (index → name)
   # Used AFTER fine-tuning. Stock COCO model uses a separate remap (see detector.py).
@@ -88,8 +88,10 @@ incidents:
 
 # --- Event Publisher ---
 publisher:
-  mode: "mock"                           # "mock" (stdout + file) or "kafka"
+  mode: "http"                           # "http" (POST to backend API), "mock" (stdout/file), or "kafka"
   emit_interval_frames: 30               # Publish an event every N frames (not every single frame)
+  http:
+    url: "http://localhost:8000/api/events/"
   mock:
     output_dir: "output"                 # Directory for mock event output
     output_file: "output/events.jsonl"   # JSONL file for event stream
