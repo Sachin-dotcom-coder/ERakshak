@@ -49,14 +49,14 @@ export function MapPanel({
         attributionControl: false,
       });
 
-      const cartoDarkTile = L.tileLayer(
-        "https://{s}.basemaps.cartocdn.com/rastertiles/dark_all/{z}/{x}/{y}{r}.png",
+      const darkMapTile = L.tileLayer(
+        "https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}",
         {
           maxZoom: 19,
-          subdomains: "abcd",
+          attribution: "Esri, USGS, NOAA",
         }
       );
-      cartoDarkTile.addTo(map);
+      darkMapTile.addTo(map);
 
       mapInstanceRef.current = map;
     });
