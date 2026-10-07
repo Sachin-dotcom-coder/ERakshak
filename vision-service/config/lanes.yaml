@@ -1,0 +1,73 @@
+# ============================================================
+# Lane Configuration — Centerlines, Widths, Directions
+# Section 34–37: Dynamic lane assignment via centerline corridors
+# ============================================================
+
+# Each lane is defined by a centerline polyline (world coords in meters),
+# a width, an expected heading (degrees, 0=North, clockwise), and
+# the approach direction it belongs to.
+
+lanes:
+  lane_NS_1:
+    approach: "NS"
+    # Centerline as list of [x_m, y_m] world-coordinate points
+    # (FROM far end of approach TOWARDS stop line)
+    centerline:
+      - [10.0, 80.0]
+      - [10.0, 60.0]
+      - [10.0, 40.0]
+      - [10.0, 20.0]
+      - [10.0, 0.0]
+    width_m: 3.5
+    expected_heading_deg: 180   # Southbound
+    max_queue_capacity_m: 120.0
+    stop_line_position: [10.0, 0.0]
+
+  lane_NS_2:
+    approach: "NS"
+    centerline:
+      - [13.5, 80.0]
+      - [13.5, 60.0]
+      - [13.5, 40.0]
+      - [13.5, 20.0]
+      - [13.5, 0.0]
+    width_m: 3.5
+    expected_heading_deg: 180
+    max_queue_capacity_m: 120.0
+    stop_line_position: [13.5, 0.0]
+
+  lane_EW_1:
+    approach: "EW"
+    centerline:
+      - [80.0, 10.0]
+      - [60.0, 10.0]
+      - [40.0, 10.0]
+      - [20.0, 10.0]
+      - [0.0, 10.0]
+    width_m: 3.5
+    expected_heading_deg: 270   # Westbound
+    max_queue_capacity_m: 100.0
+    stop_line_position: [0.0, 10.0]
+
+  lane_EW_2:
+    approach: "EW"
+    centerline:
+      - [80.0, 13.5]
+      - [60.0, 13.5]
+      - [40.0, 13.5]
+      - [20.0, 13.5]
+      - [0.0, 13.5]
+    width_m: 3.5
+    expected_heading_deg: 270
+    max_queue_capacity_m: 100.0
+    stop_line_position: [0.0, 13.5]
+
+# BRTS corridor definition
+brts_corridor:
+  centerline:
+    - [6.5, 80.0]
+    - [6.5, 0.0]
+  width_m: 3.5
+  expected_heading_deg: 180
+  # Direction vector for angle-based violation checking
+  direction_vector: [0.0, -1.0]

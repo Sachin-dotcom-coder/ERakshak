@@ -10,11 +10,14 @@ except ImportError:
 
 class EventBus:
     def __init__(self):
-        self.redis_host = os.getenv("REDIS_HOST", "localhost")
+        self.redis_host = os.getenv("REDIS_HOST")
         self.redis_port = int(os.getenv("REDIS_PORT", 6379))
         self.redis_client = None
         self.in_memory_queues: Set[asyncio.Queue] = set()
-        self._connect()
+        if self.redis_host:
+            self._connect()
+        else:
+            print("EventBus: Initialized with in-memory broker (local single-process mode).")
 
     def _connect(self):
         if redis is None:
@@ -27,7 +30,9 @@ class EventBus:
                 host=self.redis_host, 
                 port=self.redis_port, 
                 decode_responses=True,
-                socket_timeout=1.0
+                socket_timeout=0.5,
+                socket_connect_timeout=0.5,
+                retry_on_timeout=False
             )
             self.redis_client.ping()
             print("EventBus: Connected to Redis successfully.")

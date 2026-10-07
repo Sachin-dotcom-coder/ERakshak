@@ -1,0 +1,39 @@
+# ============================================================
+# Vehicle Class Taxonomy — E-Rakshak Vision Service
+# 7 custom Indian traffic classes with PCU weights
+# ============================================================
+
+classes:
+  0: "car"
+  1: "bus"
+  2: "brts_bus"
+  3: "truck"
+  4: "two_wheeler"
+  5: "auto_rickshaw"
+  6: "cycle"
+
+# IRC:106 Passenger Car Unit equivalents
+pcu_weights:
+  car: 1.0
+  bus: 3.0
+  brts_bus: 3.0
+  truck: 3.0
+  two_wheeler: 0.5
+  auto_rickshaw: 0.8
+  cycle: 0.2
+
+# Critical classes requiring stronger temporal confirmation
+critical_classes:
+  - "ambulance"
+  - "fire_truck"
+  - "brts_bus"
+
+# COCO fallback mapping (stock model, before fine-tuning)
+coco_to_custom:
+  1: "cycle"        # COCO "bicycle"
+  2: "car"          # COCO "car"
+  3: "two_wheeler"  # COCO "motorcycle"
+  5: "bus"          # COCO "bus"
+  7: "truck"        # COCO "truck"
+
+coco_vehicle_ids: [1, 2, 3, 5, 7]

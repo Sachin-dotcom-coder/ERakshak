@@ -287,6 +287,11 @@ class CameraCalibrator:
         return self._homography
 
     @property
+    def homography(self) -> Optional[np.ndarray]:
+        """Alias for homography_matrix."""
+        return self._homography
+
+    @property
     def fps(self) -> Optional[float]:
         """Configured FPS for this camera."""
         return self._fps

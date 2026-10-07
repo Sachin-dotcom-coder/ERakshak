@@ -1,7 +1,25 @@
-# ERakshak
+# E-Rakshak: Smart Adaptive Traffic Control & Infrastructure Intelligence
 
-# backend things done
-creating an event 
-updating event 
-deleting event 
+Welcome to the **E-Rakshak** repository — an AI-powered, data-driven adaptive traffic signal optimization platform designed for modern Indian cities.
 
+---
+
+## Comprehensive Project Documentation
+
+We have provided two in-depth technical documentation files detailing the entire system architecture and computer vision pipeline:
+
+1. 📘 **[PROJECT_OVERVIEW.md](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/PROJECT_OVERVIEW.md)** (or in `docs/` at [docs/PROJECT_OVERVIEW.md](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/docs/PROJECT_OVERVIEW.md))
+   - **Full Project Specification**: System architecture, end-to-end data flow (Mermaid diagrams), all 5 subsystems (`vision-service`, `signal-optimizer`, `backend-api`, `dashboard`, `frontend`), mathematical formulations (PCU weighting, Homography, Max-Pressure, Webster cycle calculation), data contracts, DB ER diagrams, and step-by-step installation/running instructions.
+
+2. 👁️ **[DETECTION_SYSTEM_DETAILS.md](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/DETECTION_SYSTEM_DETAILS.md)** (or in `docs/` at [docs/DETECTION_SYSTEM_DETAILS.md](file:///c:/Users/visha/OneDrive/Desktop/E_rakshak/ERakshak/docs/DETECTION_SYSTEM_DETAILS.md))
+   - **Detection Subsystem Deep Dive**: In-depth technical breakdown of `vision-service`, including YOLO26 object detection with STAL, BoT-SORT multi-object tracking with Re-ID, planar homography transformation, spatial zone geometry, Passenger Car Unit (PCU) calculation, BRTS corridor intrusion detection, stalled vehicle incident sensing, SAM 3.1 auto-labeling pipeline, and edge-case mitigations.
+
+---
+
+## Subsystems Overview
+
+- `vision-service/`: YOLO26 + BoT-SORT real-time computer vision telemetry pipeline.
+- `signal-optimizer/`: Multi-factor Max-Pressure & Webster adaptive signal controller.
+- `backend-api/`: FastAPI backend with WebSockets, SQLite/PostgreSQL, and event bus ingestion.
+- `dashboard/` & `frontend/`: Command center Web UI with live map, signal countdowns, and video streams.
+- `docs/` & `scripts/`: SUMO traffic simulation scenarios and performance benchmarking scripts.
