@@ -25,10 +25,10 @@ except ImportError:
 VEHICLES = ["auto", "motorcycle", "car", "suv", "citybus", "truck"]
 VIOLATION_VEHICLES = ["auto", "motorcycle", "car", "suv"]
 PHASES = [
-    "Phase 1: North-South Green",
-    "Phase 2: North-South Left Turn",
-    "Phase 3: East-West Green",
-    "Phase 4: East-West Left Turn"
+    "Phase 1: Northbound Protected Green",
+    "Phase 2: Eastbound Protected Green",
+    "Phase 3: Southbound Protected Green",
+    "Phase 4: Westbound / BRTS Protected Green"
 ]
 
 async def start_mock_traffic_loop():

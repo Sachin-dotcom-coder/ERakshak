@@ -63,17 +63,27 @@ DEFAULT_HISTORICAL_DENSITY: dict[str, float] = {
     "lane_EW_2": 5.0,
 }
 
-# Phase definitions
+# Phase definitions (Protected Single-Approach Phases for 4-Way Intersections)
 PHASE_DEFINITIONS: dict[str, dict] = {
-    "NS_green": {
-        "upstream_lanes":   ["lane_NS_1", "lane_NS_2"],
-        "downstream_lanes": ["lane_EW_1", "lane_EW_2"],
-        "approach":         "NS",
+    "North_green": {
+        "upstream_lanes":   ["lane_NS_1"],
+        "downstream_lanes": ["lane_NS_2", "lane_EW_1", "lane_EW_2"],
+        "approach":         "North",
     },
-    "EW_green": {
-        "upstream_lanes":   ["lane_EW_1", "lane_EW_2"],
-        "downstream_lanes": ["lane_NS_1", "lane_NS_2"],
-        "approach":         "EW",
+    "East_green": {
+        "upstream_lanes":   ["lane_EW_1"],
+        "downstream_lanes": ["lane_EW_2", "lane_NS_1", "lane_NS_2"],
+        "approach":         "East",
+    },
+    "South_green": {
+        "upstream_lanes":   ["lane_NS_2"],
+        "downstream_lanes": ["lane_NS_1", "lane_EW_1", "lane_EW_2"],
+        "approach":         "South",
+    },
+    "West_green": {
+        "upstream_lanes":   ["lane_EW_2"],
+        "downstream_lanes": ["lane_EW_1", "lane_NS_1", "lane_NS_2"],
+        "approach":         "West",
     },
 }
 
@@ -361,13 +371,12 @@ class MaxPressureController:
 
         phase_def = PHASE_DEFINITIONS[best_phase]
         dom_approach = phase_def["approach"]
-        sec_approach = "EW" if dom_approach == "NS" else "NS"
+        sec_approach = "East/West" if dom_approach in ("North", "South") else "North/South"
 
         # ---- 13. Adaptive green duration (Improvement #14) ----
         dom_state = self._traffic_state.get_approach_state(phase_def["upstream_lanes"])
-        sec_lanes = PHASE_DEFINITIONS[
-            "EW_green" if best_phase == "NS_green" else "NS_green"
-        ]["upstream_lanes"]
+        other_phase = [p for p in PHASE_DEFINITIONS if p != best_phase][0]
+        sec_lanes = PHASE_DEFINITIONS[other_phase]["upstream_lanes"]
         sec_state = self._traffic_state.get_approach_state(sec_lanes)
 
         dom_q = dom_state["total_queue"]

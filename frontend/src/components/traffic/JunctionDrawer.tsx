@@ -76,16 +76,25 @@ export function JunctionDrawer({
                 <Metric label="Avg wait" value={`${junction.avgWait}s`} />
               </div>
 
+              {/* 4-Way Intersection Approach Diagram */}
+              <div className="panel-surface p-3">
+                <div className="label-xs mb-2 flex items-center justify-between">
+                  <span>4-Way Intersection Arms</span>
+                  <span className="text-[10px] text-primary font-mono font-bold">4 Intersecting Roads</span>
+                </div>
+                <FourWayIntersectionDiagram junction={junction} />
+              </div>
+
               {/* lanes */}
               <div className="panel-surface p-3">
-                <div className="label-xs mb-2">Per-lane density</div>
+                <div className="label-xs mb-2">Per-lane approach density & queues</div>
                 <div className="space-y-2.5">
                   {junction.lanes.map((l) => (
                     <div key={l.id}>
                       <div className="flex items-baseline justify-between gap-2 text-[11px]">
                         <span className="truncate">{l.name}</span>
                         <span className="num shrink-0 text-muted-foreground">
-                          Q {l.queue} · {l.arrivalRate}/min
+                          Q {l.queue} veh · {l.arrivalRate}/min
                         </span>
                       </div>
                       <div className="mt-1 h-1.5 w-full bg-secondary">
@@ -223,3 +232,121 @@ function CycleBar({
     </div>
   );
 }
+
+function FourWayIntersectionDiagram({ junction }: { junction: Junction }) {
+  const nLane = junction.lanes.find((l) => l.name.toLowerCase().includes("north")) || junction.lanes[0];
+  const sLane = junction.lanes.find((l) => l.name.toLowerCase().includes("south")) || junction.lanes[1];
+  const eLane = junction.lanes.find((l) => l.name.toLowerCase().includes("east")) || junction.lanes[2];
+  const wLane = junction.lanes.find((l) => l.name.toLowerCase().includes("west")) || junction.lanes[3];
+
+  // Protected Single-Approach Signal Phase Logic:
+  // To ensure collision-free movement for straight, left, right turns, and U-turns,
+  // ONLY ONE approach arm is granted GREEN at any given time while the other 3 hold RED.
+  let activeArm: "N" | "E" | "S" | "W" = "N";
+  
+  const phaseLower = ((junction as any).current_phase || "").toLowerCase();
+  if (phaseLower.includes("south")) {
+    activeArm = "S";
+  } else if (phaseLower.includes("east")) {
+    activeArm = "E";
+  } else if (phaseLower.includes("west")) {
+    activeArm = "W";
+  } else if (phaseLower.includes("north")) {
+    activeArm = "N";
+  } else {
+    // If generic status, pick single active arm based on junction id and timer
+    const armList: ("N" | "E" | "S" | "W")[] = ["N", "E", "S", "W"];
+    const jNum = parseInt(junction.id.replace(/\D/g, "") || "1", 10);
+    const timeBucket = Math.floor((junction.signalCountdown || 10) / 12);
+    activeArm = armList[(jNum + timeBucket) % 4] || "N";
+  }
+
+  const isYellow = junction.signalStatus === "YELLOW";
+  const nStatus = activeArm === "N" ? (isYellow ? "YELLOW" : "GREEN") : "RED";
+  const sStatus = activeArm === "S" ? (isYellow ? "YELLOW" : "GREEN") : "RED";
+  const eStatus = activeArm === "E" ? (isYellow ? "YELLOW" : "GREEN") : "RED";
+  const wStatus = activeArm === "W" ? (isYellow ? "YELLOW" : "GREEN") : "RED";
+
+  const statusColor = (st: string) =>
+    st === "GREEN" ? "#00ff88" : st === "YELLOW" ? "#ffcc00" : "#ff3366";
+
+  return (
+    <div className="relative mx-auto my-2 flex h-52 w-full max-w-[290px] items-center justify-center rounded border border-border bg-[#05070c] p-2">
+      {/* Road Cross Overlay */}
+      <div className="absolute inset-x-0 top-1/2 h-12 -translate-y-1/2 bg-[#121722] border-y border-border/40" />
+      <div className="absolute inset-y-0 left-1/2 w-12 -translate-x-1/2 bg-[#121722] border-x border-border/40" />
+
+      {/* Junction Box Center */}
+      <div className="relative z-10 flex h-14 w-14 flex-col items-center justify-center border border-primary/50 bg-panel text-center shadow-lg">
+        <span className="text-[8px] font-bold text-primary uppercase tracking-wider">PROTECTED</span>
+        <span className="num text-[11px] font-bold text-primary">{junction.signalCountdown}s</span>
+        <span className="text-[7px] text-muted-foreground uppercase">1-ARM GREEN</span>
+      </div>
+
+      {/* NORTH ARM (Top) */}
+      <div className="absolute top-1 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center">
+        <span className="text-[9px] font-mono font-bold text-muted-foreground">NORTH (N)</span>
+        <div
+          className="my-0.5 flex items-center gap-1 rounded border px-1.5 py-0.5 text-[9px] font-bold"
+          style={{
+            borderColor: statusColor(nStatus),
+            color: statusColor(nStatus),
+            backgroundColor: `${statusColor(nStatus)}18`,
+          }}
+        >
+          <span>⬆️ {nStatus}</span>
+          <span className="num font-mono text-foreground">Q:{nLane?.queue ?? 0}</span>
+        </div>
+      </div>
+
+      {/* SOUTH ARM (Bottom) */}
+      <div className="absolute bottom-1 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center">
+        <div
+          className="my-0.5 flex items-center gap-1 rounded border px-1.5 py-0.5 text-[9px] font-bold"
+          style={{
+            borderColor: statusColor(sStatus),
+            color: statusColor(sStatus),
+            backgroundColor: `${statusColor(sStatus)}18`,
+          }}
+        >
+          <span>⬇️ {sStatus}</span>
+          <span className="num font-mono text-foreground">Q:{sLane?.queue ?? 0}</span>
+        </div>
+        <span className="text-[9px] font-mono font-bold text-muted-foreground">SOUTH (S)</span>
+      </div>
+
+      {/* WEST ARM (Left) */}
+      <div className="absolute left-1 top-1/2 z-20 flex -translate-y-1/2 flex-col items-start">
+        <span className="text-[9px] font-mono font-bold text-muted-foreground">WEST (W)</span>
+        <div
+          className="my-0.5 flex items-center gap-1 rounded border px-1.5 py-0.5 text-[9px] font-bold"
+          style={{
+            borderColor: statusColor(wStatus),
+            color: statusColor(wStatus),
+            backgroundColor: `${statusColor(wStatus)}18`,
+          }}
+        >
+          <span>⬅️ {wStatus}</span>
+          <span className="num font-mono text-foreground">Q:{wLane?.queue ?? 0}</span>
+        </div>
+      </div>
+
+      {/* EAST ARM (Right) */}
+      <div className="absolute right-1 top-1/2 z-20 flex -translate-y-1/2 flex-col items-end">
+        <span className="text-[9px] font-mono font-bold text-muted-foreground">EAST (E)</span>
+        <div
+          className="my-0.5 flex items-center gap-1 rounded border px-1.5 py-0.5 text-[9px] font-bold"
+          style={{
+            borderColor: statusColor(eStatus),
+            color: statusColor(eStatus),
+            backgroundColor: `${statusColor(eStatus)}18`,
+          }}
+        >
+          <span>➡️ {eStatus}</span>
+          <span className="num font-mono text-foreground">Q:{eLane?.queue ?? 0}</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
