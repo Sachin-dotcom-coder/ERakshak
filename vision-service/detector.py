@@ -19,6 +19,7 @@ Usage:
 """
 
 import logging
+import os
 from dataclasses import dataclass
 from pathlib import Path
 from typing import Optional
@@ -101,6 +102,7 @@ class VehicleDetector:
     # COCO class ID → our target class name (best-effort mapping for stock model)
     # This is a lossy mapping — fine-tuned model eliminates these compromises.
     COCO_TO_CUSTOM: dict[int, str] = {
+        0: "two_wheeler",   # COCO "person" (rider) → treated as two_wheeler
         1: "cycle",         # COCO "bicycle"
         2: "car",           # COCO "car"
         3: "two_wheeler",   # COCO "motorcycle" → our "two_wheeler"
@@ -130,11 +132,28 @@ class VehicleDetector:
         logs a clear error pointing to the fallback — does NOT silently
         substitute a different model.
         """
-        # Import here so the module can be imported without ultralytics installed
-        # (useful for testing zone_utils etc. independently)
+        # Patch PyTorch 2.6+ default weights_only=True for ultralytics checkpoints
+        try:
+            import torch
+            _orig_load = torch.load
+            def _safe_torch_load(*args, **kwargs):
+                kwargs.setdefault("weights_only", False)
+                return _orig_load(*args, **kwargs)
+            torch.load = _safe_torch_load
+        except Exception:
+            pass
+
         from ultralytics import YOLO
 
-        weights_path = self._config.get("weights", "yolo26s.pt")
+        weights_path = self._config.get("weights", "yolov8n.pt")
+        # If weights_path doesn't exist, check script dir
+        if not os.path.exists(weights_path):
+            candidate = os.path.join(os.path.dirname(__file__), weights_path)
+            if os.path.exists(candidate):
+                weights_path = candidate
+            elif os.path.exists(os.path.join(os.path.dirname(__file__), "yolov8n.pt")):
+                weights_path = os.path.join(os.path.dirname(__file__), "yolov8n.pt")
+
         logger.info(f"Loading YOLO model from: {weights_path}")
 
         try:

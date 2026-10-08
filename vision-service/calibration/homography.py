@@ -253,9 +253,6 @@ class CameraCalibrator:
         speed_mps = total_dist_m / dt_seconds  # meters per second
         speed_kmph = speed_mps * 3.6           # convert to km/h
 
-        # Scale and clamp speed to believable urban Indian junction range (19.0 - 32.0 km/h)
-        speed_kmph = min(max(speed_kmph * 0.22, 19.0), 32.0)
-
         return float(speed_kmph)
 
     def compute_density(

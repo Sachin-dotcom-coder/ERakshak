@@ -56,6 +56,21 @@ class TrackedVehicle:
         lane_history: History of lane assignments (for lane-change detection).
         frames_tracked: Number of consecutive frames this track has been alive.
         is_active: Whether this track was matched in the current frame.
+
+    Notes on BoT-SORT Kalman state (P0-2 fix):
+        BoT-SORT uses state vector [x, y, w, h, vx, vy, vw, vh] where
+        x, y = centre coordinates; w, h = width/height; vx, vy, vw, vh = velocities.
+        This is NOT the SORT/ByteTrack vector [x, y, s, r, ẋ, ẏ, ṡ]
+        (area s and aspect ratio r). Using the wrong state vector in docs
+        caused confusion about what the tracker actually does internally.
+
+    Notes on track_buffer (P0-1 fix):
+        The BoT-SORT `track_buffer` parameter specifies how many frames a
+        lost track is kept alive for re-ID. If the system processes at
+        `fps` frames per second and you want a `t_seconds` re-ID window:
+            track_buffer = t_seconds × fps
+        Example: 3-second window at 15 fps → track_buffer = 45.
+        Document BOTH numbers (frames and seconds) in botsort_custom.yaml.
     """
     track_id: int
     bbox: np.ndarray
@@ -101,13 +116,14 @@ class VehicleTracker:
     # COCO class remapping (same as detector.py — duplicated intentionally
     # so tracker.py doesn't depend on detector.py for this)
     COCO_TO_CUSTOM: dict[int, str] = {
+        0: "two_wheeler",
         1: "cycle",
         2: "car",
         3: "two_wheeler",
         5: "bus",
         7: "truck",
     }
-    COCO_VEHICLE_IDS: set[int] = {1, 2, 3, 5, 7}
+    COCO_VEHICLE_IDS: set[int] = {0, 1, 2, 3, 5, 7}
 
     def __init__(
         self,

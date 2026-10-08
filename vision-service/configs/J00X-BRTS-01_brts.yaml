@@ -1,0 +1,50 @@
+# ============================================================
+# J00X-BRTS-01 BRTS Corridor Violation Configuration
+# Derived from improvements.md § B3
+# ============================================================
+camera_id: J00X-BRTS-01
+junction_id: J00X
+calibration_version: J00X-BRTS-01-v1
+
+zones:
+  BRTS:
+    polygon_px: [[205, 55], [598, 50], [578, 715], [178, 712]]
+    polygon_world: [[0.0, 0.0], [4.0, 0.0], [4.0, 60.0], [0.0, 60.0]]
+    travel_direction: away_from_camera
+    corridor_dir: [0.0, 1.0]              # Unit vector in world space for legal travel direction
+    allowed_classes:
+      - brts_bus
+      - ambulance
+      - fire_truck
+    allowed_plate_registry:
+      - GJ05BR0001
+      - GJ05BR0002
+    dwell_s: 3.0
+    min_distance_m: 10.0
+    stop_s: 30.0                          # Stationary time for BRTS_PARKING_STOP
+    enter_ratio: 0.50
+    exit_ratio: 0.20
+    n_enter: 6
+    n_exit: 8
+    min_track_age_s: 0.8
+    wrong_way_min_m: 5.0
+    min_dir_samples: 5
+
+  LANE_1:
+    polygon_px: [[620, 80], [690, 78], [1005, 695], [700, 720]]
+    travel_direction: toward_camera
+
+  LANE_2:
+    polygon_px: [[690, 78], [720, 75], [1250, 650], [1005, 695]]
+    travel_direction: toward_camera
+
+gates:
+  far_mouth:
+    segment_px: [[205, 55], [598, 50]]
+    type: corridor_mouth
+  separator_gap_1:
+    segment_px: [[598, 330], [600, 380]]
+    type: separator_gap
+
+separator:
+  polyline_px: [[600, 60], [612, 300], [626, 520], [640, 700]]

@@ -1,0 +1,51 @@
+# ============================================================
+# J001-S-01 Red-Light Violation (RLV) Configuration
+# Derived from improvements.md § A4.1
+# ============================================================
+camera_id: J001-S-01
+junction_id: J001
+calibration_version: J001-S-01-v1
+approach_direction: SOUTH_TO_NORTH       # direction of travel for this approach
+
+# All coordinates in IMAGE pixels. Converted to world metres through H at load time.
+stop_line:
+  points_px: [[320, 305], [810, 305]]
+  travel_normal: up                      # which side counts as "past the line"
+  points_world: [[0.0, 15.0], [12.0, 15.0]] # world plane coordinates (metres)
+
+approach_zone_px:
+  - [250, 700]
+  - [880, 700]
+  - [810, 320]
+  - [320, 320]
+
+junction_box_px:
+  - [180, 305]
+  - [880, 305]
+  - [880, 215]
+  - [180, 215]
+
+signal_heads:
+  - head_id: mast_arm
+    roi: [545, 35, 600, 60]
+    orientation: horizontal_single
+  - head_id: pole_left
+    roi: [180, 175, 215, 300]
+    orientation: vertical
+  - head_id: pole_right
+    roi: [870, 235, 905, 330]
+    orientation: vertical
+
+rules:
+  grace_after_red_s: 0.0            # confirm local practice; some authorities allow 0–1 s
+  min_speed_at_crossing_kmh: 8.0
+  min_track_age_s: 1.0
+  confirm_distance_m: 5.0           # must travel this far past the line
+  confirm_min_frames: 6
+  max_candidate_frames: 60
+  hysteresis_m: 0.3
+  min_frames_before: 3
+  cross_traffic_speed_kmh: 8.0
+  exempt_classes:
+    - ambulance
+    - fire_truck
