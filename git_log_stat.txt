@@ -1,0 +1,201 @@
+commit 157332fb9b565bd3ce0ebf66ebf2f1019370e3a7
+Merge: 2d70c61 e9e5517
+Author: shyam10284 <harkhanishyamkumar@gmail.com>
+Date:   Tue Aug 11 22:12:01 2026 +0530
+
+    Merge branch 'shyam' into main
+
+commit e9e55172ca67e62d45a980e4a721e2f3a8774692
+Author: shyam10284 <harkhanishyamkumar@gmail.com>
+Date:   Tue Aug 11 21:49:06 2026 +0530
+
+    feat(frontend): integrate Surat OpenStreetMap, 22 live signals, highlighted lanes, blackish UI theme, and Surat Traffic Nexus logo
+
+ frontend/.gitignore                                |   32 +
+ frontend/.lovable/project.json                     |    5 +
+ frontend/.prettierignore                           |    8 +
+ frontend/.prettierrc                               |    6 +
+ frontend/AGENTS.md                                 |   10 +
+ frontend/README.md                                 |  310 +
+ frontend/bun.lock                                  | 1049 +++
+ frontend/bunfig.toml                               |    7 +
+ frontend/components.json                           |   22 +
+ frontend/eslint.config.js                          |   40 +
+ frontend/package-lock.json                         | 7795 ++++++++++++++++++++
+ frontend/package.json                              |   89 +
+ frontend/public/favicon.ico                        |  Bin 0 -> 20373 bytes
+ frontend/public/robots.txt                         |   14 +
+ frontend/src/components/traffic/AlertsFeed.tsx     |  191 +
+ frontend/src/components/traffic/AppShell.tsx       |   49 +
+ frontend/src/components/traffic/CameraTile.tsx     |  141 +
+ frontend/src/components/traffic/CommandCentre.tsx  |   53 +
+ frontend/src/components/traffic/DetectionLog.tsx   |   97 +
+ frontend/src/components/traffic/ExportModal.tsx    |  105 +
+ frontend/src/components/traffic/JunctionDrawer.tsx |  225 +
+ frontend/src/components/traffic/KPIPanel.tsx       |  165 +
+ frontend/src/components/traffic/Logo.tsx           |   92 +
+ frontend/src/components/traffic/MapPanel.tsx       |  407 +
+ frontend/src/components/traffic/Reports.tsx        |   81 +
+ frontend/src/components/traffic/Surveillance.tsx   |  198 +
+ frontend/src/components/traffic/TopStatusBar.tsx   |  121 +
+ frontend/src/components/ui/accordion.tsx           |   51 +
+ frontend/src/components/ui/alert-dialog.tsx        |  115 +
+ frontend/src/components/ui/alert.tsx               |   49 +
+ frontend/src/components/ui/aspect-ratio.tsx        |    5 +
+ frontend/src/components/ui/avatar.tsx              |   47 +
+ frontend/src/components/ui/badge.tsx               |   32 +
+ frontend/src/components/ui/breadcrumb.tsx          |  101 +
+ frontend/src/components/ui/button.tsx              |   49 +
+ frontend/src/components/ui/calendar.tsx            |  177 +
+ frontend/src/components/ui/card.tsx                |   55 +
+ frontend/src/components/ui/carousel.tsx            |  240 +
+ frontend/src/components/ui/chart.tsx               |  331 +
+ frontend/src/components/ui/checkbox.tsx            |   26 +
+ frontend/src/components/ui/collapsible.tsx         |   11 +
+ frontend/src/components/ui/command.tsx             |  143 +
+ frontend/src/components/ui/context-menu.tsx        |  186 +
+ frontend/src/components/ui/dialog.tsx              |  104 +
+ frontend/src/components/ui/drawer.tsx              |   98 +
+ frontend/src/components/ui/dropdown-menu.tsx       |  187 +
+ frontend/src/components/ui/form.tsx                |  171 +
+ frontend/src/components/ui/hover-card.tsx          |   27 +
+ frontend/src/components/ui/input-otp.tsx           |   73 +
+ frontend/src/components/ui/input.tsx               |   22 +
+ frontend/src/components/ui/label.tsx               |   21 +
+ frontend/src/components/ui/menubar.tsx             |  228 +
+ frontend/src/components/ui/navigation-menu.tsx     |  120 +
+ frontend/src/components/ui/pagination.tsx          |   98 +
+ frontend/src/components/ui/popover.tsx             |   31 +
+ frontend/src/components/ui/progress.tsx            |   25 +
+ frontend/src/components/ui/radio-group.tsx         |   36 +
+ frontend/src/components/ui/resizable.tsx           |   37 +
+ frontend/src/components/ui/scroll-area.tsx         |   44 +
+ frontend/src/components/ui/select.tsx              |  152 +
+ frontend/src/components/ui/separator.tsx           |   24 +
+ frontend/src/components/ui/sheet.tsx               |  122 +
+ frontend/src/components/ui/sidebar.tsx             |  744 ++
+ frontend/src/components/ui/skeleton.tsx            |    7 +
+ frontend/src/components/ui/slider.tsx              |   23 +
+ frontend/src/components/ui/sonner.tsx              |   23 +
+ frontend/src/components/ui/switch.tsx              |   27 +
+ frontend/src/components/ui/table.tsx               |   94 +
+ frontend/src/components/ui/tabs.tsx                |   53 +
+ frontend/src/components/ui/textarea.tsx            |   21 +
+ frontend/src/components/ui/toggle-group.tsx        |   57 +
+ frontend/src/components/ui/toggle.tsx              |   42 +
+ frontend/src/components/ui/tooltip.tsx             |   32 +
+ frontend/src/hooks/use-mobile.tsx                  |   19 +
+ frontend/src/hooks/useCameraFeeds.ts               |   46 +
+ frontend/src/hooks/useTrafficData.ts               |  249 +
+ frontend/src/lib/error-capture.ts                  |   81 +
+ frontend/src/lib/error-page.ts                     |   30 +
+ frontend/src/lib/lovable-error-reporting.ts        |   58 +
+ frontend/src/lib/mock-traffic.ts                   |  917 +++
+ frontend/src/lib/traffic-types.ts                  |  126 +
+ frontend/src/lib/utils.ts                          |    6 +
+ frontend/src/routeTree.gen.ts                      |  105 +
+ frontend/src/router.tsx                            |   16 +
+ frontend/src/routes/README.md                      |   21 +
+ frontend/src/routes/__root.tsx                     |  134 +
+ frontend/src/routes/index.tsx                      |   22 +
+ frontend/src/routes/reports.tsx                    |   22 +
+ frontend/src/routes/surveillance.tsx               |   22 +
+ frontend/src/server.ts                             |   61 +
+ frontend/src/start.ts                              |   29 +
+ frontend/src/styles.css                            |  293 +
+ frontend/tsconfig.json                             |   30 +
+ frontend/vite.config.ts                            |   15 +
+ package-lock.json                                  |    6 +
+ 95 files changed, 17981 insertions(+)
+
+commit 2d70c61f9e59307897fb75b2e2d811f5c91f93e9
+Author: Vishal-Murugadhas <vishalmdhas@gmail.com>
+Date:   Tue Aug 11 18:37:34 2026 +0530
+
+    Changes made to signal optimizer
+
+ new_instruct.md                                    | 2549 ++++++++++++++++++++
+ signal-optimizer/README.md                         |  167 +-
+ signal-optimizer/confidence.py                     |  166 +-
+ signal-optimizer/controller_config.py              |  163 ++
+ signal-optimizer/event_modes.py                    |   95 +-
+ signal-optimizer/explain.py                        |  102 +-
+ signal-optimizer/health.py                         |  266 ++
+ signal-optimizer/historical.py                     |  273 +++
+ signal-optimizer/max_pressure.py                   |  502 +++-
+ signal-optimizer/mock_event_feed.py                |  209 +-
+ signal-optimizer/prediction.py                     |  184 +-
+ signal-optimizer/priority.py                       |  153 +-
+ signal-optimizer/safety.py                         |  192 ++
+ .../sumo/output/adaptive_decisions.jsonl           |  110 +-
+ signal-optimizer/sumo/output/adaptive_traces.jsonl |   30 +
+ signal-optimizer/sumo/traci_runner.py              |  160 +-
+ signal-optimizer/traffic_state.py                  |  283 +++
+ 17 files changed, 4997 insertions(+), 607 deletions(-)
+
+commit 1bbab9bdc4367825f657d36a849adaab045fdd51
+Author: Shresth2006 <shandilyashresth0102@gmail.com>
+Date:   Tue Aug 11 18:22:58 2026 +0530
+
+    Add vision-service and ignore large media files
+
+ vision-service/.gitignore                          |   7 +
+ vision-service/1.py                                |   1 -
+ vision-service/README.md                           | 219 +++++++
+ vision-service/calibration/__init__.py             |   1 +
+ vision-service/calibration/camera_config.yaml      |  71 +++
+ vision-service/calibration/homography.py           | 298 +++++++++
+ .../calibration/pick_reference_points.py           | 106 ++++
+ vision-service/config.yaml                         | 106 ++++
+ vision-service/data_pipeline/__init__.py           |   1 +
+ vision-service/data_pipeline/auto_label.py         | 467 ++++++++++++++
+ vision-service/data_pipeline/finetune.py           | 395 ++++++++++++
+ vision-service/data_pipeline/review_helpers.py     | 367 +++++++++++
+ vision-service/detector.py                         | 265 ++++++++
+ vision-service/evaluation/__init__.py              |   1 +
+ vision-service/evaluation/evaluate.py              | 443 ++++++++++++++
+ vision-service/event_publisher.py                  | 280 +++++++++
+ vision-service/incidents.py                        | 263 ++++++++
+ vision-service/main.py                             | 538 ++++++++++++++++
+ vision-service/output/events.jsonl                 |  41 ++
+ vision-service/requirements.txt                    |  29 +
+ vision-service/tests/test_calibration.py           |  92 +++
+ vision-service/tests/test_incidents.py             |  67 ++
+ vision-service/tests/test_violations.py            |  77 +++
+ vision-service/tests/test_zones.py                 |  42 ++
+ vision-service/tracker.py                          | 308 ++++++++++
+ vision-service/trackers/botsort_custom.yaml        |  28 +
+ vision-service/violations.py                       | 350 +++++++++++
+ vision-service/visualize_pipeline.py               | 679 +++++++++++++++++++++
+ vision-service/zones/__init__.py                   |   1 +
+ vision-service/zones/zone_config.yaml              |  51 ++
+ vision-service/zones/zone_utils.py                 | 322 ++++++++++
+ 31 files changed, 5915 insertions(+), 1 deletion(-)
+
+commit 409439f62a5c29cd45f0172e4327ddd5255d150b
+Author: Vishal-Murugadhas <vishalmdhas@gmail.com>
+Date:   Tue Aug 11 17:27:37 2026 +0530
+
+    Signal Optimizer made
+
+ docs/sumo_results.md                               | 140 ++++++++
+ signal-optimizer/1.py                              |   1 -
+ signal-optimizer/README.md                         | 294 ++++++++++++++++
+ signal-optimizer/confidence.py                     | 139 ++++++++
+ signal-optimizer/event_modes.py                    | 168 ++++++++++
+ signal-optimizer/explain.py                        | 182 ++++++++++
+ signal-optimizer/green_wave.py                     | 193 +++++++++++
+ signal-optimizer/instructions.md                   | 290 ++++++++++++++++
+ signal-optimizer/max_pressure.py                   | 368 +++++++++++++++++++++
+ signal-optimizer/mock_event_feed.py                | 189 +++++++++++
+ signal-optimizer/prediction.py                     | 176 ++++++++++
+ signal-optimizer/priority.py                       | 186 +++++++++++
+ signal-optimizer/requirements.txt                  |   1 +
+ signal-optimizer/sumo/adaptive_timer.sumocfg       |  54 +++
+ signal-optimizer/sumo/fixed_timer.sumocfg          |  48 +++
+ signal-optimizer/sumo/network.net.xml              | 112 +++++++
+ .../sumo/output/adaptive_decisions.jsonl           |  80 +++++
+ signal-optimizer/sumo/routes.rou.xml               |  93 ++++++
+ signal-optimizer/sumo/traci_runner.py              | 349 +++++++++++++++++++
+ signal-optimizer/webster_formula.py                | 151 +++++++++
+ 20 files changed, 3213 insertions(+), 1 deletion(-)

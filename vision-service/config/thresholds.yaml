@@ -1,0 +1,189 @@
+# ============================================================
+# Detection, Tracking, Queue, BRTS, Camera & Confidence Thresholds
+# All tunable parameters in one place — no magic numbers in code
+# ============================================================
+
+# --- Detection Thresholds ---
+detection:
+  # Base confidence threshold
+  confidence_threshold: 0.45
+  # Lower threshold for small/distant objects in tiled inference
+  small_object_threshold: 0.35
+  # IoU threshold for detection fusion (full-frame + tiled)
+  fusion_iou_threshold: 0.50
+  # Image size for inference
+  image_size: 640
+  # FP16 for GPU inference
+  half_precision: true
+
+  # Per-scene-condition dynamic thresholds (Section 66)
+  scene_thresholds:
+    day: 0.45
+    night: 0.35
+    rain: 0.40
+    fog: 0.30
+    glare: 0.35
+    low_visibility: 0.30
+
+# --- Tiled Detection ---
+tiled_detection:
+  enabled: true
+  tile_size: 640
+  overlap: 0.20
+  # Trigger tiled inference when far-field confidence is below this
+  trigger_confidence: 0.50
+  # Minimum far-field object count drop to trigger
+  min_count_drop: 3
+
+# --- Temporal Confirmation (Section 17) ---
+temporal:
+  confirmation_frames: 3       # Frames required to confirm a track
+  max_missing_frames: 15       # Max frames a track survives without detection
+  class_switch_window: 10      # Window for class stability evaluation
+  critical_confirmation: 5     # Extra confirmation frames for critical classes
+
+# --- Tracking ---
+tracking:
+  tracker_config: "trackers/botsort_custom.yaml"
+  reid_threshold: 0.70
+  max_trajectory_length: 300   # ~30 seconds at 10 FPS
+
+  # Track quality score weights (Section 23)
+  quality_weights:
+    detection: 0.30
+    reid: 0.25
+    motion: 0.25
+    class_consistency: 0.20
+
+# --- Occlusion (Section 21) ---
+occlusion:
+  visible_threshold: 0.20      # < 0.20 occlusion ratio = visible
+  partial_threshold: 0.50      # 0.20–0.50 = partially occluded
+  # > 0.50 = heavily occluded
+
+# --- Lane Assignment (Section 36) ---
+lane_assignment:
+  # Scoring weights: distance, heading, trajectory
+  weights:
+    distance: 0.40
+    heading: 0.35
+    trajectory: 0.25
+  # Hysteresis margin to prevent oscillation (Section 37)
+  switch_margin: 0.15
+
+# --- Queue Detection (Section 40) ---
+queue:
+  speed_threshold_kmph: 5.0
+  probability_threshold: 0.70
+  smoothing_alpha: 0.30
+  # Queue probability weights
+  weights:
+    low_speed: 0.25
+    stop_line_distance: 0.15
+    red_signal: 0.15
+    following_density: 0.15
+    stop_duration: 0.15
+    group_continuity: 0.15
+
+# --- Speed Estimation (Section 47–48) ---
+speed:
+  # Adaptive window
+  fast_window_frames: 3        # Window for fast-moving vehicles
+  slow_window_frames: 10       # Window for slow/stationary vehicles
+  speed_boundary_kmph: 15.0    # Threshold between fast/slow
+  # EMA smoothing
+  ema_alpha: 0.30
+  # Outlier rejection
+  max_acceleration_mps2: 8.0   # Maximum plausible acceleration
+
+# --- PCU ---
+pcu:
+  confidence_weighted: true    # Weight PCU by detection confidence
+
+# --- BRTS Violation (Section 58–60) ---
+brts:
+  minimum_dwell_sec: 3.0
+  minimum_distance_m: 5.0
+  confirmation_probability: 0.80
+  authorized_classes: ["bus", "brts_bus"]
+  max_angle_to_corridor_deg: 30.0
+
+# --- Wrong-Way Detection (Section 61) ---
+wrong_way:
+  cosine_threshold: -0.3       # cos(theta) below this = wrong way
+  persistence_sec: 1.0         # Must persist for this duration
+  min_trajectory_points: 5     # Minimum trajectory length
+
+# --- Breakdown Detection (Section 62–63) ---
+breakdown:
+  speed_threshold_kmph: 2.0
+  candidate_duration_sec: 15.0
+  confirmed_duration_sec: 45.0
+  stop_line_exclusion_m: 5.0
+  roadside_distance_m: 3.0
+
+# --- Emergency Vehicle (Section 54–57) ---
+emergency:
+  confirmation_frames: 5
+  # Confidence fusion weights (Section 57)
+  weights:
+    visual: 0.35
+    beacon: 0.20
+    temporal: 0.20
+    heading: 0.15
+    audio: 0.10
+  preemption_threshold: 0.75
+
+# --- Camera Health (Section 28–33) ---
+camera:
+  blur_threshold: 100.0        # Laplacian variance below = blurry
+  freeze_threshold: 0.001      # Frame difference below = frozen
+  freeze_frames: 30            # Consecutive frozen frames to alert
+  brightness_low: 40           # Mean luminance below = dark
+  brightness_high: 220         # Mean luminance above = overexposed
+  vibration_threshold: 5.0     # Pixel displacement threshold
+  shift_threshold: 15.0        # Major camera shift threshold
+
+# --- Confidence (Section 49–53) ---
+confidence:
+  cautious_mode_threshold: 0.60
+  # Scene confidence weights (Section 50)
+  scene_weights:
+    detection: 0.30
+    tracking: 0.20
+    camera: 0.15
+    calibration: 0.15
+    visibility: 0.20
+
+# --- Preprocessing (Section 65) ---
+preprocessing:
+  enable_adaptive: true
+  luminance_threshold: 80
+  clahe_clip_limit: 3.0
+  clahe_grid_size: [8, 8]
+
+# --- Event Publisher ---
+publisher:
+  mode: "mock"
+  emit_interval_frames: 30
+  include_object_telemetry: false  # Debug: per-object JSON
+  mock:
+    output_dir: "output"
+    output_file: "output/events.jsonl"
+    pretty_print: true
+  kafka:
+    broker: "localhost:9092"
+    topic: "vision_events"
+
+# --- Failure Recording (Section 85) ---
+failure_recording:
+  enabled: true
+  output_dir: "failure_cases"
+  triggers:
+    low_confidence: 0.40
+    id_switch: true
+    lane_instability: true
+    brts_candidate: true
+    emergency_candidate: true
+    camera_shift: true
+    queue_inconsistency: true

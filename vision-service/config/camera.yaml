@@ -1,0 +1,62 @@
+# ============================================================
+# Camera Configuration — Per-camera calibration, sources, ROIs
+# ============================================================
+
+cameras:
+  junction_01:
+    name: "Gaurav Path - Towards Kargil Chowk"
+    source: "sample_videos/raw/Export__GauravPath - Towards Kargil Chowk_Monday July 27 2026122148  aa50cd0.avi"
+    fps: 20.0
+    resolution: [1920, 1080]
+    notes: "Gaurav Path towards Kargil Chowk — daytime footage"
+
+    # Homography reference points (pixel → world meters)
+    # Fill these from on-site measurements
+    calibration:
+      pixel_points:
+        - [400, 600]
+        - [1500, 600]
+        - [1600, 400]
+        - [300, 400]
+      world_points:
+        - [0.0, 0.0]
+        - [14.0, 0.0]
+        - [14.0, 20.0]
+        - [0.0, 20.0]
+
+    # Landmark positions for camera-shift detection (Section 32)
+    landmarks:
+      - name: "stop_line_left"
+        pixel: [350, 620]
+        tolerance_px: 10
+      - name: "stop_line_right"
+        pixel: [1550, 620]
+        tolerance_px: 10
+
+    # Far-field ROI for tiled detection (Section 13)
+    far_field:
+      polygon:
+        - [250, 300]
+        - [1650, 300]
+        - [1900, 720]
+        - [100, 720]
+
+  junction_02:
+    name: "Rokadiya Hanuman - Towards Bhatena"
+    source: "sample_videos/raw/Export__Rokadiya Hanuman-Towards Bhatena_Monday July 27 2026123151  e6f4a55.avi"
+    fps: 20.0
+    resolution: [1920, 1080]
+    notes: "Rokadiya Hanuman towards Bhatena — daytime footage"
+
+    calibration:
+      pixel_points: []
+      world_points: []
+
+    landmarks: []
+
+    far_field:
+      polygon:
+        - [200, 280]
+        - [1700, 280]
+        - [1920, 720]
+        - [0, 720]

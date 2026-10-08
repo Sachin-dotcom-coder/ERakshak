@@ -22,7 +22,7 @@ with_reid: false             # Set to false by default unless custom reid weight
 model: auto
 
 # --- Global Motion Compensation ---
-gmc_method: sparseOptFlow    # Camera motion compensation method
+gmc_method: none             # 'none' for fixed junction CCTV cameras; saves massive CPU overhead
 
 # --- Fuse Score ---
 fuse_score: true             # Fuse detection confidence with IoU for matching

@@ -1,0 +1,61 @@
+# ============================================================
+# Zone Configuration — Lane polygons, BRTS corridor, stop lines
+# Migrated from zones/zone_config.yaml with enhancements
+# ============================================================
+
+# Per-junction zone definitions
+junctions:
+  junction_01:
+    # Lane polygons in pixel coordinates
+    # These define the spatial regions for vehicle counting
+    lanes:
+      lane_NS_1:
+        polygon:
+          - [320, 400]
+          - [480, 400]
+          - [520, 720]
+          - [280, 720]
+        approach: "NS"
+        stop_line_y: 420
+
+      lane_NS_2:
+        polygon:
+          - [480, 400]
+          - [640, 400]
+          - [680, 720]
+          - [520, 720]
+        approach: "NS"
+        stop_line_y: 420
+
+      lane_EW_1:
+        polygon:
+          - [800, 200]
+          - [1200, 200]
+          - [1200, 350]
+          - [800, 350]
+        approach: "EW"
+        stop_line_y: 300
+
+      lane_EW_2:
+        polygon:
+          - [800, 350]
+          - [1200, 350]
+          - [1200, 500]
+          - [800, 500]
+        approach: "EW"
+        stop_line_y: 300
+
+    # BRTS corridor polygon
+    brts_corridor:
+      polygon:
+        - [180, 400]
+        - [320, 400]
+        - [280, 720]
+        - [140, 720]
+      direction_vector: [0, 1]   # Expected traffic direction
+      corridor_axis_deg: 180     # Degrees from North
+
+    # Stop line positions (world coordinates in meters)
+    stop_lines:
+      NS: [10.0, 0.0]
+      EW: [0.0, 10.0]

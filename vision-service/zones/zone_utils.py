@@ -29,8 +29,41 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import numpy as np
-from shapely.geometry import Point, Polygon
-from shapely.prepared import prep
+
+try:
+    from shapely.geometry import Point as ShapelyPoint, Polygon as ShapelyPolygon
+    from shapely.prepared import prep
+    SHAPELY_AVAILABLE = True
+except ImportError:
+    SHAPELY_AVAILABLE = False
+    class ShapelyPoint:
+        def __init__(self, x, y):
+            self.x = x
+            self.y = y
+    class ShapelyPolygon:
+        def __init__(self, coords):
+            self.coords = list(coords)
+        def contains(self, pt):
+            x, y = pt.x, pt.y
+            n = len(self.coords)
+            inside = False
+            p1x, p1y = self.coords[0]
+            for i in range(n + 1):
+                p2x, p2y = self.coords[i % n]
+                if y > min(p1y, p2y):
+                    if y <= max(p1y, p2y):
+                        if x <= max(p1x, p2x):
+                            if p1y != p2y:
+                                xinters = (y - p1y) * (p2x - p1x) / (p2y - p1y) + p1x
+                            if p1x == p2x or x <= xinters:
+                                inside = not inside
+                p1x, p1y = p2x, p2y
+            return inside
+    def prep(poly):
+        return poly
+
+Point = ShapelyPoint
+Polygon = ShapelyPolygon
 
 logger = logging.getLogger(__name__)
 

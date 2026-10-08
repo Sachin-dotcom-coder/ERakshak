@@ -1,0 +1,60 @@
+# ============================================================
+# Vehicle Class Taxonomy — E-Rakshak Vision Service
+# 9 custom Indian traffic classes with PCU weights
+#
+# P0-3 FIX: Added ambulance (7) and fire_truck (8).
+# These are used by the emergency vehicle detector and the
+# rlv_engine exemption list. Previously referenced in docs
+# but absent from the class map.
+# ============================================================
+
+classes:
+  0: "car"
+  1: "bus"
+  2: "brts_bus"
+  3: "truck"
+  4: "two_wheeler"
+  5: "auto_rickshaw"
+  6: "cycle"
+  7: "ambulance"        # P0-3: emergency vehicle (requires targeted training data)
+  8: "fire_truck"       # P0-3: emergency vehicle (requires targeted training data)
+
+# IRC:106 Passenger Car Unit equivalents
+# NOTE (P0-11): These weights are approximate defaults. They do not exactly
+# match IRC:106 tables because PCU varies with road width, traffic composition
+# and approach speed. Calibrate from Surat saturation-flow data when available.
+# Source: IRC:106-1990 "Guidelines for Capacity of Urban Roads in Plain Areas".
+pcu_weights:
+  car: 1.0
+  bus: 3.0
+  brts_bus: 3.0
+  truck: 3.0
+  two_wheeler: 0.5
+  auto_rickshaw: 0.8
+  cycle: 0.2
+  ambulance: 1.0        # treated as car-sized for capacity; always exempt from violations
+  fire_truck: 3.0       # treated as truck-sized
+
+# Critical classes requiring stronger temporal confirmation (min 5 frames)
+critical_classes:
+  - "ambulance"
+  - "fire_truck"
+  - "brts_bus"
+
+# Violation exemptions: these classes never generate RLV or BRTS violations
+# (emergency vehicles on active duty — confirm with legal advisor for Gujarat rules)
+violation_exempt_classes:
+  - "ambulance"
+  - "fire_truck"
+
+# COCO fallback mapping (stock model, before fine-tuning)
+# Note: ambulance and fire_truck cannot be detected by stock COCO IDs.
+# Fine-tuning is required for these classes.
+coco_to_custom:
+  1: "cycle"        # COCO "bicycle"
+  2: "car"          # COCO "car"
+  3: "two_wheeler"  # COCO "motorcycle"
+  5: "bus"          # COCO "bus"
+  7: "truck"        # COCO "truck"
+
+coco_vehicle_ids: [1, 2, 3, 5, 7]

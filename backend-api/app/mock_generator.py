@@ -7,14 +7,28 @@ from app.models import Junction, Lane, TrafficMetric, Violation, Recommendation
 from app.event_bus import event_bus
 from app.recommendations import run_recommendation_engine
 
+import sys
+import os
+from pathlib import Path
+
+# Add signal-optimizer to sys.path so MaxPressureController can be imported
+optimizer_path = Path(__file__).resolve().parent.parent.parent / "signal-optimizer"
+if str(optimizer_path) not in sys.path:
+    sys.path.insert(0, str(optimizer_path))
+
+try:
+    from max_pressure import MaxPressureController
+except ImportError:
+    MaxPressureController = None
+
 # Surat vehicle configurations
 VEHICLES = ["auto", "motorcycle", "car", "suv", "citybus", "truck"]
 VIOLATION_VEHICLES = ["auto", "motorcycle", "car", "suv"]
 PHASES = [
-    "Phase 1: North-South Green",
-    "Phase 2: North-South Left Turn",
-    "Phase 3: East-West Green",
-    "Phase 4: East-West Left Turn"
+    "Phase 1: Northbound Protected Green",
+    "Phase 2: Eastbound Protected Green",
+    "Phase 3: Southbound Protected Green",
+    "Phase 4: Westbound / BRTS Protected Green"
 ]
 
 async def start_mock_traffic_loop():
@@ -38,6 +52,15 @@ async def start_mock_traffic_loop():
         while True:
             junctions = db.query(Junction).all()
             for junction in junctions:
+                # Check if junction is actively receiving live Vision Service events (within last 15s)
+                latest_live_metric = db.query(TrafficMetric).join(Lane).filter(
+                    Lane.junction_id == junction.id
+                ).order_by(TrafficMetric.timestamp.desc()).first()
+
+                if latest_live_metric and (datetime.datetime.utcnow() - latest_live_metric.timestamp).total_seconds() < 15:
+                    # Skip mock simulation for this junction — let live Vision Service drive it!
+                    continue
+
                 # 1. Manage signal phases based on mode
                 if junction.id not in phase_counters:
                     phase_counters[junction.id] = 0
@@ -182,7 +205,7 @@ async def start_mock_traffic_loop():
                         })
 
                 # 4. Run rule-based recommendations engine
-                run_recommendation_engine(db, junction.id)
+                await run_recommendation_engine(db, junction.id)
                 
                 # Fetch recommendations to send count of current active ones
                 active_recs = db.query(Recommendation).filter(

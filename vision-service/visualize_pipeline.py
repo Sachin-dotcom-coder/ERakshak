@@ -48,6 +48,7 @@ from calibration.homography import CameraCalibrator
 from zones.zone_utils import ZoneManager
 from violations import ViolationDetector
 from incidents import IncidentDetector
+from event_publisher import create_publisher, build_junction_event
 
 # ─── Logging ─────────────────────────────────────────────────────────
 
@@ -426,6 +427,7 @@ class VisualizationPipeline:
             )
 
         self._zone_config_raw = zone_config  # Keep for polygon drawing
+        self._publisher = create_publisher(config.get("publisher", {}))
 
     def _load_camera_config(self, junction_id: str) -> dict:
         config_path = SCRIPT_DIR / "calibration" / "camera_config.yaml"
@@ -520,8 +522,12 @@ class VisualizationPipeline:
                     logger.info("End of video stream")
                     break
 
-                frame_count += 1
-                fps_frame_count += 1
+                # Frame skipping (skip 2 frames for fast real-time CPU performance)
+                for _ in range(2):
+                    cap.grab()
+
+                frame_count += 3
+                fps_frame_count += 3
                 timestamp = datetime.now(timezone.utc).isoformat()
 
                 # 1. Preprocess
@@ -615,9 +621,34 @@ class VisualizationPipeline:
                         f"{processing_fps:.1f} FPS | Tracks: {self._tracker.active_count}"
                     )
 
-                # Reset lane speed accumulators at emit interval
+                # Publish event contract at emit interval
                 emit_interval = self._config.get("publisher", {}).get("emit_interval_frames", 30)
                 if frame_count % emit_interval == 0:
+                    vehicles_for_zone = [
+                        {
+                            "pixel_point": v.bottom_center,
+                            "world_point": v.trajectory_world[-1] if v.trajectory_world else None,
+                            "class_name": v.class_name,
+                            "confidence": v.confidence,
+                        }
+                        for v in tracked_vehicles
+                    ]
+                    lane_occupancies = self._zone_manager.get_lane_occupancy(vehicles_for_zone)
+                    queue_lengths = {lid: self._calibrator.compute_queue_length(occ.vehicle_positions) for lid, occ in lane_occupancies.items()}
+                    avg_speeds = {lid: (sum(speeds)/len(speeds) if speeds else 0.0) for lid, speeds in lane_speeds.items()}
+                    
+                    event = build_junction_event(
+                        junction_id=self._junction_id,
+                        timestamp=timestamp,
+                        lighting_condition=lighting,
+                        lane_occupancies=lane_occupancies,
+                        queue_lengths=queue_lengths,
+                        avg_speeds=avg_speeds,
+                        brts_intrusions=brts_intrusions,
+                        lane_violations=lane_violations,
+                        stall_alerts=stall_alerts,
+                    )
+                    self._publisher.publish(event)
                     lane_speeds.clear()
 
         except KeyboardInterrupt:

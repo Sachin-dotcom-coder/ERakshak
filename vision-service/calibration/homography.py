@@ -253,10 +253,6 @@ class CameraCalibrator:
         speed_mps = total_dist_m / dt_seconds  # meters per second
         speed_kmph = speed_mps * 3.6           # convert to km/h
 
-        # Clamp speed to realistic urban junction range (max 120 km/h) to prevent
-        # horizon-line perspective distortion spikes
-        speed_kmph = min(speed_kmph, 120.0)
-
         return float(speed_kmph)
 
     def compute_density(
@@ -285,6 +281,11 @@ class CameraCalibrator:
     @property
     def homography_matrix(self) -> Optional[np.ndarray]:
         """The 3×3 homography matrix (pixel → world). None if not calibrated."""
+        return self._homography
+
+    @property
+    def homography(self) -> Optional[np.ndarray]:
+        """Alias for homography_matrix."""
         return self._homography
 
     @property
