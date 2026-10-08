@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
-import { Activity, Radio, TriangleAlert, Signal } from "lucide-react";
-import { fmtTime } from "@/lib/mock-traffic";
-import { SuratTrafficNexusLogo } from "./Logo";
+import { Activity, Wifi, WifiOff, TriangleAlert, Circle } from "lucide-react";
 
 type Props = {
   junctionsOnline: number;
@@ -11,6 +9,52 @@ type Props = {
   right?: React.ReactNode;
 };
 
+const TOTAL_JUNCTIONS = 22;
+
+function useClock() {
+  const [clock, setClock] = useState("--:--:--");
+  useEffect(() => {
+    const update = () => {
+      const now = new Date();
+      const ist = new Date(now.getTime() + 5.5 * 60 * 60 * 1000);
+      const h = String(ist.getUTCHours()).padStart(2, "0");
+      const m = String(ist.getUTCMinutes()).padStart(2, "0");
+      const s = String(ist.getUTCSeconds()).padStart(2, "0");
+      setClock(`${h}:${m}:${s}`);
+    };
+    update();
+    const id = setInterval(update, 1000);
+    return () => clearInterval(id);
+  }, []);
+  return clock;
+}
+
+/** 5-segment congestion bar — fills left to right */
+function CongestionBar({ value }: { value: number }) {
+  const filled = Math.ceil((value / 100) * 5);
+  const segs = [
+    { color: "#22d35a" },
+    { color: "#84cc16" },
+    { color: "#f59e0b" },
+    { color: "#f97316" },
+    { color: "#ef4444" },
+  ];
+  return (
+    <div className="congestion-bar w-20">
+      {segs.map((s, i) => (
+        <div
+          key={i}
+          className="congestion-bar-seg"
+          style={{
+            backgroundColor: s.color,
+            opacity: i < filled ? 1 : 0.15,
+          }}
+        />
+      ))}
+    </div>
+  );
+}
+
 export function TopStatusBar({
   junctionsOnline,
   intrusions,
@@ -18,103 +62,132 @@ export function TopStatusBar({
   connected,
   right,
 }: Props) {
-  const [clock, setClock] = useState<string>("--:--:--");
-  useEffect(() => {
-    const set = () => setClock(fmtTime(Date.now()));
-    set();
-    const id = setInterval(set, 1000);
-    return () => clearInterval(id);
-  }, []);
-
-  const tone =
+  const clock = useClock();
+  const congTone =
     avgCongestion > 70 ? "text-crit" : avgCongestion > 45 ? "text-warn" : "text-ok";
 
   return (
-    <header className="sticky top-0 z-20 border-b border-border bg-panel/95 backdrop-blur">
-      <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 px-3 py-2 lg:flex lg:flex-wrap lg:justify-between lg:px-4">
-        <div className="flex min-w-0 items-center gap-2.5">
-          <SuratTrafficNexusLogo className="h-6 w-6 shrink-0" />
-          <div className="min-w-0">
-            <div className="truncate text-sm font-bold tracking-tight">
-              TrafficSense <span className="text-primary">Surat</span>
-            </div>
-            <div className="label-xs truncate">
-              Surat City Police · Adaptive Traffic Control Room
-            </div>
+    <header className="sticky top-0 z-20 border-b border-border bg-panel/98 backdrop-blur-md">
+      <div className="flex items-center gap-0 h-12 px-4 overflow-x-auto">
+
+        {/* ── System name ───────────── */}
+        <div className="flex items-center gap-2.5 mr-6 shrink-0">
+          <div className="flex flex-col min-w-0">
+            <span className="text-sm font-bold tracking-tight leading-none">
+              E·<span className="text-primary">RAKSHAK</span>
+            </span>
+            <span className="label-xs" style={{ fontSize: 8 }}>
+              SURAT ADAPTIVE TRAFFIC CONTROL
+            </span>
           </div>
         </div>
 
-        <div className="col-span-2 flex flex-wrap items-center gap-x-5 gap-y-2 lg:col-auto">
-          <Stat
-            icon={<Signal className="h-3.5 w-3.5 text-ok" />}
-            label="Junctions online"
-            value={`${junctionsOnline}/${junctionsOnline}`}
+        {/* ── Divider ───────────────── */}
+        <div className="h-7 w-px bg-border mr-6 shrink-0" />
+
+        {/* ── Status chips ──────────── */}
+        <div className="flex items-center gap-5 mr-auto">
+
+          {/* WS Connection */}
+          <Chip
+            icon={
+              connected ? (
+                <Circle className="h-2 w-2 fill-ok text-ok animate-heartbeat" />
+              ) : (
+                <Circle className="h-2 w-2 fill-crit text-crit animate-blink" />
+              )
+            }
+            label="TELEMETRY"
+            value={connected ? "LIVE" : "OFFLINE"}
+            valueClass={connected ? "text-ok" : "text-crit"}
           />
+
+          {/* Junctions online */}
+          <Chip
+            icon={<Wifi className="h-3.5 w-3.5 text-primary" />}
+            label="JUNCTIONS"
+            value={`${junctionsOnline} / ${TOTAL_JUNCTIONS}`}
+            valueClass="text-foreground"
+          />
+
+          {/* BRTS Violations */}
           <div className="flex items-center gap-2">
             <TriangleAlert
-              className={`h-3.5 w-3.5 ${intrusions > 0 ? "text-crit" : "text-muted-foreground"}`}
+              className={`h-3.5 w-3.5 shrink-0 ${intrusions > 0 ? "text-crit" : "text-muted-foreground"}`}
             />
             <div>
-              <div className="label-xs">Active BRTS violations</div>
-              <div className="flex items-center gap-2">
+              <div className="label-xs">BRTS VIOLATIONS</div>
+              <div className="flex items-center gap-1.5">
                 <span
-                  className={`num inline-flex min-w-6 items-center justify-center border px-1.5 text-sm font-semibold ${
+                  className={`num inline-flex items-center justify-center min-w-[28px] h-5 border px-1.5 text-sm font-bold rounded-sm ${
                     intrusions > 0
-                      ? "animate-blink border-crit/60 bg-crit/15 text-crit"
+                      ? "animate-blink border-crit/50 bg-crit/15 text-crit"
                       : "border-border text-muted-foreground"
                   }`}
                 >
                   {intrusions}
                 </span>
+                {intrusions > 0 && (
+                  <span className="label-xs text-crit/70">ACTIVE</span>
+                )}
               </div>
             </div>
           </div>
-          <Stat
-            icon={<Activity className={`h-3.5 w-3.5 ${tone}`} />}
-            label="City congestion index"
-            value={`${avgCongestion}`}
-            valueClass={tone}
-          />
-          <Stat
-            icon={<Radio className="h-3.5 w-3.5 text-primary" />}
-            label="Telemetry"
-            value={connected ? "STREAMING" : "OFFLINE"}
-            valueClass={connected ? "text-primary" : "text-crit"}
-            dot
-          />
-          <div>
-            <div className="label-xs">IST</div>
-            <div className="num text-sm font-semibold tabular-nums">{clock}</div>
+
+          {/* Congestion index */}
+          <div className="flex items-center gap-2">
+            <Activity className={`h-3.5 w-3.5 shrink-0 ${congTone}`} />
+            <div>
+              <div className="label-xs">CITY CONGESTION</div>
+              <div className="flex items-center gap-2">
+                <span className={`num text-sm font-bold ${congTone}`}>
+                  {avgCongestion}
+                </span>
+                <CongestionBar value={avgCongestion} />
+              </div>
+            </div>
           </div>
-          {right}
+        </div>
+
+        {/* ── Right side ────────────── */}
+        <div className="flex items-center gap-4 ml-6 shrink-0">
+          {/* IST Clock */}
+          <div className="flex flex-col items-end">
+            <div className="label-xs">IST</div>
+            <div className="num text-sm font-semibold tabular-nums text-primary">
+              {clock}
+            </div>
+          </div>
+
+          {right && (
+            <>
+              <div className="h-7 w-px bg-border" />
+              {right}
+            </>
+          )}
         </div>
       </div>
     </header>
   );
 }
 
-function Stat({
+function Chip({
   icon,
   label,
   value,
   valueClass = "",
-  dot = false,
 }: {
   icon: React.ReactNode;
   label: string;
   value: string;
   valueClass?: string;
-  dot?: boolean;
 }) {
   return (
     <div className="flex items-center gap-2">
       <span className="shrink-0">{icon}</span>
       <div>
         <div className="label-xs">{label}</div>
-        <div className={`num flex items-center gap-1.5 text-sm font-semibold ${valueClass}`}>
-          {dot && <span className="h-1.5 w-1.5 animate-blink rounded-full bg-current" />}
-          {value}
-        </div>
+        <div className={`num text-sm font-semibold ${valueClass}`}>{value}</div>
       </div>
     </div>
   );

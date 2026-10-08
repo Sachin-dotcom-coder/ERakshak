@@ -70,7 +70,14 @@ function reducer(state: State, action: Action): State {
       const eventData = action.payload;
 
       const updatedJunctions = state.junctions.map((j) => {
-        if (j.id === eventData.junction_id || j.name === eventData.name) {
+        const eventNum = parseInt((eventData.junction_id || "").replace(/\D/g, "") || "0", 10);
+        const jNum = parseInt(j.id.replace(/\D/g, "") || "0", 10);
+        const isMatch =
+          j.id === eventData.junction_id ||
+          j.name === eventData.name ||
+          (eventNum > 0 && eventNum === jNum);
+
+        if (isMatch) {
           const avgQ = eventData.avg_queue_length_m ?? 0;
           const ci = Math.min(100, Math.max(5, Math.round(avgQ * 1.1)));
           // Allocate dynamic green duration calculated by Backend Max-Pressure Controller
@@ -269,7 +276,7 @@ export function useTrafficData() {
             junctions: fetchedJunctions,
             alerts: fetchedAlerts,
             predictions: fetchedPredictions,
-          },
+          } as any,
         });
       } catch (e) {
         console.warn("Failed to load initial REST traffic data, falling back to mock defaults", e);
@@ -300,29 +307,31 @@ export function useTrafficData() {
             if (data.type === "junction_update") {
               dispatch({ type: "UPDATE_JUNCTION_WS", payload: data });
             } else if (data.type === "new_violation") {
+              const uniqueId = `V-${data.id || "auto"}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
               dispatch({
                 type: "ALERT",
                 payload: {
-                  id: `V-${data.id}-${Date.now()}`,
+                  id: uniqueId,
                   type: "alert",
                   kind: data.violation_type?.includes("brts") ? "brts" : "violation",
                   severity: "critical",
                   junctionId: data.lane_id?.split("_")[0] || "J001",
                   junctionName: data.junction_name || "Surat Junction",
-                  message: `${data.vehicle_type?.toUpperCase()} intruded ${data.lane_name}`,
+                  message: `${data.vehicle_type?.toUpperCase() || "VEHICLE"} intruded ${data.lane_name || "BRTS Corridor"}`,
                   ts: Date.now(),
                 },
               });
             } else if (data.type === "new_recommendation") {
+              const uniqueId = `P-${data.id || "rec"}-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
               dispatch({
                 type: "PREDICTION",
                 payload: {
-                  id: `P-${data.id}-${Date.now()}`,
+                  id: uniqueId,
                   type: "prediction",
                   junctionId: data.junction_id,
-                  junctionName: data.junction_name,
-                  title: data.issue_type?.replace("_", " ").toUpperCase(),
-                  detail: data.suggested_action,
+                  junctionName: data.junction_name || "Surat Junction",
+                  title: data.issue_type?.replace("_", " ").toUpperCase() || "CORRIDOR OPTIMIZATION",
+                  detail: data.suggested_action || data.description || "Adaptive cycle balancing recommended",
                   confidence: data.severity === "critical" ? 95 : 85,
                   window: "Next 15m",
                   series: [
@@ -360,10 +369,68 @@ export function useTrafficData() {
       dispatch({ type: "TICK_DECAY" });
     }, 1000);
 
+    // 3. Real-time Live Detection Event Simulator (Person A YOLO stream across initial 5 cameras)
+    const activeCams = [
+      { id: "CAM-U01", jName: "Udhna Darwaja" },
+      { id: "CAM-R02", jName: "Ring Road / Delhi Gate" },
+      { id: "CAM-A03", jName: "Adajan Gam / Patia" },
+      { id: "CAM-P04", jName: "Piplod Junction" },
+      { id: "CAM-V05", jName: "Varachha / Sardar Chowk" },
+    ];
+    const vehicleClasses: DetectionEvent["objectClass"][] = ["car", "bus", "two-wheeler", "truck", "auto"];
+    const eventTypes: DetectionEvent["event"][] = [
+      "vehicle_entry",
+      "vehicle_entry",
+      "vehicle_exit",
+      "vehicle_exit",
+      "lane_violation",
+      "brts_intrusion",
+    ];
+
+    const detectionTimer = setInterval(() => {
+      const cam = activeCams[Math.floor(Math.random() * activeCams.length)];
+      const ev = eventTypes[Math.floor(Math.random() * eventTypes.length)];
+      const cls = vehicleClasses[Math.floor(Math.random() * vehicleClasses.length)];
+      const conf = Math.floor(82 + Math.random() * 17);
+      const uid = `DET-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+
+      dispatch({
+        type: "DETECTION",
+        payload: {
+          id: uid,
+          ts: Date.now(),
+          cameraId: cam.id,
+          junctionName: cam.jName,
+          event: ev,
+          objectClass: cls,
+          confidence: conf,
+          note: ev === "brts_intrusion" ? `dwell ${(1.8 + Math.random() * 4).toFixed(1)}s` : undefined,
+        },
+      });
+
+      // If it's a BRTS intrusion, occasionally broadcast live alert
+      if (ev === "brts_intrusion" && Math.random() < 0.35) {
+        dispatch({
+          type: "ALERT",
+          payload: {
+            id: `V-LIVE-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+            type: "alert",
+            kind: "brts",
+            severity: "critical",
+            junctionId: cam.id,
+            junctionName: cam.jName,
+            message: `${cls.toUpperCase()} unauthorized entry on BRTS corridor`,
+            ts: Date.now(),
+          },
+        });
+      }
+    }, 2000);
+
     return () => {
       if (socket) socket.close();
       if (reconnectTimeout) clearTimeout(reconnectTimeout);
       clearInterval(countdownTimer);
+      clearInterval(detectionTimer);
     };
   }, []);
 

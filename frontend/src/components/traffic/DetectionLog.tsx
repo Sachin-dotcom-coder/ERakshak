@@ -200,7 +200,7 @@ export function DetectionLog({
                   />
                   <Area type="monotone" dataKey="cars" name="Cars" stackId="1" stroke="#00f3ff" fill="#00f3ff" fillOpacity={0.4} />
                   <Area type="monotone" dataKey="autos" name="Autos" stackId="1" stroke="#ffcc00" fill="#ffcc00" fillOpacity={0.4} />
-                  <Area type="monotone" dataKey="twoWheelers" name="2-Wheelers" stackId="1" stroke="#a855f7" fill="#a855f7" fillOpacity={0.4} />
+                  <Area type="monotone" dataKey="twoWheelers" name="2-Wheelers" stackId="1" stroke="#38bdf8" fill="#38bdf8" fillOpacity={0.4} />
                   <Area type="monotone" dataKey="buses" name="Buses" stackId="1" stroke="#00ff88" fill="#00ff88" fillOpacity={0.4} />
                 </AreaChart>
               </ResponsiveContainer>

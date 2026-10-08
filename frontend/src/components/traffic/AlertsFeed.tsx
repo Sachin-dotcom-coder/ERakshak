@@ -47,10 +47,10 @@ export function AlertsFeed({
             <button
               key={t.id}
               onClick={() => setFilter(t.id)}
-              className={`border px-2 py-1 text-[11px] font-medium transition-colors ${
+              className={`rounded-lg px-2.5 py-1 text-[11px] font-semibold transition-all ${
                 filter === t.id
-                  ? "border-primary/50 bg-primary/15 text-primary"
-                  : "border-border bg-panel-raised text-muted-foreground hover:text-foreground"
+                  ? "bg-foreground text-background shadow-sm"
+                  : "bg-panel-raised text-muted-foreground hover:text-foreground border border-border"
               }`}
             >
               {t.label}
@@ -64,7 +64,7 @@ export function AlertsFeed({
           <div className="label-xs mb-2 flex items-center gap-1.5">
             <Radio className="h-3.5 w-3.5 text-crit" /> Real-time alerts
           </div>
-          <div className="max-h-72 space-y-1.5 overflow-y-auto pr-1">
+          <div className="max-h-36 2xl:max-h-52 space-y-1.5 overflow-y-auto pr-1">
             {visibleAlerts.map((a) => (
               <AlertRow key={a.id} alert={a} onClick={() => onSelectJunction(a.junctionId)} />
             ))}
@@ -78,13 +78,14 @@ export function AlertsFeed({
 
         {showPredictions && (
           <div className="min-w-0 border-l-0 lg:border-l lg:border-border lg:pl-3">
-            <div className="label-xs mb-2 flex items-center gap-1.5">
-              <Brain className="h-3.5 w-3.5 text-predict" /> Predictive recommendations
-              <span className="num border border-predict/40 bg-predict/10 px-1 text-[9px] text-predict">
+            <div className="label-xs mb-2 flex items-center gap-1.5 text-muted-foreground font-semibold">
+              <Brain className="h-3.5 w-3.5 text-sky-400" />
+              <span>Predictive recommendations</span>
+              <span className="num rounded-md border border-sky-500/30 bg-sky-500/10 px-1.5 py-0.5 text-[9px] font-mono font-bold text-sky-400 tracking-wider">
                 MODEL v2.4
               </span>
             </div>
-            <div className="max-h-72 space-y-2 overflow-y-auto pr-1">
+            <div className="max-h-36 2xl:max-h-52 space-y-2 overflow-y-auto pr-1">
               {predictions.map((p) => (
                 <PredictionCard
                   key={p.id}
@@ -113,7 +114,7 @@ function AlertRow({ alert, onClick }: { alert: Alert; onClick: () => void }) {
   return (
     <button
       onClick={onClick}
-      className={`grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-2 border border-border border-l-2 ${tone.b} ${tone.bg} px-2 py-1.5 text-left transition-colors hover:bg-panel-raised`}
+      className={`grid w-full grid-cols-[auto_minmax(0,1fr)_auto] items-start gap-2.5 rounded-lg border border-border border-l-2 ${tone.b} ${tone.bg} px-2.5 py-2 text-left transition-colors hover:bg-panel-raised`}
     >
       <Icon className={`mt-0.5 h-3.5 w-3.5 shrink-0 ${tone.c}`} />
       <span className="min-w-0">
@@ -145,20 +146,20 @@ function PredictionCard({
   return (
     <button
       onClick={onClick}
-      className="w-full border border-predict/40 bg-predict/[0.08] p-2.5 text-left transition-colors hover:bg-predict/[0.14]"
+      className="w-full rounded-xl border border-sky-500/25 bg-sky-500/[0.04] p-3 text-left transition-all hover:bg-sky-500/[0.08] hover:border-sky-500/45 shadow-sm"
     >
       <div className="grid grid-cols-[minmax(0,1fr)_auto] items-start gap-2">
         <div className="min-w-0">
-          <div className="num text-[10px] uppercase tracking-wider text-predict">
+          <div className="num text-[10px] uppercase font-mono font-bold tracking-wider text-sky-400">
             {prediction.junctionName} · {prediction.window}
           </div>
-          <div className="mt-0.5 text-[12px] font-semibold leading-snug">
+          <div className="mt-1 text-[13px] font-bold text-foreground leading-snug">
             {prediction.title}
           </div>
         </div>
         <div className="shrink-0 text-right">
-          <div className="label-xs">Confidence</div>
-          <div className="num text-sm font-semibold text-predict">
+          <div className="label-xs text-muted-foreground">Confidence</div>
+          <div className="num text-sm font-mono font-bold text-sky-400">
             {prediction.confidence}%
           </div>
         </div>
@@ -166,20 +167,20 @@ function PredictionCard({
       <p className="mt-1.5 text-[11px] leading-relaxed text-muted-foreground">
         {prediction.detail}
       </p>
-      <div className="mt-2 h-10 w-full">
+      <div className="mt-2.5 h-10 w-full">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={prediction.series} margin={{ top: 2, right: 0, left: 0, bottom: 0 }}>
             <defs>
               <linearGradient id={`pr-${prediction.id}`} x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="var(--predict)" stopOpacity={0.55} />
-                <stop offset="100%" stopColor="var(--predict)" stopOpacity={0} />
+                <stop offset="0%" stopColor="#38bdf8" stopOpacity={0.35} />
+                <stop offset="100%" stopColor="#38bdf8" stopOpacity={0} />
               </linearGradient>
             </defs>
             <Area
               type="monotone"
               dataKey="v"
-              stroke="var(--predict)"
-              strokeWidth={1.3}
+              stroke="#38bdf8"
+              strokeWidth={1.5}
               fill={`url(#pr-${prediction.id})`}
               isAnimationActive={false}
             />
