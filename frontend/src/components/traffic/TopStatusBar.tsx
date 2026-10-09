@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Activity, Wifi, TriangleAlert, Circle, Clock, Hexagon } from "lucide-react";
+import { Activity, Wifi, TriangleAlert, Circle, Clock } from "lucide-react";
+import { SuratTrafficNexusLogo } from "./Logo";
 
 type Props = {
   junctionsOnline: number;
@@ -73,9 +74,7 @@ export function TopStatusBar({
 
         {/* ── System Branding ───────────── */}
         <div className="flex items-center gap-3 mr-2 shrink-0">
-          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/25 shadow-inner">
-            <Hexagon className="h-5 w-5 text-primary" strokeWidth={1.8} />
-          </div>
+          <SuratTrafficNexusLogo showBadge />
           <div className="flex flex-col min-w-0">
             <div className="flex items-center gap-2">
               <span className="text-base font-extrabold tracking-tight text-foreground leading-none">

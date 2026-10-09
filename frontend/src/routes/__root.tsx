@@ -78,13 +78,13 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "TrafficSense Surat — Adaptive Traffic Command Centre" },
+      { title: "E-Rakshak Surat — Adaptive Traffic Command Centre" },
       {
         name: "description",
         content:
           "Real-time adaptive traffic management command centre for Surat City Police — junctions, BRTS corridor enforcement and predictive congestion control.",
       },
-      { name: "author", content: "TrafficSense Surat" },
+      { name: "author", content: "E-Rakshak Surat" },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -99,6 +99,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap",
       },
+      { rel: "icon", href: "/favicon.svg", type: "image/svg+xml" },
       { rel: "icon", href: "/favicon.ico", type: "image/x-icon" },
     ],
   }),

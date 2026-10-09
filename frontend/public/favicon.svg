@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="whiteGradFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="50%" stop-color="#f1f5f9"/>
+      <stop offset="100%" stop-color="#00f3ff"/>
+    </linearGradient>
+    <linearGradient id="shieldGradFav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff"/>
+      <stop offset="100%" stop-color="#cbd5e1"/>
+    </linearGradient>
+  </defs>
+
+  {/* Background */}
+  <rect width="48" height="48" rx="10" fill="#0f172a"/>
+
+  {/* Outer Shield Crest */}
+  <path d="M24 3 L40 10 V34 L24 45 L8 34 V10 Z" stroke="url(#shieldGradFav)" stroke-width="2" stroke-linejoin="round" fill="url(#whiteGradFav)"/>
+
+  {/* Dark Capsule for Lenses */}
+  <rect x="16.5" y="9.5" width="15" height="29" rx="7.5" fill="#0f172a" stroke="#334155" stroke-width="1.6"/>
+
+  {/* Hood Visors */}
+  <path d="M17 14.5 C 20 12, 28 12, 31 14.5" stroke="#f8fafc" stroke-width="1.2" fill="none" opacity="0.9"/>
+  <path d="M17 23.5 C 20 21, 28 21, 31 23.5" stroke="#f8fafc" stroke-width="1.2" fill="none" opacity="0.9"/>
+  <path d="M17 32.5 C 20 30, 28 30, 31 32.5" stroke="#f8fafc" stroke-width="1.2" fill="none" opacity="0.9"/>
+
+  {/* Red Light */}
+  <circle cx="24" cy="15" r="3.4" fill="#ff2a4b"/>
+  <circle cx="22.8" cy="13.8" r="1.1" fill="#ffffff" opacity="0.9"/>
+
+  {/* Amber Light */}
+  <circle cx="24" cy="24" r="3.4" fill="#ffb700"/>
+  <circle cx="22.8" cy="22.8" r="1.1" fill="#ffffff" opacity="0.9"/>
+
+  {/* Green Light */}
+  <circle cx="24" cy="33" r="3.4" fill="#00ff88"/>
+  <circle cx="22.8" cy="31.8" r="1.1" fill="#ffffff" opacity="0.9"/>
+</svg>

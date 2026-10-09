@@ -1,5 +1,6 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Map, Camera, BarChart3, Hexagon } from "lucide-react";
+import { Map, Camera, BarChart3 } from "lucide-react";
+import { SuratTrafficNexusLogo } from "./Logo";
 import type { ReactNode } from "react";
 
 const NAV = [
@@ -17,9 +18,7 @@ export function AppShell({ children }: { children: ReactNode }) {
       <nav className="nav-rail shrink-0 h-screen">
         {/* Logo */}
         <div className="mb-4 flex flex-col items-center gap-1 px-2">
-          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary/10 border border-primary/20">
-            <Hexagon className="h-5 w-5 text-primary" strokeWidth={1.5} />
-          </div>
+          <SuratTrafficNexusLogo showBadge />
         </div>
 
         {/* Nav items */}

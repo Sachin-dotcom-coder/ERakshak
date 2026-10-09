@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Shield, KeyRound, Mail, AlertCircle, Loader2 } from 'lucide-react';
+import { KeyRound, Mail, AlertCircle, Loader2 } from 'lucide-react';
+import { SuratTrafficNexusLogo } from './traffic/Logo';
 
 interface loginmodalProps {
   onLoginSuccess: (data: { access_token: string; role: string }) => void;
@@ -74,9 +75,8 @@ export default function loginmodal({ onLoginSuccess }: loginmodalProps) {
         <div className="absolute top-0 left-0 w-full h-0.5 bg-primary/40" />
 
         <div className="flex flex-col items-center mb-8">
-          <div className="h-14 w-14 bg-panel-raised border border-border rounded-xl flex items-center justify-center mb-5 relative shadow-inner">
-             <Shield className="w-6 h-6 text-primary" />
-             <div className="absolute -inset-1 border border-primary/30 rounded-xl animate-pulse-ring" />
+          <div className="mb-4">
+            <SuratTrafficNexusLogo showBadge />
           </div>
           <h2 className="text-xl font-bold tracking-tight text-foreground uppercase">E-Rakshak Portal</h2>
           <p className="label-xs text-muted-foreground mt-2">Traffic Intelligence Core v2.0</p>
