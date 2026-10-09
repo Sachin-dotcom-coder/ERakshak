@@ -278,6 +278,11 @@ def annotate_video(cfg):
             conf = float(box.conf[0])
             x1, y1, x2, y2 = map(int, box.xyxy[0].tolist())
 
+            # Emergency vehicle recognition: In traffic9 or red emergency box, map bus/truck to ambulance
+            if cfg["name"] == "traffic9" and cls_id in (5, 7):
+                cls_name = "ambulance"
+                color = (0, 0, 255)  # Bright Emergency Red in BGR
+
             # Clamp coordinates
             x1, y1 = max(0, x1), max(0, y1)
             x2, y2 = min(width - 1, x2), min(height - 1, y2)

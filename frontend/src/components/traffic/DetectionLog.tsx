@@ -66,6 +66,7 @@ export function DetectionLog({
       else if (cls === "auto") map[timeStr].autos++;
       else if (cls === "bus" || cls === "citybus") map[timeStr].buses++;
       else if (cls === "truck") map[timeStr].trucks++;
+      else if (cls === "ambulance") map[timeStr].cars++;
       else map[timeStr].twoWheelers++;
     });
     return Object.values(map).slice(-15);
@@ -260,7 +261,14 @@ export function DetectionLog({
                 <span className={EVENT_TONE[e.event]}>{e.event}</span>
                 <span className="text-muted-foreground">
                   {" "}
-                  cls={e.objectClass} conf={(e.confidence / 100).toFixed(2)}
+                  {e.objectClass === "ambulance" ? (
+                    <span className="text-red-400 font-bold bg-red-950/60 px-1 py-0.5 rounded border border-red-500/40">
+                      cls=ambulance 🚨
+                    </span>
+                  ) : (
+                    `cls=${e.objectClass}`
+                  )}{" "}
+                  conf={(e.confidence / 100).toFixed(2)}
                   {e.note ? ` ${e.note}` : ""}
                 </span>
               </span>

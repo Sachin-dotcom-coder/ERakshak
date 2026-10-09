@@ -164,17 +164,21 @@ for vpath in video_files:
                             best_lane = lname
                 assigned_lane = best_lane
 
+            # Snap ambulance for traffic9
+            if fname == "traffic9.mp4" and obj_class in ("bus", "truck"):
+                obj_class = "ambulance"
+
             # Determine event type
             if is_brts:
-                if obj_class == "bus":
+                if obj_class in ("bus", "ambulance"):
                     event_type = "vehicle_entry"
-                    note = "Authorized BRTS Transit"
+                    note = "Authorized BRTS Transit" if obj_class == "bus" else "🚨 Emergency Ambulance Transit"
                 else:
                     event_type = "brts_intrusion"
                     note = f"⚠️ Corridor Intrusion • {assigned_lane}"
             else:
                 event_type = "vehicle_entry"
-                note = f"{assigned_lane} • Active Flow"
+                note = f"🚨 AMBULANCE 108 • {assigned_lane}" if obj_class == "ambulance" else f"{assigned_lane} • Active Flow"
 
             frame_events.append({
                 "timeSec": t_sec,

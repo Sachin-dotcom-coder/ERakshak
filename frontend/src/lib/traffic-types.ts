@@ -96,7 +96,7 @@ export type DetectionEvent = {
   cameraId: string;
   junctionName: string;
   event: "vehicle_entry" | "vehicle_exit" | "lane_violation" | "brts_intrusion";
-  objectClass: "car" | "bus" | "two-wheeler" | "truck" | "auto";
+  objectClass: "car" | "bus" | "two-wheeler" | "truck" | "auto" | "ambulance";
   confidence: number;
   note?: string | undefined;
 };
