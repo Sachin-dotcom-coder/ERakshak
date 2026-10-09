@@ -1,5 +1,5 @@
-// Real-time video mappings for 5 active camera footages (with cache-buster to ensure newly annotated lane borders load immediately)
-const CACHE_KEY = "?v=lanes_live";
+// Real-time video mappings for all active camera footages (with cache-buster to ensure newly annotated lane borders load immediately)
+const CACHE_KEY = `?v=polygons_${Date.now()}`;
 
 export const LIVE_FEEDS: Record<string, string> = {
   "JN-01": `/videos/traffic1.mp4${CACHE_KEY}`,
@@ -7,11 +7,19 @@ export const LIVE_FEEDS: Record<string, string> = {
   "JN-03": `/videos/traffic3.mp4${CACHE_KEY}`,
   "JN-04": `/videos/traffic4.mp4${CACHE_KEY}`,
   "JN-05": `/videos/traffic5.mp4${CACHE_KEY}`,
+  "JN-06": `/videos/traffic6.mp4${CACHE_KEY}`,
+  "JN-07": `/videos/traffic7.mp4${CACHE_KEY}`,
+  "JN-08": `/videos/traffic8.mp4${CACHE_KEY}`,
+  "JN-09": `/videos/traffic9.mp4${CACHE_KEY}`,
   "J001": `/videos/traffic1.mp4${CACHE_KEY}`,
   "J002": `/videos/traffic2.mp4${CACHE_KEY}`,
   "J003": `/videos/traffic3.mp4${CACHE_KEY}`,
   "J004": `/videos/traffic4.mp4${CACHE_KEY}`,
   "J005": `/videos/traffic5.mp4${CACHE_KEY}`,
+  "J006": `/videos/traffic6.mp4${CACHE_KEY}`,
+  "J007": `/videos/traffic7.mp4${CACHE_KEY}`,
+  "J008": `/videos/traffic8.mp4${CACHE_KEY}`,
+  "J009": `/videos/traffic9.mp4${CACHE_KEY}`,
   "CAM-U01": `/videos/traffic1.mp4${CACHE_KEY}`,
   "CAM-R02": `/videos/traffic2.mp4${CACHE_KEY}`,
   "CAM-A03": `/videos/traffic3.mp4${CACHE_KEY}`,
@@ -30,8 +38,14 @@ export const LIVE_FEEDS: Record<string, string> = {
   "CAM-07": `/videos/traffic7.mp4${CACHE_KEY}`,
   "CAM-08": `/videos/traffic8.mp4${CACHE_KEY}`,
   "CAM-09": `/videos/traffic9.mp4${CACHE_KEY}`,
-  "JN-09": `/videos/traffic9.mp4${CACHE_KEY}`,
-  "J009": `/videos/traffic9.mp4${CACHE_KEY}`,
+  "traffic1": `/videos/traffic1.mp4${CACHE_KEY}`,
+  "traffic2": `/videos/traffic2.mp4${CACHE_KEY}`,
+  "traffic3": `/videos/traffic3.mp4${CACHE_KEY}`,
+  "traffic4": `/videos/traffic4.mp4${CACHE_KEY}`,
+  "traffic5": `/videos/traffic5.mp4${CACHE_KEY}`,
+  "traffic6": `/videos/traffic6.mp4${CACHE_KEY}`,
+  "traffic7": `/videos/traffic7.mp4${CACHE_KEY}`,
+  "traffic8": `/videos/traffic8.mp4${CACHE_KEY}`,
   "traffic9": `/videos/traffic9.mp4${CACHE_KEY}`,
 };
 

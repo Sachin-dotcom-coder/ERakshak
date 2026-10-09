@@ -23,24 +23,112 @@ VEHICLE_CLASSES = {
     7: ("truck", (220, 80, 255)),
 }
 
+try:
+    import imageio_ffmpeg
+    FFMPEG_EXE = imageio_ffmpeg.get_ffmpeg_exe()
+except Exception:
+    FFMPEG_EXE = "ffmpeg"
+
 VIDEOS_TO_PROCESS = [
     {
         "name": "traffic1",
         "input": PUBLIC_VIDEOS / "traffic_demo.mp4",
         "output": PUBLIC_VIDEOS / "traffic1.mp4",
-        "max_frames": 400,
+        "max_frames": 141,
+        "has_brts": True,
+        "brts_pts": np.array([
+            [747, 113],
+            [827, 116],
+            [791, 1029],
+            [250, 1006]
+        ], dtype=np.int32),
+        "lane_1_pts": np.array([
+            [849, 145],
+            [928, 144],
+            [1376, 976],
+            [967, 1027]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [909, 103],
+            [967, 103],
+            [1728, 948],
+            [1431, 1015]
+        ], dtype=np.int32)
+    },
+    {
+        "name": "traffic2",
+        "input": PUBLIC_VIDEOS / "raw_traffic1.mp4",
+        "output": PUBLIC_VIDEOS / "traffic2.mp4",
+        "max_frames": 141,
+        "has_brts": True,
+        "brts_pts": np.array([
+            [747, 113],
+            [827, 116],
+            [791, 1029],
+            [250, 1006]
+        ], dtype=np.int32),
+        "lane_1_pts": np.array([
+            [849, 145],
+            [928, 144],
+            [1376, 976],
+            [967, 1027]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [909, 103],
+            [967, 103],
+            [1728, 948],
+            [1431, 1015]
+        ], dtype=np.int32)
     },
     {
         "name": "traffic3",
         "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic3.mp4",
         "output": PUBLIC_VIDEOS / "traffic3.mp4",
         "max_frames": 141,
+        "has_brts": True,
+        "brts_pts": np.array([
+            [523, 18],
+            [592, 20],
+            [566, 732],
+            [153, 706]
+        ], dtype=np.int32),
+        "lane_1_pts": np.array([
+            [611, 13],
+            [660, 10],
+            [1023, 728],
+            [710, 754]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [666, 12],
+            [717, 7],
+            [1313, 689],
+            [1064, 751]
+        ], dtype=np.int32)
     },
     {
         "name": "traffic4",
         "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic4.mp4",
         "output": PUBLIC_VIDEOS / "traffic4.mp4",
         "max_frames": 141,
+        "has_brts": True,
+        "brts_pts": np.array([
+            [523, 18],
+            [592, 20],
+            [566, 732],
+            [153, 706]
+        ], dtype=np.int32),
+        "lane_1_pts": np.array([
+            [611, 13],
+            [660, 10],
+            [1023, 728],
+            [710, 754]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [666, 12],
+            [717, 7],
+            [1313, 689],
+            [1064, 751]
+        ], dtype=np.int32)
     },
     {
         "name": "traffic5",
@@ -48,6 +136,24 @@ VIDEOS_TO_PROCESS = [
         "output": PUBLIC_VIDEOS / "traffic5.mp4",
         "max_frames": 141,
         "has_brts": True,
+        "brts_pts": np.array([
+            [523, 18],
+            [592, 20],
+            [566, 732],
+            [153, 706]
+        ], dtype=np.int32),
+        "lane_1_pts": np.array([
+            [611, 13],
+            [660, 10],
+            [1023, 728],
+            [710, 754]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [666, 12],
+            [717, 7],
+            [1313, 689],
+            [1064, 751]
+        ], dtype=np.int32)
     },
     {
         "name": "traffic6",
@@ -162,13 +268,13 @@ def annotate_video(cfg):
         print(f"ERROR: Cannot open {input_path}")
         return
 
-    fps = cap.get(cv2.CAP_PROP_FPS) or 20.0
+    fps = cap.get(cv2.CAP_PROP_FPS) or 24.0
     width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH))
     height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
     total_frames = int(cap.get(cv2.CAP_PROP_FRAME_COUNT))
     limit = min(total_frames, cfg["max_frames"])
 
-    # Scale polygon coordinates from 1920x1080 native standard
+    # Scale polygon coordinates from 1920x1080 native standard if not provided natively
     sx = width / 1920.0
     sy = height / 1080.0
 
@@ -213,6 +319,18 @@ def annotate_video(cfg):
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     out = cv2.VideoWriter(temp_avi, fourcc, fps, (width, height))
 
+    def draw_tag(img, text, center, border_col, fill_col=(18, 18, 24)):
+        font = cv2.FONT_HERSHEY_SIMPLEX
+        scale = 0.55
+        thick = 1
+        (tw, th), bl = cv2.getTextSize(text, font, scale, thick)
+        x = center[0] - tw // 2
+        y = center[1] + th // 2
+        pad = 5
+        cv2.rectangle(img, (x - pad, y - th - pad), (x + tw + pad, y + pad), fill_col, -1)
+        cv2.rectangle(img, (x - pad, y - th - pad), (x + tw + pad, y + pad), border_col, 1)
+        cv2.putText(img, text, (x, y), font, scale, (255, 255, 255), thick, cv2.LINE_AA)
+
     frame_idx = 0
     while frame_idx < limit:
         ret, frame = cap.read()
@@ -224,21 +342,21 @@ def annotate_video(cfg):
 
         # BRTS Corridor: Red
         if cfg.get("has_brts", True):
-            cv2.fillPoly(overlay, [brts_pts], (0, 0, 255))
-            cv2.polylines(frame, [brts_pts], isClosed=True, color=(0, 0, 255), thickness=3)
+            cv2.fillPoly(overlay, [brts_pts], (0, 0, 240))
+            cv2.polylines(frame, [brts_pts], isClosed=True, color=(0, 0, 255), thickness=2)
 
         # Lane 1: Green
-        cv2.fillPoly(overlay, [lane_1_pts], (0, 220, 0))
-        cv2.polylines(frame, [lane_1_pts], isClosed=True, color=(0, 220, 0), thickness=2)
+        cv2.fillPoly(overlay, [lane_1_pts], (0, 200, 0))
+        cv2.polylines(frame, [lane_1_pts], isClosed=True, color=(0, 240, 0), thickness=2)
 
         # Lane 2: Sky Blue / Cyan
-        cv2.fillPoly(overlay, [lane_2_pts], (255, 140, 0))
-        cv2.polylines(frame, [lane_2_pts], isClosed=True, color=(255, 140, 0), thickness=2)
+        cv2.fillPoly(overlay, [lane_2_pts], (235, 130, 0))
+        cv2.polylines(frame, [lane_2_pts], isClosed=True, color=(255, 150, 0), thickness=2)
 
         # Lane 3: Yellow/Cyan (if defined)
         if lane_3_pts is not None:
-            cv2.fillPoly(overlay, [lane_3_pts], (0, 255, 255))
-            cv2.polylines(frame, [lane_3_pts], isClosed=True, color=(0, 255, 255), thickness=2)
+            cv2.fillPoly(overlay, [lane_3_pts], (0, 210, 240))
+            cv2.polylines(frame, [lane_3_pts], isClosed=True, color=(0, 230, 255), thickness=2)
 
         # Blend semi-transparent lane color fill (15% opacity)
         cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
@@ -248,23 +366,23 @@ def annotate_video(cfg):
             M_b = cv2.moments(brts_pts)
             if M_b["m00"] != 0:
                 cx, cy = int(M_b["m10"] / M_b["m00"]), int(M_b["m01"] / M_b["m00"])
-                cv2.putText(frame, "BRTS", (cx - int(25 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75 * sy, (255, 255, 255), 2, cv2.LINE_AA)
+                draw_tag(frame, "BRTS CORRIDOR", (cx, cy), (0, 0, 255))
 
         M_1 = cv2.moments(lane_1_pts)
         if M_1["m00"] != 0:
             cx, cy = int(M_1["m10"] / M_1["m00"]), int(M_1["m01"] / M_1["m00"])
-            cv2.putText(frame, "LANE 1", (cx - int(30 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.65 * sy, (255, 255, 255), 2, cv2.LINE_AA)
+            draw_tag(frame, "LANE 1", (cx, cy), (0, 220, 0))
 
         M_2 = cv2.moments(lane_2_pts)
         if M_2["m00"] != 0:
             cx, cy = int(M_2["m10"] / M_2["m00"]), int(M_2["m01"] / M_2["m00"])
-            cv2.putText(frame, "LANE 2", (cx - int(30 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.65 * sy, (255, 255, 255), 2, cv2.LINE_AA)
+            draw_tag(frame, "LANE 2", (cx, cy), (255, 140, 0))
             
         if lane_3_pts is not None:
             M_3 = cv2.moments(lane_3_pts)
             if M_3["m00"] != 0:
                 cx, cy = int(M_3["m10"] / M_3["m00"]), int(M_3["m01"] / M_3["m00"])
-                cv2.putText(frame, "LANE 3", (cx - int(30 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.65 * sy, (255, 255, 255), 2, cv2.LINE_AA)
+                draw_tag(frame, "LANE 3", (cx, cy), (0, 230, 255))
 
         # 2. Run Real YOLO Inference for Vehicles
         results = model(frame, conf=0.28, iou=0.45, verbose=False)[0]
@@ -287,12 +405,23 @@ def annotate_video(cfg):
             x1, y1 = max(0, x1), max(0, y1)
             x2, y2 = min(width - 1, x2), min(height - 1, y2)
 
+            # Check BRTS intrusion
+            bottom_center = ((x1 + x2) / 2.0, float(y2))
+            is_intrusion = False
+            if cfg.get("has_brts", True) and cls_name != "bus":
+                if cv2.pointPolygonTest(brts_pts, bottom_center, False) >= 0:
+                    is_intrusion = True
+                    color = (0, 0, 255) # Red violation
+
             # Draw real bounding box
             cv2.rectangle(frame, (x1, y1), (x2, y2), color, 2)
 
             # Draw label pill
-            label = f"{cls_name} {int(conf * 100)}%"
-            (tw, th), bl = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.5, 1)
+            if is_intrusion:
+                label = f"VIOLATION: {cls_name} {int(conf * 100)}%"
+            else:
+                label = f"{cls_name} {int(conf * 100)}%"
+            (tw, th), bl = cv2.getTextSize(label, cv2.FONT_HERSHEY_SIMPLEX, 0.45, 1)
             bg_y1 = max(0, y1 - th - 6)
             bg_y2 = y1
             cv2.rectangle(frame, (x1, bg_y1), (x1 + tw + 6, bg_y2), (18, 18, 22), -1)
@@ -302,7 +431,7 @@ def annotate_video(cfg):
                 label,
                 (x1 + 3, bg_y2 - 3),
                 cv2.FONT_HERSHEY_SIMPLEX,
-                0.45,
+                0.42,
                 (255, 255, 255),
                 1,
                 cv2.LINE_AA,
@@ -319,7 +448,7 @@ def annotate_video(cfg):
 
     # Transcode to high-compatibility browser H.264
     cmd = [
-        "ffmpeg", "-y", "-i", temp_avi,
+        FFMPEG_EXE, "-y", "-i", temp_avi,
         "-c:v", "libx264", "-preset", "fast", "-pix_fmt", "yuv420p",
         "-movflags", "+faststart",
         output_path

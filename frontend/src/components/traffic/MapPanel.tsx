@@ -1,6 +1,10 @@
 import { useEffect, useRef, useState } from "react";
-import { Layers, Activity, Radio, Filter, Eye, Navigation, Siren, CheckCircle2, RotateCcw } from "lucide-react";
+import {
+  Layers, Activity, Radio, Filter, Eye, Navigation, Siren,
+  CheckCircle2, RotateCcw, Info, Sliders, ChevronDown, ChevronUp
+} from "lucide-react";
 import { SURAT_LANES } from "@/lib/mock-traffic";
+import { getRoadDensityColor, getRoadDensityBadgeText } from "@/lib/signal-intelligence";
 import type { Junction } from "@/lib/traffic-types";
 
 // Emergency route from Top-Right (Kapodra) to Bottom-Left (Piplod)
@@ -40,12 +44,14 @@ export function MapPanel({
     "LANE-RING",
     "LANE-EMERGENCY",
   ]);
-  const [signalFilter, setSignalFilter] = useState<"all" | "red" | "green" | "gridlock">("all");
+  const [signalFilter, setSignalFilter] = useState<"all" | "critical" | "red" | "green">("all");
+  const [visMode, setVisMode] = useState<"combined" | "density" | "signal">("combined");
   const [showLanesPanel, setShowLanesPanel] = useState(false);
+  const [showLegend, setShowLegend] = useState(true);
 
   // ── Ambulance Emergency Wave State ─────────────────────
   const [ambulanceActive, setAmbulanceActive] = useState(false);
-  const [ambulanceProgress, setAmbulanceProgress] = useState(0); // 0 to AMBULANCE_ROUTE.length - 1
+  const [ambulanceProgress, setAmbulanceProgress] = useState(0);
   const [ambulanceArrived, setAmbulanceArrived] = useState(false);
   const ambulanceMarkerRef = useRef<any>(null);
   const ambulancePathLinesRef = useRef<any[]>([]);
@@ -87,13 +93,13 @@ export function MapPanel({
 
   // Filter junctions based on selected filter tag
   const filteredJunctions = processedJunctions.filter((j) => {
+    if (signalFilter === "critical") return (j.congestionIndex || 0) > 75;
     if (signalFilter === "red") return j.signalStatus === "RED";
     if (signalFilter === "green") return j.signalStatus === "GREEN";
-    if (signalFilter === "gridlock") return j.congestionIndex > 75;
     return true;
   });
 
-  // Initialize Map dynamically on client
+  // Initialize Leaflet Map dynamically
   useEffect(() => {
     if (typeof window === "undefined" || !mapContainerRef.current || mapInstanceRef.current) return;
 
@@ -108,29 +114,22 @@ export function MapPanel({
         attributionControl: false,
       });
 
-      // Add zoom control at bottom-right to prevent overlap with top toolbar
       L.control.zoom({ position: "bottomright" }).addTo(map);
 
-      // Stadia Maps Alidade Smooth Dark — OSM-based, ideal for Surat
+      // Smooth Dark Map Tile
       const darkMapTile = L.tileLayer(
         "https://tiles.stadiamaps.com/tiles/alidade_smooth_dark/{z}/{x}/{y}{r}.png",
         {
           maxZoom: 20,
-          attribution: '&copy; <a href="https://stadia.com">Stadia Maps</a>, &copy; OpenStreetMap contributors',
+          attribution: '&copy; <a href="https://stadia.com">Stadia Maps</a>, &copy; OpenStreetMap',
         }
       );
       darkMapTile.addTo(map);
       tileRef.current = darkMapTile;
-
       mapInstanceRef.current = map;
 
-      // Force tile refresh once rendered
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 100);
-      setTimeout(() => {
-        map.invalidateSize();
-      }, 400);
+      setTimeout(() => { map.invalidateSize(); }, 100);
+      setTimeout(() => { map.invalidateSize(); }, 400);
     });
 
     return () => {
@@ -141,7 +140,7 @@ export function MapPanel({
     };
   }, []);
 
-  // Continuously invalidate size if container or shell resizes
+  // Resize Observer
   useEffect(() => {
     if (!mapContainerRef.current) return;
     const observer = new ResizeObserver(() => {
@@ -160,7 +159,6 @@ export function MapPanel({
     if (!map || !L) return;
 
     if (!ambulanceActive) {
-      // Clean up ambulance marker and path lines
       if (ambulanceMarkerRef.current) {
         ambulanceMarkerRef.current.remove();
         ambulanceMarkerRef.current = null;
@@ -176,13 +174,11 @@ export function MapPanel({
       return;
     }
 
-    // 1. Draw glowing emergency corridor path from Top-Right to Bottom-Left
     ambulancePathLinesRef.current.forEach((line) => line.remove());
     ambulancePathLinesRef.current = [];
 
     const routeLatLngs = AMBULANCE_ROUTE.map((w) => [w.lat, w.lng]);
 
-    // Outer emergency pulse glow
     const glowPath = L.polyline(routeLatLngs, {
       color: "#22c55e",
       weight: 12,
@@ -191,7 +187,6 @@ export function MapPanel({
       lineJoin: "round",
     }).addTo(map);
 
-    // Inner bright animated dashed emergency corridor
     const corePath = L.polyline(routeLatLngs, {
       color: "#4ade80",
       weight: 4,
@@ -203,7 +198,6 @@ export function MapPanel({
 
     ambulancePathLinesRef.current = [glowPath, corePath];
 
-    // 2. Create the animated Ambulance Marker with Siren Pulse
     const startPoint = AMBULANCE_ROUTE[0];
     const ambulanceIcon = L.divIcon({
       className: "custom-leaflet-ambulance-marker",
@@ -211,11 +205,9 @@ export function MapPanel({
         <div style="position:relative;display:flex;align-items:center;justify-content:center;cursor:pointer;">
           <div style="position:absolute;width:44px;height:44px;border-radius:50%;background:rgba(239,68,68,0.35);animation:ts-pulse-ring 1.5s cubic-bezier(0.2,0.6,0.4,1) infinite;"></div>
           <div style="position:absolute;width:34px;height:34px;border-radius:50%;background:rgba(56,189,248,0.4);animation:ts-pulse-ring 1.5s cubic-bezier(0.2,0.6,0.4,1) infinite;animation-delay:0.75s;"></div>
-          
           <div style="position:relative;width:36px;height:36px;border-radius:12px;background:#09090b;border:2px solid #ef4444;display:flex;align-items:center;justify-content:center;box-shadow:0 0 16px rgba(239,68,68,0.8),0 0 30px rgba(56,189,248,0.5);">
             <span style="font-size:18px;line-height:1;transform:scaleX(-1);">🚑</span>
           </div>
-
           <div style="position:absolute;top:-26px;white-space:nowrap;background:rgba(9,9,11,0.95);border:1px solid #ef4444;color:#fecaca;font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:700;padding:2px 6px;border-radius:4px;box-shadow:0 4px 12px rgba(0,0,0,0.8);letter-spacing:0.04em;display:flex;align-items:center;gap:4px;">
             <span style="display:inline-block;width:6px;height:6px;border-radius:50%;background:#ef4444;animation:ts-blink 0.8s infinite;"></span>
             AMBULANCE 108 · GREEN WAVE
@@ -235,13 +227,11 @@ export function MapPanel({
     }).addTo(map);
     ambulanceMarkerRef.current = ambMarker;
 
-    // Pan smoothly to focus the emergency corridor
     map.flyTo([21.1920, 72.8350], 13, { duration: 1 });
 
-    // 3. Interpolation animation loop
     let currentP = 0;
     const maxP = AMBULANCE_ROUTE.length - 1;
-    const stepDuration = 60; // ms per tick (~20s total traversal)
+    const stepDuration = 60;
     const stepIncrement = 0.024;
 
     animFrameRef.current = setInterval(() => {
@@ -277,13 +267,12 @@ export function MapPanel({
     };
   }, [ambulanceActive]);
 
-  // Update Junction Markers when state changes
+  // ── Render Enhanced Dual-Layer Markers ───────────────────
   useEffect(() => {
     const map = mapInstanceRef.current;
     const L = leafletRef.current;
     if (!map || !L) return;
 
-    // Clear old markers
     Object.values(markersRef.current).forEach((m) => m.remove());
     markersRef.current = {};
 
@@ -292,88 +281,139 @@ export function MapPanel({
       const isPreempted = !!j.isPreempted;
       const isHeld = !!j.isHeld;
 
-      const statusClass =
+      const density = j.congestionIndex || 50;
+      const densityColor = getRoadDensityColor(density);
+      const densityText = getRoadDensityBadgeText(density);
+
+      const sigColor =
         j.signalStatus === "GREEN"
-          ? "green"
+          ? "#22c55e"
           : j.signalStatus === "YELLOW"
-            ? "yellow"
-            : "red";
+          ? "#f59e0b"
+          : "#ef4444";
 
-      // Size marker by congestion severity
-      const sz = isSelected ? 36 : j.congestionIndex > 75 ? 30 : j.congestionIndex > 45 ? 26 : 22;
-      const showPulse = j.congestionIndex > 75 || isPreempted;
+      const showCriticalPulse = density > 75 || isPreempted;
+      const outerSize = isSelected ? 42 : 36;
+      const innerSize = isSelected ? 28 : 24;
 
+      // HTML for the Dual-Ring Marker
       const customIcon = L.divIcon({
-        className: "custom-leaflet-signal-marker",
+        className: "custom-leaflet-dual-marker",
         html: `
-          <div class="signal-marker-container" style="width:${sz}px;height:${sz}px">
-            ${isPreempted ? `
-              <div class="signal-pulse green" style="width:${sz + 16}px;height:${sz + 16}px;top:-8px;left:-8px;background:rgba(34,211,90,0.45);border:2px solid #22d35a;box-shadow:0 0 24px #22d35a;"></div>
-            ` : showPulse ? `
-              <div class="signal-pulse ${statusClass}" style="width:${sz + 8}px;height:${sz + 8}px;top:-4px;left:-4px"></div>
-            ` : ""}
-            <div class="signal-beacon ${statusClass}" style="width:${sz}px;height:${sz}px;${isSelected ? "box-shadow:0 0 0 3px rgba(0,244,255,0.7),0 0 16px rgba(0,244,255,0.3)" : ""}${isPreempted ? ";border:2px solid #22d35a;box-shadow:0 0 16px #22d35a" : ""}">
-              <span class="signal-badge" style="font-size:${sz > 26 ? 10 : 8}px;${isPreempted ? "color:#22d35a;font-weight:900" : isHeld ? "color:#ef4444;font-weight:900" : ""}">
-                ${isPreempted ? "🟢 WAVE" : isHeld ? "HOLD" : `${j.signalCountdown}s`}
-              </span>
+          <div class="signal-marker-dual" style="width:${outerSize}px;height:${outerSize + 14}px">
+            ${
+              showCriticalPulse
+                ? `<div style="position:absolute;width:${outerSize + 12}px;height:${outerSize + 12}px;top:-6px;border-radius:50%;background:${densityColor}30;animation:ts-pulse-ring 1.8s infinite;border:1px solid ${densityColor}60;"></div>`
+                : ""
+            }
+
+            <!-- Outer Road Density Ring -->
+            <div style="
+              width:${outerSize}px;
+              height:${outerSize}px;
+              border-radius:50%;
+              background:#09090b;
+              border: 3px solid ${densityColor};
+              display:flex;
+              align-items:center;
+              justify-content:center;
+              box-shadow: 0 0 14px ${densityColor}50, inset 0 0 6px rgba(0,0,0,0.8);
+              ${isSelected ? "outline: 3px solid #00f4ff; outline-offset: 2px;" : ""}
+            ">
+              <!-- Inner Traffic Light LED Bulb -->
+              <div style="
+                width:${innerSize}px;
+                height:${innerSize}px;
+                border-radius:50%;
+                background:${sigColor};
+                display:flex;
+                align-items:center;
+                justify-content:center;
+                box-shadow: 0 0 10px ${sigColor};
+              ">
+                <span style="
+                  font-family:'JetBrains Mono',monospace;
+                  font-size:10px;
+                  font-weight:900;
+                  color:#000000;
+                  line-height:1;
+                ">
+                  ${isPreempted ? "GO" : isHeld ? "STOP" : `${j.signalCountdown}s`}
+                </span>
+              </div>
+            </div>
+
+            <!-- Road Density Pill Badge -->
+            <div style="
+              margin-top:2px;
+              white-space:nowrap;
+              background:#09090b;
+              border:1px solid ${densityColor}90;
+              color:${densityColor};
+              font-family:'JetBrains Mono',monospace;
+              font-size:9px;
+              font-weight:800;
+              padding:1px 4px;
+              border-radius:4px;
+              box-shadow:0 2px 8px rgba(0,0,0,0.9);
+              letter-spacing:0.02em;
+            ">
+              ${density}% DENS
             </div>
           </div>
         `,
-        iconSize: [sz, sz],
-        iconAnchor: [sz / 2, sz / 2],
+        iconSize: [outerSize, outerSize + 14],
+        iconAnchor: [outerSize / 2, (outerSize + 14) / 2],
       });
 
       const marker = L.marker([j.lat, j.lng], { icon: customIcon }).addTo(map);
 
-      const sigColor = j.signalStatus === "GREEN" ? "#22d35a" : j.signalStatus === "YELLOW" ? "#f59e0b" : "#ef4444";
-      const congColor = j.congestionIndex > 75 ? "#ef4444" : j.congestionIndex > 45 ? "#f59e0b" : "#22d35a";
-      const popupHtml = `
-        <div style="font-family:Inter,sans-serif;width:240px;padding:6px;">
-          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:8px">
-            <span style="font-size:9px;font-weight:700;color:#71717a;text-transform:uppercase;letter-spacing:.1em">${j.zone}</span>
-            <span style="font-family:'JetBrains Mono',monospace;font-size:10px;padding:2px 6px;border-radius:4px;font-weight:700;background:${sigColor}22;color:${sigColor};border:1px solid ${sigColor}60">
-              ${isPreempted ? "🚨 AI GREEN WAVE" : isHeld ? "⛔ CROSS TRAFFIC HELD" : `${j.signalStatus} · ${j.signalCountdown}s`}
+      // Sleek Glassmorphism Hover Tooltip
+      const nLane = j.lanes?.[0]?.density ?? 0;
+      const sLane = j.lanes?.[1]?.density ?? 0;
+      const eLane = j.lanes?.[2]?.density ?? 0;
+      const wLane = j.lanes?.[3]?.density ?? 0;
+
+      const tooltipContent = `
+        <div style="font-family:Inter,sans-serif;min-width:180px;">
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:4px;">
+            <span style="font-size:9px;font-weight:800;color:#a1a1aa;text-transform:uppercase;">${j.zone}</span>
+            <span style="font-family:'JetBrains Mono',monospace;font-size:9px;font-weight:800;color:${densityColor};background:${densityColor}20;padding:1px 5px;border-radius:4px;border:1px solid ${densityColor}50;">
+              ${density}% ${densityText}
             </span>
           </div>
-          <h4 style="margin:0 0 8px;font-size:13px;font-weight:700;color:#e4e4e7;line-height:1.2">${j.name}</h4>
-          ${isPreempted ? '<div style="font-size:10px;color:#22d35a;background:#22d35a15;border:1px solid #22d35a40;border-radius:6px;padding:4px 8px;margin-bottom:8px;font-weight:600">🚨 PREEMPTION ACTIVE: Signal locked GREEN for approaching Ambulance #108.</div>' : ''}
-          ${isHeld ? '<div style="font-size:10px;color:#ef4444;background:#ef444415;border:1px solid #ef444440;border-radius:6px;padding:4px 8px;margin-bottom:8px;font-weight:600">⛔ CROSS-STREET HOLD: Signal locked RED to clear conflicting lanes.</div>' : ''}
-          <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:10px;background:#09090b;padding:8px;border-radius:6px;border:1px solid #1c1c22">
-            <div style="text-align:center">
-              <div style="font-size:8px;color:#71717a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Congestion</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:${congColor}">${j.congestionIndex}</div>
-            </div>
-            <div style="text-align:center;border-left:1px solid #1c1c22;border-right:1px solid #1c1c22">
-              <div style="font-size:8px;color:#71717a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">Avg Wait</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:#e4e4e7">${j.avgWait}s</div>
-            </div>
-            <div style="text-align:center">
-              <div style="font-size:8px;color:#71717a;text-transform:uppercase;letter-spacing:.08em;margin-bottom:2px">veh/hr</div>
-              <div style="font-family:'JetBrains Mono',monospace;font-size:15px;font-weight:700;color:#e4e4e7">${(j.throughput/1000).toFixed(1)}k</div>
-            </div>
+          <div style="font-size:12px;font-weight:700;color:#f4f4f5;margin-bottom:6px;">${j.name}</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;font-family:'JetBrains Mono',monospace;font-size:10px;margin-bottom:6px;background:#18181b;padding:4px 6px;border-radius:6px;border:1px solid #27272a;">
+            <span style="color:${sigColor};font-weight:700;">● ${j.signalStatus} PHASE</span>
+            <span style="color:#ffffff;font-weight:800;">${j.signalCountdown}s REMAINING</span>
           </div>
-          ${j.onBrts ? '<div style="font-size:9px;color:#00f4ff;background:#00f4ff12;border:1px solid #00f4ff30;border-radius:4px;padding:2px 6px;display:inline-block;margin-bottom:8px;font-weight:700">✦ BRTS CORRIDOR</div>' : ''}
-          <button id="btn-select-${j.id}" style="width:100%;background:#00f4ff18;border:1px solid #00f4ff50;color:#00f4ff;font-size:11px;font-weight:700;padding:5px 0;cursor:pointer;text-transform:uppercase;letter-spacing:.06em;border-radius:6px;transition:background .15s">
-            Open Junction Telemetry →
-          </button>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:4px;font-size:9px;font-family:'JetBrains Mono',monospace;color:#a1a1aa;margin-bottom:6px;">
+            <div>N: <b style="color:#fff">${nLane}%</b></div>
+            <div>S: <b style="color:#fff">${sLane}%</b></div>
+            <div>E: <b style="color:#fff">${eLane}%</b></div>
+            <div>W: <b style="color:#fff">${wLane}%</b></div>
+          </div>
+          <div style="text-align:center;font-size:9px;color:#38bdf8;font-weight:700;letter-spacing:0.04em;">
+            TOUCH / CLICK TO OPEN TELEMETRY →
+          </div>
         </div>
       `;
 
-      marker.bindPopup(popupHtml);
+      marker.bindTooltip(tooltipContent, {
+        direction: "top",
+        offset: [0, -22],
+        className: "leaflet-tooltip-signal",
+        opacity: 0.98,
+      });
+
+      // Direct selection on touch/click: Opens the comprehensive Inspector immediately!
       marker.on("click", () => {
         onSelect(j.id);
       });
 
-      marker.on("popupopen", () => {
-        const btn = document.getElementById(`btn-select-${j.id}`);
-        if (btn) {
-          btn.onclick = () => onSelect(j.id);
-        }
-      });
-
       markersRef.current[j.id] = marker;
     });
-  }, [filteredJunctions, selectedId, onSelect]);
+  }, [filteredJunctions, selectedId, visMode, onSelect]);
 
   // Update Highlighted Polylines for Lanes
   useEffect(() => {
@@ -434,29 +474,35 @@ export function MapPanel({
   return (
     <div className="relative flex h-full w-full aspect-[4/3] flex-col overflow-hidden bg-panel border border-border rounded-2xl">
       {/* Map Header Overlay Bar */}
-      <div className="absolute top-3 left-3 right-3 z-20 flex items-center justify-between pointer-events-none">
-        {/* Left Side: Signal Filter Badges */}
-        <div className="flex items-center gap-1.5 rounded-xl bg-zinc-950/85 backdrop-blur-md border border-zinc-800/80 px-2.5 py-1.5 shadow-2xl pointer-events-auto">
+      <div className="absolute top-3 left-3 right-3 z-20 flex flex-wrap items-center justify-between gap-2 pointer-events-none">
+        
+        {/* Left Side: Filter Signals Badges */}
+        <div className="flex items-center gap-1.5 rounded-xl bg-zinc-950/90 backdrop-blur-md border border-zinc-800/90 px-2.5 py-1.5 shadow-2xl pointer-events-auto">
           <Filter className="h-3.5 w-3.5 text-zinc-400" />
-          <span className="text-[11px] font-semibold uppercase tracking-wider text-zinc-400 mr-1 hidden sm:inline">
-            Filter Signals:
+          <span className="text-[10px] font-bold uppercase tracking-wider text-zinc-400 mr-1 hidden sm:inline">
+            Signals:
           </span>
-          {(["all", "green", "red", "gridlock"] as const).map((filter) => (
+          {[
+            { id: "all" as const, label: "All" },
+            { id: "critical" as const, label: "Heavy >75%" },
+            { id: "red" as const, label: "Red Lights" },
+            { id: "green" as const, label: "Green Waves" },
+          ].map((filter) => (
             <button
-              key={filter}
-              onClick={() => setSignalFilter(filter)}
-              className={`rounded-lg px-2.5 py-1 text-[10px] font-mono font-semibold uppercase tracking-wider transition-all duration-150 active:scale-95 ${
-                signalFilter === filter
+              key={filter.id}
+              onClick={() => setSignalFilter(filter.id)}
+              className={`rounded-lg px-2.5 py-1 text-[10px] font-mono font-bold uppercase tracking-wider transition-all duration-150 active:scale-95 ${
+                signalFilter === filter.id
                   ? "bg-white text-zinc-950 shadow-sm"
-                  : "bg-zinc-900/60 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80 border border-zinc-800/60"
+                  : "bg-zinc-900/70 text-zinc-400 hover:text-zinc-100 hover:bg-zinc-800/80 border border-zinc-800/60"
               }`}
             >
-              {filter}
+              {filter.label}
             </button>
           ))}
         </div>
 
-        {/* Right Side: Ambulance Demo & Surat Corridor Layers */}
+        {/* Right Side: Corridors & Ambulance Demo */}
         <div className="flex items-center gap-2 pointer-events-auto">
           {/* Ambulance Emergency Wave Button */}
           <button
@@ -477,7 +523,7 @@ export function MapPanel({
             )}
           </button>
 
-          {/* Corridors Button */}
+          {/* Corridors Layer Button */}
           <button
             onClick={() => setShowLanesPanel((prev) => !prev)}
             className="flex items-center gap-2 rounded-xl bg-zinc-950/85 backdrop-blur-md border border-zinc-800/80 px-3 py-1.5 text-xs font-semibold text-zinc-200 hover:text-white hover:border-zinc-700 shadow-2xl transition-all active:scale-95"
@@ -530,6 +576,62 @@ export function MapPanel({
           </div>
         </div>
       )}
+
+      {/* Floating Interactive Map Legend */}
+      <div className="absolute bottom-3 left-3 z-20 pointer-events-auto">
+        <div className="rounded-xl bg-zinc-950/90 backdrop-blur-md border border-zinc-800/90 p-2.5 shadow-2xl transition-all max-w-[280px]">
+          <div className="flex items-center justify-between gap-4 cursor-pointer" onClick={() => setShowLegend(v => !v)}>
+            <div className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-zinc-300 font-mono">
+              <Info className="h-3 w-3 text-sky-400" />
+              <span>Color Coding Legend</span>
+            </div>
+            {showLegend ? <ChevronDown className="h-3 w-3 text-zinc-400" /> : <ChevronUp className="h-3 w-3 text-zinc-400" />}
+          </div>
+
+          {showLegend && (
+            <div className="mt-2 pt-2 border-t border-zinc-800/80 space-y-2 text-[10px] font-mono animate-in fade-in duration-150">
+              {/* Traffic Light State */}
+              <div>
+                <span className="text-[9px] text-zinc-400 uppercase font-sans font-semibold block mb-1">
+                  Inner Core = Traffic Light Phase
+                </span>
+                <div className="flex items-center gap-2 text-zinc-300">
+                  <span className="flex items-center gap-1">
+                    <span className="h-2 w-2 rounded-full bg-[#22c55e]" /> Green (Go)
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2 w-2 rounded-full bg-[#f59e0b]" /> Amber (Clear)
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <span className="h-2 w-2 rounded-full bg-[#ef4444]" /> Red (Stop)
+                  </span>
+                </div>
+              </div>
+
+              {/* Road Density Scale */}
+              <div>
+                <span className="text-[9px] text-zinc-400 uppercase font-sans font-semibold block mb-1">
+                  Outer Ring & Pill = Road Density
+                </span>
+                <div className="grid grid-cols-2 gap-1 text-[9px]">
+                  <span className="flex items-center gap-1 text-emerald-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-emerald-500" /> Free Flow (&lt;45%)
+                  </span>
+                  <span className="flex items-center gap-1 text-amber-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-amber-500" /> Moderate (45-65%)
+                  </span>
+                  <span className="flex items-center gap-1 text-orange-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-orange-500" /> Heavy (65-80%)
+                  </span>
+                  <span className="flex items-center gap-1 text-rose-400">
+                    <span className="h-1.5 w-1.5 rounded-full bg-rose-500" /> Gridlock (&gt;80%)
+                  </span>
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
 
       {/* ── Active Ambulance Emergency HUD Overlay ─────────── */}
       {ambulanceActive && (
@@ -587,7 +689,6 @@ export function MapPanel({
             </span>
           </div>
 
-          {/* Emergency progress indicator */}
           <div className="w-full bg-zinc-800 h-1.5 rounded-full overflow-hidden">
             <div
               className="bg-gradient-to-r from-red-500 via-amber-400 to-emerald-400 h-full transition-all duration-150"
