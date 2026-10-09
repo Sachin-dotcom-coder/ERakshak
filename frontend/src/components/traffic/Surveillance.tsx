@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useMemo, useState, useEffect, useRef } from "react";
 import { X, Cpu, Wifi, Thermometer, Eye, SlidersHorizontal } from "lucide-react";
 import { AppShell } from "./AppShell";
 import { TopStatusBar } from "./TopStatusBar";
@@ -7,6 +7,8 @@ import { DetectionLog } from "./DetectionLog";
 import { useTrafficData } from "@/hooks/useTrafficData";
 import { useCameraFeeds } from "@/hooks/useCameraFeeds";
 import { fmtTime } from "@/lib/mock-traffic";
+import { getVideoKeyForFeed, getRealDetectionsForVideoTime } from "@/lib/video-detections";
+import type { DetectionEvent } from "@/lib/traffic-types";
 
 const GRID_SIZE = 9; // 3×3
 
@@ -50,12 +52,87 @@ export function Surveillance() {
 
   const focused = feeds.find((f) => f.id === focus) ?? null;
   const focusedJunction = junctions.find((j) => j.id === focused?.junctionId) ?? null;
+
+  const [currentFrameDetections, setCurrentFrameDetections] = useState<RealCheckpointEvent[]>([]);
+  const [liveVideoEvents, setLiveVideoEvents] = useState<DetectionEvent[]>([]);
+  const lastTimeRef = useRef<number>(-1);
+
+  // Strict lane helper: only Lane 1, Lane 2, Lane 3, and BRTS Corridor allowed
+  const cleanLane = (l?: string) => {
+    if (!l || l.toLowerCase().includes("carriageway")) return "Lane 1";
+    return l;
+  };
+
+  // When focus opens or changes camera, reset and load initial real detections from this video
+  useEffect(() => {
+    if (!focused) {
+      setCurrentFrameDetections([]);
+      setLiveVideoEvents([]);
+      lastTimeRef.current = -1;
+      return;
+    }
+
+    const vKey = getVideoKeyForFeed(focused.id || focused.junctionId);
+    const initialEvents = getRealDetectionsForVideoTime(vKey, 0.5);
+    setCurrentFrameDetections(initialEvents);
+
+    const now = Date.now();
+    const formatted: DetectionEvent[] = initialEvents.map((e, idx) => ({
+      id: `real-${e.frame}-${e.objectClass}-${now}-${idx}`,
+      ts: now - idx * 1200,
+      cameraId: focused.id,
+      junctionName: focused.junctionName,
+      event: e.event,
+      objectClass: e.objectClass,
+      confidence: e.confidence,
+      note: (e.note || `${cleanLane(e.lane)} • Active Flow`).replace(/Carriageway/gi, "Lane 1"),
+    }));
+    formatted.sort((a, b) => (a.event === "brts_intrusion" ? -1 : b.event === "brts_intrusion" ? 1 : 0));
+    setLiveVideoEvents(formatted);
+    lastTimeRef.current = 0.5;
+  }, [focused?.id]);
+
+  // Synchronize detection cards with actual video playback time
+  const handleVideoTime = (currentTimeSec: number) => {
+    if (!focused) return;
+    const rounded = Math.floor(currentTimeSec * 2.5) / 2.5;
+    if (Math.abs(rounded - lastTimeRef.current) < 0.25) return;
+    lastTimeRef.current = rounded;
+
+    const vKey = getVideoKeyForFeed(focused.id || focused.junctionId);
+    const matched = getRealDetectionsForVideoTime(vKey, currentTimeSec);
+    setCurrentFrameDetections(matched);
+
+    if (matched.length > 0) {
+      const now = Date.now();
+      const newItems: DetectionEvent[] = matched.map((e, idx) => ({
+        id: `real-${e.frame}-${e.objectClass}-${now}-${idx}-${Math.random().toString(36).slice(2, 4)}`,
+        ts: now - idx * 400,
+        cameraId: focused.id,
+        junctionName: focused.junctionName,
+        event: e.event,
+        objectClass: e.objectClass,
+        confidence: e.confidence,
+        note: (e.note || `${cleanLane(e.lane)} • Active Flow`).replace(/Carriageway/gi, "Lane 1"),
+      }));
+      newItems.sort((a, b) => (a.event === "brts_intrusion" ? -1 : b.event === "brts_intrusion" ? 1 : 0));
+
+      setLiveVideoEvents((prev) => {
+        const combined = [...newItems, ...prev];
+        return combined.slice(0, 20);
+      });
+    }
+  };
+
   const focusedEvents = useMemo(() => {
     if (!focus) return [];
+    if (liveVideoEvents.length > 0) {
+      return liveVideoEvents;
+    }
     return detections
       .filter((d) => d.cameraId === focus || (focused && (d.cameraId === focused.id || d.junctionName === focused.junctionName)))
-      .slice(0, 25);
-  }, [detections, focus, focused]);
+      .slice(0, 20);
+  }, [detections, focus, focused, liveVideoEvents]);
   const focusedHealth = health.find(h => h.id === focus);
 
   return (
@@ -131,9 +208,16 @@ export function Surveillance() {
             <div className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-4 border-b border-border/50 px-6 py-4 bg-panel-raised/50">
               <div className="flex items-center gap-4 min-w-0">
                 <div className={"h-2.5 w-2.5 rounded-full shrink-0 " + (focused.online ? "bg-ok animate-heartbeat" : "bg-muted")} />
-                <div className="min-w-0">
-                  <h2 className="truncate text-lg font-bold">{focused.junctionName}</h2>
-                  <div className="label-xs text-muted-foreground">{focused.id} · Focus View</div>
+                <div className="min-w-0 flex items-center gap-3">
+                  <div className="min-w-0">
+                    <h2 className="truncate text-lg font-bold">{focused.junctionName}</h2>
+                    <div className="label-xs text-muted-foreground">{focused.id} · Focus View</div>
+                  </div>
+                  {currentFrameDetections.some(cd => cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus")) && (
+                    <span className="flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold font-mono tracking-tight bg-crit text-white shadow-lg shadow-crit/30 animate-pulse">
+                      🚨 BRTS VIOLATION DETECTED
+                    </span>
+                  )}
                 </div>
                 {focusedHealth && (
                   <div className="flex items-center gap-6 ml-8 pl-8 border-l border-border/50">
@@ -152,7 +236,16 @@ export function Surveillance() {
             <div className="grid min-h-0 gap-6 overflow-y-auto p-6 lg:grid-cols-[2fr_1fr]">
               <div className="min-w-0 flex flex-col h-full">
                 <div className="rounded-xl overflow-hidden border border-border/50 shadow-xl bg-black flex-1">
-                  <CameraTile feed={focused} overlays={overlays} brtsOnly={false} large />
+                  <CameraTile 
+                    feed={{
+                      ...focused,
+                      intrusionActive: currentFrameDetections.some(cd => cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus"))
+                    }} 
+                    overlays={overlays} 
+                    brtsOnly={false} 
+                    large 
+                    onTimeUpdate={handleVideoTime}
+                  />
                 </div>
               </div>
 
@@ -161,9 +254,47 @@ export function Surveillance() {
                   <div className="flex items-center justify-between mb-3">
                     <div className="label-xs text-muted-foreground">LIVE DETECTION STREAM</div>
                     <span className="flex items-center gap-1 text-[10px] text-ok font-mono font-bold">
-                      <span className="h-1.5 w-1.5 rounded-full bg-ok animate-blink" /> ACTIVE
+                      <span className="h-1.5 w-1.5 rounded-full bg-ok animate-blink" /> ACTIVE (YOLO26)
                     </span>
                   </div>
+
+                  {/* Active Targets currently in camera view */}
+                  {currentFrameDetections.length > 0 && (
+                    <div className={"mb-3 p-2.5 rounded-xl border flex flex-col gap-1.5 transition-all " +
+                      (currentFrameDetections.some(cd => cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus"))
+                        ? "border-crit/70 bg-crit/15 shadow-[0_0_20px_rgba(239,68,68,0.25)]" 
+                        : "border-ok/30 bg-ok/5")}>
+                      <div className="flex items-center justify-between">
+                        <span className={"text-[10px] uppercase font-mono tracking-wider font-bold flex items-center gap-1.5 " +
+                          (currentFrameDetections.some(cd => cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus")) ? "text-crit animate-pulse" : "text-ok")}>
+                          <span className={"h-2 w-2 rounded-full " + (currentFrameDetections.some(cd => cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus")) ? "bg-crit animate-ping" : "bg-ok animate-pulse")} />
+                          {currentFrameDetections.some(cd => cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus")) ? "🚨 BRTS VIOLATION IN FRAME" : `In Active Frame (${currentFrameDetections.length})`}
+                        </span>
+                        <span className="text-[10px] text-muted-foreground font-mono">Frame Synced</span>
+                      </div>
+                      <div className="grid grid-cols-1 gap-1.5 pt-1">
+                        {currentFrameDetections.map((cd, i) => {
+                          const isIntrusion = cd.event === "brts_intrusion" || (cd.lane === "BRTS Corridor" && cd.objectClass !== "bus");
+                          return (
+                            <div key={i} className={"flex items-center justify-between px-2.5 py-1.5 rounded border text-xs transition-all " +
+                              (isIntrusion ? "border-crit/70 bg-crit/25 text-crit shadow-sm" : "border-white/5 bg-black/40 text-foreground")}>
+                              <span className="font-semibold capitalize flex items-center gap-1.5">
+                                {cd.objectClass === 'two-wheeler' ? '🛵 Two-Wheeler' : cd.objectClass === 'car' ? '🚗 Car' : cd.objectClass === 'bus' ? '🚌 Bus' : '🚛 Truck'}
+                                {isIntrusion && <span className="ml-1 px-1.5 py-0.5 text-[9px] bg-crit text-white rounded font-bold font-mono tracking-tight uppercase">🚨 VIOLATION</span>}
+                              </span>
+                              <div className="flex items-center gap-2">
+                                <span className={"text-[11px] font-mono " + (isIntrusion ? "text-crit font-bold" : "text-muted-foreground")}>{cleanLane(cd.lane)}</span>
+                                <span className={"font-mono text-[10px] px-1.5 py-0.5 rounded font-bold " + 
+                                  (isIntrusion ? "bg-crit text-white" : "bg-ok/20 text-ok")}>{cd.confidence}%</span>
+                              </div>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  <div className="label-xs text-muted-foreground mb-1">EVENT LOG STREAM</div>
                   <div className="flex-1 overflow-y-auto pr-2 space-y-2">
                     {focusedEvents.map((e) => {
                       const isBrts = e.event === "brts_intrusion";
@@ -181,7 +312,7 @@ export function Surveillance() {
                             <span className="capitalize font-medium text-foreground/80">{e.objectClass}</span>
                             <span className="num font-mono text-[10px] bg-black/40 px-1.5 py-0.5 rounded border border-white/5">{e.confidence}% conf</span>
                           </div>
-                          {e.note && <div className="text-[10px] text-muted-foreground font-mono">{e.note}</div>}
+                          {e.note && <div className="text-[10px] text-muted-foreground font-mono">{e.note.replace(/Carriageway/gi, "Lane 1")}</div>}
                         </div>
                       );
                     })}

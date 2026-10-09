@@ -88,7 +88,7 @@ async def request_otp(data: OTPRequest, request: Request):
 
     # Print dynamically to your FastAPI terminal
     print("\n" + "=" * 50)
-    print(f"🔑 [DYNAMIC DEV OTP] Code for {email}: {generated_otp}")
+    print(f"[DYNAMIC DEV OTP] Code for {email}: {generated_otp}")
     print("=" * 50 + "\n")
 
     return {"message": "OTP generated successfully"}

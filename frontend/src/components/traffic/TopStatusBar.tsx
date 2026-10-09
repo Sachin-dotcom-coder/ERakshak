@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Activity, Wifi, WifiOff, TriangleAlert, Circle } from "lucide-react";
+import { Activity, Wifi, TriangleAlert, Circle, Clock, Hexagon } from "lucide-react";
 
 type Props = {
   junctionsOnline: number;
@@ -29,25 +29,26 @@ function useClock() {
   return clock;
 }
 
-/** 5-segment congestion bar — fills left to right */
+/** 5-segment congestion bar — fills left to right with subtle glow */
 function CongestionBar({ value }: { value: number }) {
   const filled = Math.ceil((value / 100) * 5);
   const segs = [
-    { color: "#22d35a" },
+    { color: "#22c55e" },
     { color: "#84cc16" },
     { color: "#f59e0b" },
     { color: "#f97316" },
     { color: "#ef4444" },
   ];
   return (
-    <div className="congestion-bar w-20">
+    <div className="congestion-bar w-24 h-2 rounded-sm overflow-hidden flex gap-1">
       {segs.map((s, i) => (
         <div
           key={i}
-          className="congestion-bar-seg"
+          className="congestion-bar-seg flex-1 rounded-sm transition-all"
           style={{
             backgroundColor: s.color,
-            opacity: i < filled ? 1 : 0.15,
+            opacity: i < filled ? 1 : 0.18,
+            boxShadow: i < filled ? `0 0 8px ${s.color}66` : undefined,
           }}
         />
       ))}
@@ -67,128 +68,131 @@ export function TopStatusBar({
     avgCongestion > 70 ? "text-crit" : avgCongestion > 45 ? "text-warn" : "text-ok";
 
   return (
-    <header className="sticky top-0 z-20 border-b border-border bg-panel/98 backdrop-blur-md">
-      <div className="flex items-center gap-0 h-12 px-4 overflow-x-auto">
+    <header className="sticky top-0 z-20 border-b border-white/[0.08] bg-panel/95 backdrop-blur-xl shadow-[0_4px_24px_-4px_rgba(0,0,0,0.5)]">
+      <div className="flex items-center h-16 px-6 overflow-x-auto gap-4">
 
-        {/* ── System name ───────────── */}
-        <div className="flex items-center gap-2.5 mr-6 shrink-0">
+        {/* ── System Branding ───────────── */}
+        <div className="flex items-center gap-3 mr-2 shrink-0">
+          <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary/10 border border-primary/25 shadow-inner">
+            <Hexagon className="h-5 w-5 text-primary" strokeWidth={1.8} />
+          </div>
           <div className="flex flex-col min-w-0">
-            <span className="text-sm font-bold tracking-tight leading-none">
-              E·<span className="text-primary">RAKSHAK</span>
-            </span>
-            <span className="label-xs" style={{ fontSize: 8 }}>
+            <div className="flex items-center gap-2">
+              <span className="text-base font-extrabold tracking-tight text-foreground leading-none">
+                E·<span className="text-primary">RAKSHAK</span>
+              </span>
+              <span className="text-[9px] font-mono font-bold tracking-wider uppercase px-1.5 py-0.5 rounded border border-white/10 bg-white/5 text-muted-foreground">
+                ATCS 2.6
+              </span>
+            </div>
+            <span className="text-[9px] font-mono tracking-widest text-muted-foreground/80 uppercase pt-1 font-medium">
               SURAT ADAPTIVE TRAFFIC CONTROL
             </span>
           </div>
         </div>
 
         {/* ── Divider ───────────────── */}
-        <div className="h-7 w-px bg-border mr-6 shrink-0" />
+        <div className="h-8 w-px bg-white/[0.08] shrink-0" />
 
-        {/* ── Status chips ──────────── */}
-        <div className="flex items-center gap-5 mr-auto">
+        {/* ── Metric Cards ──────────── */}
+        <div className="flex items-center gap-3.5 mr-auto">
 
-          {/* WS Connection */}
-          <Chip
-            icon={
-              connected ? (
-                <Circle className="h-2 w-2 fill-ok text-ok animate-heartbeat" />
+          {/* Telemetry Status */}
+          <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+            <span className="relative flex h-2.5 w-2.5 items-center justify-center">
+              {connected ? (
+                <>
+                  <span className="absolute h-full w-full rounded-full bg-ok/40 animate-ping" />
+                  <span className="h-2 w-2 rounded-full bg-ok" />
+                </>
               ) : (
-                <Circle className="h-2 w-2 fill-crit text-crit animate-blink" />
-              )
-            }
-            label="TELEMETRY"
-            value={connected ? "LIVE" : "OFFLINE"}
-            valueClass={connected ? "text-ok" : "text-crit"}
-          />
+                <span className="h-2 w-2 rounded-full bg-crit animate-blink" />
+              )}
+            </span>
+            <div className="flex flex-col">
+              <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">TELEMETRY</span>
+              <span className={"text-xs font-mono font-bold leading-tight " + (connected ? "text-ok" : "text-crit")}>
+                {connected ? "LIVE FEED" : "OFFLINE"}
+              </span>
+            </div>
+          </div>
 
-          {/* Junctions online */}
-          <Chip
-            icon={<Wifi className="h-3.5 w-3.5 text-primary" />}
-            label="JUNCTIONS"
-            value={`${junctionsOnline} / ${TOTAL_JUNCTIONS}`}
-            valueClass="text-foreground"
-          />
+          {/* Junctions Online */}
+          <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+            <Wifi className="h-4 w-4 text-foreground/80 shrink-0" />
+            <div className="flex flex-col">
+              <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">JUNCTIONS</span>
+              <div className="text-xs font-mono font-bold leading-tight text-foreground flex items-center gap-1.5">
+                <span>{junctionsOnline}</span>
+                <span className="text-[10px] text-muted-foreground font-medium">/ {TOTAL_JUNCTIONS}</span>
+                <span className="text-[9px] text-ok bg-ok/10 border border-ok/20 px-1 py-0.2 rounded font-semibold ml-0.5">
+                  100% ONLINE
+                </span>
+              </div>
+            </div>
+          </div>
 
           {/* BRTS Violations */}
-          <div className="flex items-center gap-2">
-            <TriangleAlert
-              className={`h-3.5 w-3.5 shrink-0 ${intrusions > 0 ? "text-crit" : "text-muted-foreground"}`}
-            />
-            <div>
-              <div className="label-xs">BRTS VIOLATIONS</div>
-              <div className="flex items-center gap-1.5">
-                <span
-                  className={`num inline-flex items-center justify-center min-w-[28px] h-5 border px-1.5 text-sm font-bold rounded-sm ${
-                    intrusions > 0
-                      ? "animate-blink border-crit/50 bg-crit/15 text-crit"
-                      : "border-border text-muted-foreground"
-                  }`}
-                >
+          <div className={"flex items-center gap-2.5 px-3.5 py-2 rounded-xl border transition-all " +
+            (intrusions > 0 
+              ? "border-crit/50 bg-crit/15 shadow-[0_0_16px_rgba(239,68,68,0.25)]" 
+              : "border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05]")}>
+            <TriangleAlert className={"h-4 w-4 shrink-0 " + (intrusions > 0 ? "text-crit animate-bounce" : "text-muted-foreground")} />
+            <div className="flex flex-col">
+              <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">BRTS VIOLATIONS</span>
+              <div className="flex items-center gap-2 leading-tight">
+                <span className={"num text-xs font-bold font-mono " + (intrusions > 0 ? "text-crit" : "text-muted-foreground")}>
                   {intrusions}
                 </span>
-                {intrusions > 0 && (
-                  <span className="label-xs text-crit/70">ACTIVE</span>
+                {intrusions > 0 ? (
+                  <span className="text-[9px] font-mono font-bold bg-crit text-white px-1.5 py-0.5 rounded-sm animate-pulse">
+                    ACTIVE
+                  </span>
+                ) : (
+                  <span className="text-[10px] font-mono text-muted-foreground/70">CLEAR</span>
                 )}
               </div>
             </div>
           </div>
 
-          {/* Congestion index */}
-          <div className="flex items-center gap-2">
-            <Activity className={`h-3.5 w-3.5 shrink-0 ${congTone}`} />
-            <div>
-              <div className="label-xs">CITY CONGESTION</div>
-              <div className="flex items-center gap-2">
-                <span className={`num text-sm font-bold ${congTone}`}>
-                  {avgCongestion}
+          {/* City Congestion Index */}
+          <div className="flex items-center gap-3 px-4 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02] hover:bg-white/[0.05] transition-all">
+            <Activity className={"h-4 w-4 shrink-0 " + congTone} />
+            <div className="flex flex-col">
+              <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">CITY CONGESTION</span>
+              <div className="flex items-center gap-2.5 leading-tight pt-0.5">
+                <span className={"num text-xs font-bold font-mono " + congTone}>
+                  {avgCongestion}%
                 </span>
                 <CongestionBar value={avgCongestion} />
               </div>
             </div>
           </div>
+
         </div>
 
-        {/* ── Right side ────────────── */}
-        <div className="flex items-center gap-4 ml-6 shrink-0">
-          {/* IST Clock */}
-          <div className="flex flex-col items-end">
-            <div className="label-xs">IST</div>
-            <div className="num text-sm font-semibold tabular-nums text-primary">
-              {clock}
+        {/* ── Right Section ─────────── */}
+        <div className="flex items-center gap-4 shrink-0">
+          {/* High-Precision IST Clock */}
+          <div className="flex items-center gap-2.5 px-3.5 py-2 rounded-xl border border-white/[0.06] bg-white/[0.02]">
+            <Clock className="h-4 w-4 text-muted-foreground" />
+            <div className="flex flex-col items-end">
+              <span className="text-[9px] font-mono uppercase tracking-wider text-muted-foreground">TIME (IST)</span>
+              <span className="num text-xs font-bold font-mono text-foreground tracking-wider tabular-nums">
+                {clock}
+              </span>
             </div>
           </div>
 
+          {/* Export Slot (rendered strictly when provided by Summary/Reports page) */}
           {right && (
             <>
-              <div className="h-7 w-px bg-border" />
+              <div className="h-8 w-px bg-white/[0.08]" />
               {right}
             </>
           )}
         </div>
       </div>
     </header>
-  );
-}
-
-function Chip({
-  icon,
-  label,
-  value,
-  valueClass = "",
-}: {
-  icon: React.ReactNode;
-  label: string;
-  value: string;
-  valueClass?: string;
-}) {
-  return (
-    <div className="flex items-center gap-2">
-      <span className="shrink-0">{icon}</span>
-      <div>
-        <div className="label-xs">{label}</div>
-        <div className={`num text-sm font-semibold ${valueClass}`}>{value}</div>
-      </div>
-    </div>
   );
 }

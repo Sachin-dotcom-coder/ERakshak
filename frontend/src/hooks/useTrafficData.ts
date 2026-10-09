@@ -16,6 +16,7 @@ import type {
   Kpi,
   Prediction,
 } from "@/lib/traffic-types";
+import { VIDEO_DETECTIONS } from "@/lib/video-detections";
 
 type QueueRow = { t: string } & Record<string, number | string>;
 
@@ -342,6 +343,20 @@ export function useTrafficData() {
                   ],
                 },
               });
+            } else if (data.type === "detection" || data.type === "detection_event") {
+              dispatch({
+                type: "DETECTION",
+                payload: {
+                  id: data.id || `DET-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+                  ts: data.ts || Date.now(),
+                  cameraId: data.camera_id || data.cameraId || "CAM-M09",
+                  junctionName: data.junction_name || data.junctionName || "Majura Gate",
+                  event: data.event || "vehicle_entry",
+                  objectClass: data.object_class || data.objectClass || "car",
+                  confidence: data.confidence || 88,
+                  note: data.note,
+                },
+              });
             }
           } catch (err) {
             console.error("Error parsing WebSocket message:", err);
@@ -369,62 +384,69 @@ export function useTrafficData() {
       dispatch({ type: "TICK_DECAY" });
     }, 1000);
 
-    // 3. Real-time Live Detection Event Simulator (Person A YOLO stream across initial 5 cameras)
-    const activeCams = [
-      { id: "CAM-U01", jName: "Udhna Darwaja" },
-      { id: "CAM-R02", jName: "Ring Road / Delhi Gate" },
-      { id: "CAM-A03", jName: "Adajan Gam / Patia" },
-      { id: "CAM-P04", jName: "Piplod Junction" },
-      { id: "CAM-V05", jName: "Varachha / Sardar Chowk" },
+    // 3. Real YOLO Video Detections Stream across active camera feeds
+    const cameraMap: { id: string; jName: string; videoKey: string }[] = [
+      { id: "CAM-M09", jName: "Majura Gate", videoKey: "traffic9" },
+      { id: "CAM-U01", jName: "Udhna Darwaja", videoKey: "traffic1" },
+      { id: "CAM-R02", jName: "Ring Road / Delhi Gate", videoKey: "traffic2" },
+      { id: "CAM-A03", jName: "Adajan Gam / Patia", videoKey: "traffic3" },
+      { id: "CAM-P04", jName: "Piplod Junction", videoKey: "traffic4" },
+      { id: "CAM-V05", jName: "Varachha / Sardar Chowk", videoKey: "traffic5" },
+      { id: "CAM-K06", jName: "Kargil Chowk", videoKey: "traffic6" },
+      { id: "CAM-T07", jName: "Textile Market", videoKey: "traffic7" },
+      { id: "CAM-D08", jName: "Delhi Gate", videoKey: "traffic8" },
     ];
-    const vehicleClasses: DetectionEvent["objectClass"][] = ["car", "bus", "two-wheeler", "truck", "auto"];
-    const eventTypes: DetectionEvent["event"][] = [
-      "vehicle_entry",
-      "vehicle_entry",
-      "vehicle_exit",
-      "vehicle_exit",
-      "lane_violation",
-      "brts_intrusion",
-    ];
+
+    let camPointer = 0;
+    const checkpointIndices: Record<string, number> = {};
 
     const detectionTimer = setInterval(() => {
-      const cam = activeCams[Math.floor(Math.random() * activeCams.length)];
-      const ev = eventTypes[Math.floor(Math.random() * eventTypes.length)];
-      const cls = vehicleClasses[Math.floor(Math.random() * vehicleClasses.length)];
-      const conf = Math.floor(82 + Math.random() * 17);
-      const uid = `DET-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`;
+      const cam = cameraMap[camPointer % cameraMap.length];
+      camPointer++;
 
-      dispatch({
-        type: "DETECTION",
-        payload: {
-          id: uid,
-          ts: Date.now(),
-          cameraId: cam.id,
-          junctionName: cam.jName,
-          event: ev,
-          objectClass: cls,
-          confidence: conf,
-          note: ev === "brts_intrusion" ? `dwell ${(1.8 + Math.random() * 4).toFixed(1)}s` : undefined,
-        },
-      });
+      const checkpoints = VIDEO_DETECTIONS[cam.videoKey] || [];
+      if (!checkpoints.length) return;
 
-      // If it's a BRTS intrusion, occasionally broadcast live alert
-      if (ev === "brts_intrusion" && Math.random() < 0.35) {
+      const currIdx = (checkpointIndices[cam.videoKey] || 0) % checkpoints.length;
+      checkpointIndices[cam.videoKey] = currIdx + 1;
+
+      const cp = checkpoints[currIdx];
+      if (!cp || !cp.events.length) return;
+
+      for (const ev of cp.events) {
+        const uid = `DET-${ev.frame}-${ev.objectClass}-${Date.now()}-${Math.random().toString(36).slice(2, 5)}`;
         dispatch({
-          type: "ALERT",
+          type: "DETECTION",
           payload: {
-            id: `V-LIVE-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
-            type: "alert",
-            kind: "brts",
-            severity: "critical",
-            junctionId: cam.id,
-            junctionName: cam.jName,
-            message: `${cls.toUpperCase()} unauthorized entry on BRTS corridor`,
+            id: uid,
             ts: Date.now(),
+            cameraId: cam.id,
+            junctionName: cam.jName,
+            event: ev.event,
+            objectClass: ev.objectClass,
+            confidence: ev.confidence,
+            note: ev.note,
           },
         });
+
+        // Broadcast alert when real vehicle intrudes into BRTS corridor
+        if (ev.event === "brts_intrusion") {
+          dispatch({
+            type: "ALERT",
+            payload: {
+              id: `V-LIVE-${Date.now()}-${Math.random().toString(36).slice(2, 6)}`,
+              type: "alert",
+              kind: "brts",
+              severity: "critical",
+              junctionId: cam.id,
+              junctionName: cam.jName,
+              message: `${ev.objectClass.toUpperCase()} unauthorized intrusion in ${ev.lane || "BRTS Corridor"}`,
+              ts: Date.now(),
+            },
+          });
+        }
       }
-    }, 2000);
+    }, 1800);
 
     return () => {
       if (socket) socket.close();

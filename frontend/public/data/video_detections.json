@@ -1,0 +1,6408 @@
+{
+  "traffic1": [
+    {
+      "timeSec": 0.6,
+      "events": [
+        {
+          "timeSec": 0.6,
+          "frame": 12,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 47,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.9,
+      "events": [
+        {
+          "timeSec": 0.9,
+          "frame": 18,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 43,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.8,
+      "events": [
+        {
+          "timeSec": 1.8,
+          "frame": 36,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.8,
+          "frame": 36,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.8,
+          "frame": 36,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.0,
+      "events": [
+        {
+          "timeSec": 3.0,
+          "frame": 60,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 46,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.0,
+          "frame": 60,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.3,
+      "events": [
+        {
+          "timeSec": 3.3,
+          "frame": 66,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 81,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.3,
+          "frame": 66,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.3,
+          "frame": 66,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 37,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.6,
+      "events": [
+        {
+          "timeSec": 3.6,
+          "frame": 72,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 69,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.6,
+          "frame": 72,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 67,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.6,
+          "frame": 72,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.6,
+          "frame": 72,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.9,
+      "events": [
+        {
+          "timeSec": 3.9,
+          "frame": 78,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.2,
+      "events": [
+        {
+          "timeSec": 4.2,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.2,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 47,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.5,
+      "events": [
+        {
+          "timeSec": 4.5,
+          "frame": 90,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 64,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.5,
+          "frame": 90,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.1,
+      "events": [
+        {
+          "timeSec": 5.1,
+          "frame": 102,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.4,
+      "events": [
+        {
+          "timeSec": 5.4,
+          "frame": 108,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.7,
+      "events": [
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.0,
+      "events": [
+        {
+          "timeSec": 6.0,
+          "frame": 120,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 49,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.0,
+          "frame": 120,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.0,
+          "frame": 120,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.0,
+          "frame": 120,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.3,
+      "events": [
+        {
+          "timeSec": 6.3,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.3,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.6,
+      "events": [
+        {
+          "timeSec": 6.6,
+          "frame": 132,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 84,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.6,
+          "frame": 132,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 65,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.6,
+          "frame": 132,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 35,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.9,
+      "events": [
+        {
+          "timeSec": 6.9,
+          "frame": 138,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.9,
+          "frame": 138,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.9,
+          "frame": 138,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.9,
+          "frame": 138,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.9,
+          "frame": 138,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 7.2,
+      "events": [
+        {
+          "timeSec": 7.2,
+          "frame": 144,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 35,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic2": [
+    {
+      "timeSec": 0.6,
+      "events": [
+        {
+          "timeSec": 0.6,
+          "frame": 12,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.8,
+      "events": [
+        {
+          "timeSec": 1.8,
+          "frame": 36,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.1,
+      "events": [
+        {
+          "timeSec": 2.1,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.1,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.4,
+      "events": [
+        {
+          "timeSec": 2.4,
+          "frame": 48,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.7,
+      "events": [
+        {
+          "timeSec": 2.7,
+          "frame": 54,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.0,
+      "events": [
+        {
+          "timeSec": 3.0,
+          "frame": 60,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.3,
+      "events": [
+        {
+          "timeSec": 3.3,
+          "frame": 66,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.1,
+      "events": [
+        {
+          "timeSec": 5.1,
+          "frame": 102,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.4,
+      "events": [
+        {
+          "timeSec": 5.4,
+          "frame": 108,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.7,
+      "events": [
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.7,
+          "frame": 114,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.0,
+      "events": [
+        {
+          "timeSec": 6.0,
+          "frame": 120,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.3,
+      "events": [
+        {
+          "timeSec": 6.3,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 72,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 6.3,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.6,
+      "events": [
+        {
+          "timeSec": 6.6,
+          "frame": 132,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 73,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 6.9,
+      "events": [
+        {
+          "timeSec": 6.9,
+          "frame": 138,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 40,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic3": [
+    {
+      "timeSec": 0.0,
+      "events": [
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 73,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 54,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 80,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.75,
+      "events": [
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.5,
+      "events": [
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 93,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 40,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.79,
+      "events": [
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 95,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.08,
+      "events": [
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.38,
+      "events": [
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 45,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.67,
+      "events": [
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.96,
+      "events": [
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 70,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 55,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.25,
+      "events": [
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.54,
+      "events": [
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.83,
+      "events": [
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic4": [
+    {
+      "timeSec": 0.0,
+      "events": [
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 54,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 47,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.75,
+      "events": [
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 60,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 46,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 53,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 94,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 74,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 46,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 45,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 45,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 72,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 61,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 60,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 58,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 83,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 65,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 60,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.5,
+      "events": [
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 74,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.79,
+      "events": [
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 73,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 61,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 56,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 46,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.08,
+      "events": [
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 92,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 46,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.38,
+      "events": [
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 95,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 62,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.67,
+      "events": [
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.96,
+      "events": [
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 96,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 79,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.25,
+      "events": [
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 80,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 45,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.54,
+      "events": [
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 64,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 35,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.83,
+      "events": [
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 75,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 60,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic5": [
+    {
+      "timeSec": 0.0,
+      "events": [
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 61,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 75,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 61,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 47,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 64,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 79,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.75,
+      "events": [
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 68,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 61,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 55,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 46,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 83,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 51,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 45,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 58,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.5,
+      "events": [
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 78,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 55,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.79,
+      "events": [
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 83,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 59,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 58,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.08,
+      "events": [
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 73,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 61,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 61,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 60,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 55,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.38,
+      "events": [
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 92,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 72,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 54,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.67,
+      "events": [
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 95,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 73,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 57,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.96,
+      "events": [
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 49,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 45,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 45,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.25,
+      "events": [
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 45,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.54,
+      "events": [
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 82,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 57,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.83,
+      "events": [
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 63,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 54,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic6": [
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 57,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 83,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.75,
+      "events": [
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 80,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 41,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 80,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 69,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 93,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 77,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 70,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 67,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 65,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.5,
+      "events": [
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.79,
+      "events": [
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 44,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.08,
+      "events": [
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.38,
+      "events": [
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 75,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 38,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.67,
+      "events": [
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 73,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.96,
+      "events": [
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 72,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.25,
+      "events": [
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.54,
+      "events": [
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 92,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 67,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.83,
+      "events": [
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 79,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic7": [
+    {
+      "timeSec": 0.0,
+      "events": [
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 60,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 45,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 84,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 70,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 80,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 52,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 58,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 43,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 62,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 64,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 46,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic8": [
+    {
+      "timeSec": 0.0,
+      "events": [
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 44,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 61,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 46,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 45,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 83,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 79,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.75,
+      "events": [
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 64,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 54,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 49,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 72,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 59,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 93,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 71,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 67,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 57,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 51,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 91,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 65,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 51,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 91,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 73,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 61,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 64,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.5,
+      "events": [
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 73,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 57,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 57,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.79,
+      "events": [
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 86,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 42,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 37,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.08,
+      "events": [
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 65,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 56,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 49,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 36,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 35,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.38,
+      "events": [
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 78,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.67,
+      "events": [
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 72,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 54,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 52,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.96,
+      "events": [
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 68,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.25,
+      "events": [
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 70,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 61,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.54,
+      "events": [
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 63,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 55,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 36,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.83,
+      "events": [
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 92,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 65,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 65,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 62,
+          "lane": "Lane 3",
+          "note": "Lane 3 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 39,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    }
+  ],
+  "traffic9": [
+    {
+      "timeSec": 0.0,
+      "events": [
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 62,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 96,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 68,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 41,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.0,
+          "frame": 0,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 40,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.29,
+      "events": [
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 69,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 94,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 81,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 74,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.29,
+          "frame": 7,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 53,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.58,
+      "events": [
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 86,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.58,
+          "frame": 14,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 0.88,
+      "events": [
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 80,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 0.88,
+          "frame": 21,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 64,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.17,
+      "events": [
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 80,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 92,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.17,
+          "frame": 28,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 44,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.46,
+      "events": [
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 79,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 96,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.46,
+          "frame": 35,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 1.75,
+      "events": [
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 68,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 64,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 41,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 1.75,
+          "frame": 42,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 39,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.04,
+      "events": [
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 64,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 43,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 38,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.04,
+          "frame": 49,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 37,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.33,
+      "events": [
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 74,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.33,
+          "frame": 56,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 89,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.62,
+      "events": [
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 51,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.62,
+          "frame": 63,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 2.92,
+      "events": [
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 76,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 92,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 46,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 2.92,
+          "frame": 70,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 37,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.21,
+      "events": [
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 73,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 43,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.21,
+          "frame": 77,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 41,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.5,
+      "events": [
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 85,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 87,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 59,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 55,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.5,
+          "frame": 84,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 39,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 3.79,
+      "events": [
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 90,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 56,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 54,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 3.79,
+          "frame": 91,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.08,
+      "events": [
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 91,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 63,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.08,
+          "frame": 98,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 57,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.38,
+      "events": [
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 82,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 93,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 69,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 59,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.38,
+          "frame": 105,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 48,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.67,
+      "events": [
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 66,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 88,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 72,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 56,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.67,
+          "frame": 112,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 41,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 4.96,
+      "events": [
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 43,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 77,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 77,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 4.96,
+          "frame": 119,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 65,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.25,
+      "events": [
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 84,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 71,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 71,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 55,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "truck",
+          "confidence": 47,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.25,
+          "frame": 126,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 42,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.54,
+      "events": [
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 83,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 94,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 74,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 73,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.54,
+          "frame": 133,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 50,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        }
+      ]
+    },
+    {
+      "timeSec": 5.83,
+      "events": [
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "brts_intrusion",
+          "objectClass": "car",
+          "confidence": 78,
+          "lane": "BRTS Corridor",
+          "note": "\ud83d\udea8 Corridor Intrusion \u2022 BRTS Corridor"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "bus",
+          "confidence": 87,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 74,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 67,
+          "lane": "Lane 1",
+          "note": "Lane 1 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "two-wheeler",
+          "confidence": 66,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        },
+        {
+          "timeSec": 5.83,
+          "frame": 140,
+          "event": "vehicle_entry",
+          "objectClass": "car",
+          "confidence": 53,
+          "lane": "Lane 2",
+          "note": "Lane 2 \u2022 Active Flow"
+        }
+      ]
+    }
+  ]
+}

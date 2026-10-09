@@ -20,6 +20,7 @@ export const LIVE_FEEDS: Record<string, string> = {
   "CAM-K06": `/videos/traffic6.mp4${CACHE_KEY}`,
   "CAM-T07": `/videos/traffic7.mp4${CACHE_KEY}`,
   "CAM-D08": `/videos/traffic8.mp4${CACHE_KEY}`,
+  "CAM-M09": `/videos/traffic9.mp4${CACHE_KEY}`,
   "CAM-01": `/videos/traffic1.mp4${CACHE_KEY}`,
   "CAM-02": `/videos/traffic2.mp4${CACHE_KEY}`,
   "CAM-03": `/videos/traffic3.mp4${CACHE_KEY}`,
@@ -28,6 +29,10 @@ export const LIVE_FEEDS: Record<string, string> = {
   "CAM-06": `/videos/traffic6.mp4${CACHE_KEY}`,
   "CAM-07": `/videos/traffic7.mp4${CACHE_KEY}`,
   "CAM-08": `/videos/traffic8.mp4${CACHE_KEY}`,
+  "CAM-09": `/videos/traffic9.mp4${CACHE_KEY}`,
+  "JN-09": `/videos/traffic9.mp4${CACHE_KEY}`,
+  "J009": `/videos/traffic9.mp4${CACHE_KEY}`,
+  "traffic9": `/videos/traffic9.mp4${CACHE_KEY}`,
 };
 
 export function getVideoForFeed(feed: { id?: string; junctionId?: string } | string | null | undefined): string | null {
@@ -39,6 +44,6 @@ export function getVideoForFeed(feed: { id?: string; junctionId?: string } | str
     if (feed.id && LIVE_FEEDS[feed.id]) return LIVE_FEEDS[feed.id];
   }
   const num = parseInt(idStr.replace(/\D/g, "") || "0", 10);
-  if (num >= 1 && num <= 5) return `/videos/traffic${num}.mp4${CACHE_KEY}`;
+  if (num >= 1 && num <= 9) return `/videos/traffic${num}.mp4${CACHE_KEY}`;
   return null;
 }

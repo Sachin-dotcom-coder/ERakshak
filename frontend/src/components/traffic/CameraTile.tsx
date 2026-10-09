@@ -8,6 +8,7 @@ export function CameraTile({
   onClick,
   large = false,
   staggerIndex = 0,
+  onTimeUpdate,
 }: {
   feed: CameraFeed;
   overlays: boolean;
@@ -15,6 +16,7 @@ export function CameraTile({
   onClick?: () => void;
   large?: boolean;
   staggerIndex?: number;
+  onTimeUpdate?: (currentTime: number, duration: number) => void;
 }) {
   const Wrapper = onClick ? "button" : "div";
   const videoUrl = getVideoForFeed(feed);
@@ -37,6 +39,7 @@ export function CameraTile({
           <video
             src={videoUrl}
             autoPlay loop muted playsInline
+            onTimeUpdate={(e) => onTimeUpdate?.(e.currentTarget.currentTime, e.currentTarget.duration)}
             className="absolute inset-0 h-full w-full object-cover"
             style={{ opacity: 0.85 }}
           />
