@@ -77,6 +77,12 @@ video_sources:
     fps: 30.0
     junction_notes: "Traffic 8 video"
 
+  traffic9:
+    name: "Traffic 9 (BRTS + 2 Lanes)"
+    path: "sample_videos/raw/traffic9.mp4"
+    fps: 24.0
+    junction_notes: "Traffic 9 video - Left BRTS corridor with 2 carriageway lanes"
+
 # --- Preprocessing ---
 # Lighting-aware preprocessing: CLAHE engages automatically when frame is dark.
 preprocessing:

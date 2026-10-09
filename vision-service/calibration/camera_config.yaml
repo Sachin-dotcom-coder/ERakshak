@@ -69,3 +69,22 @@ cameras:
     # Stop line not clearly visible/relevant in this stretch of road —
     # leaving null. Fill in if one becomes visible in a later segment.
     stop_line_world: [0.0, 0.0]
+
+  traffic9:
+    name: "Traffic 9 (BRTS + 2 Lanes)"
+    video_file: "sample_videos/raw/traffic9.mp4"
+    fps: 24.0
+
+    pixel_points:
+      - [752, 754]   # near-left (lane 1)
+      - [1084, 728]  # near-right (lane 1)
+      - [648, 13]    # far-left (lane 1)
+      - [699, 10]    # far-right (lane 1)
+
+    world_points:
+      - [0.0, 0.0]
+      - [3.5, 0.0]
+      - [0.0, 30.0]
+      - [3.5, 30.0]
+
+    stop_line_world: [0.0, 0.0]

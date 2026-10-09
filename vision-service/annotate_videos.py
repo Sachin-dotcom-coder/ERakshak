@@ -124,6 +124,31 @@ VIDEOS_TO_PROCESS = [
             [951, 593]
         ], dtype=np.int32)
     },
+    {
+        "name": "traffic9",
+        "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic9.mp4",
+        "output": PUBLIC_VIDEOS / "traffic9.mp4",
+        "max_frames": 141,
+        "has_brts": True,
+        "brts_pts": np.array([
+            [554, 18],
+            [627, 20],
+            [600, 732],
+            [162, 706]
+        ], dtype=np.int32),
+        "lane_1_pts": np.array([
+            [648, 13],
+            [699, 10],
+            [1084, 728],
+            [752, 754]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [706, 12],
+            [760, 7],
+            [1391, 689],
+            [1127, 751]
+        ], dtype=np.int32)
+    },
 ]
 
 def annotate_video(cfg):
@@ -147,12 +172,16 @@ def annotate_video(cfg):
     sx = width / 1920.0
     sy = height / 1080.0
 
-    brts_pts = np.array([
-        [int(747 * sx), int(113 * sy)],
-        [int(827 * sx), int(116 * sy)],
-        [int(791 * sx), int(1029 * sy)],
-        [int(250 * sx), int(1006 * sy)]
-    ], dtype=np.int32)
+    if "brts_pts" in cfg:
+        brts_pts = cfg["brts_pts"].copy()
+        brts_pts = np.array([[int(p[0]), int(p[1])] for p in brts_pts], dtype=np.int32)
+    else:
+        brts_pts = np.array([
+            [int(747 * sx), int(113 * sy)],
+            [int(827 * sx), int(116 * sy)],
+            [int(791 * sx), int(1029 * sy)],
+            [int(250 * sx), int(1006 * sy)]
+        ], dtype=np.int32)
 
     if "lane_1_pts" in cfg:
         lane_1_pts = cfg["lane_1_pts"].copy()
@@ -299,7 +328,10 @@ def annotate_video(cfg):
     if os.path.exists(temp_avi):
         os.remove(temp_avi)
 
+targets = sys.argv[1:]
 for cfg in VIDEOS_TO_PROCESS:
+    if targets and cfg["name"] not in targets:
+        continue
     annotate_video(cfg)
 
-print("\nALL CAMERA VIDEOS ANNOTATED WITH REAL YOLO DETECTIONS AND LANE BORDERS COMPLETE!")
+print("\nCAMERA VIDEO ANNOTATION PIPELINE COMPLETE!")

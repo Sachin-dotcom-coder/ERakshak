@@ -76,3 +76,24 @@ traffic8:
         - [1920, 0]
         - [1920, 1080]
         - [0, 1080]
+
+traffic9:
+  brts_corridor:
+    polygon:
+      - [554, 18]     # Far-Left
+      - [627, 20]     # Far-Right
+      - [600, 732]    # Near-Right
+      - [162, 706]    # Near-Left
+  lanes:
+    lane_1:
+      polygon:
+        - [648, 13]     # Far-Left
+        - [699, 10]     # Far-Right
+        - [1084, 728]   # Near-Right
+        - [752, 754]    # Near-Left
+    lane_2:
+      polygon:
+        - [706, 12]     # Far-Left
+        - [760, 7]      # Far-Right
+        - [1391, 689]   # Near-Right
+        - [1127, 751]   # Near-Left
