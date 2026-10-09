@@ -799,9 +799,9 @@ export const INITIAL_PREDICTIONS: Prediction[] = [
     type: "prediction",
     junctionId: "JN-01",
     junctionName: "Udhna Darwaja",
-    title: "Recurring PM bottleneck — recommend dynamic lane reallocation",
+    title: "🟢 Open Extra Inbound Lane for Evening Rush",
     detail:
-      "Southbound saturation exceeds 0.92 between 18:10–19:40 on 6 of last 7 weekdays. Reallocating one mixed-traffic lane to inbound flow projects a 23% queue reduction.",
+      "Heavy evening traffic expected between 6:10 PM – 7:40 PM. Allow inbound vehicles to use 1 extra lane to cut traffic backlog by 23%.",
     confidence: 92,
     window: "Today 18:10 – 19:40",
     series: predSeries(52, 2),
@@ -811,9 +811,9 @@ export const INITIAL_PREDICTIONS: Prediction[] = [
     type: "prediction",
     junctionId: "JN-05",
     junctionName: "Varachha / Sardar Chowk",
-    title: "Pre-emptive green extension advised on east approach",
+    title: "🟢 Keep East Signal Green +12 Seconds Longer",
     detail:
-      "Diamond-market shift egress predicted to add ~1,400 veh/hr from 17:45. Extending east phase by 12s ahead of the surge avoids spillback into Ring Road.",
+      "Diamond Market workers leaving at 5:45 PM (~1,400 vehicles). Extending the East green light by 12s will keep Ring Road clear of traffic jams.",
     confidence: 87,
     window: "Today 17:45 – 18:30",
     series: predSeries(44, 5),
@@ -823,12 +823,24 @@ export const INITIAL_PREDICTIONS: Prediction[] = [
     type: "prediction",
     junctionId: "JN-02",
     junctionName: "Ring Road / Delhi Gate",
-    title: "BRTS intrusion risk elevated — recommend enforcement unit",
+    title: "🚨 Send Police Officer — Bus Lane Intrusion Warning",
     detail:
-      "Intrusion frequency correlates with corridor saturation > 0.8. Model projects 11–14 intrusions in the next 2 hours without on-ground enforcement.",
+      "Heavy traffic in the next 2 hours will cause cars to illegally cut into the BRTS Bus Lane. Send an officer to guard the entrance.",
     confidence: 78,
     window: "Next 2 hours",
     series: predSeries(30, 9),
+  },
+  {
+    id: "P-504",
+    type: "prediction",
+    junctionId: "JN-03",
+    junctionName: "Athwa Gate Circle",
+    title: "🚦 Sync Next 3 Signals for Smooth Traffic Flow",
+    detail:
+      "Traffic moving from Cable Bridge to Athwa Gate is slowing down. Coordinate green lights across the next 3 junctions to prevent queuing.",
+    confidence: 84,
+    window: "Next 30 mins",
+    series: predSeries(38, 7),
   },
 ];
 

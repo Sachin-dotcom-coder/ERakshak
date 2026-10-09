@@ -32,9 +32,9 @@ SURAT_JUNCTIONS_DATA = [
 VIOLATION_TYPES = ["brts_intrusion", "lane_violation", "wrong_side_entry"]
 VEHICLE_TYPES = ["car", "auto", "motorcycle", "truck", "suv"]
 ISSUES = [
-    ("brts_intrusion", "Active vehicle detected in BRTS dedicated lane. Adjust cycle or alert traffic police."),
-    ("asymmetric_flow", "Northbound queue is 3.2x Southbound. Extend North-South green phase by +12s."),
-    ("queue_spillback", "Queue length exceeded 80m. Signal cycle increased to prevent gridlock."),
+    ("brts_intrusion", "🚨 Private vehicle in Bus Lane. Send traffic officer to clear the lane."),
+    ("asymmetric_flow", "🟢 Heavy traffic on North approach. Increase North-South green light time by +12s."),
+    ("queue_spillback", "🚦 Traffic queue exceeded 80m. Extend green light time to prevent gridlock."),
 ]
 
 def seed_database():

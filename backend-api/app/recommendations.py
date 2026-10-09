@@ -41,8 +41,8 @@ async def run_recommendation_engine(db: Session, junction_id: str):
                     timestamp=now,
                     issue_type="brts_intrusion_heavy",
                     severity="high",
-                    description=f"Frequent BRTS lane encroachment ({intrusion_count} events in 10m) on {lane.lane_name}.",
-                    suggested_action=f"Install physical concrete channelizers or plastic bollards at the entry points of {lane.lane_name} to deter private vehicles.",
+                    description=f"🚨 Multiple cars entering BRTS Bus Lane ({intrusion_count} vehicles in 10 mins) on {lane.lane_name}.",
+                    suggested_action=f"Deploy a traffic police officer or place traffic cones at the entrance of {lane.lane_name} to stop private cars.",
                     status="pending"
                 )
                 db.add(rec)
@@ -98,8 +98,8 @@ async def run_recommendation_engine(db: Session, junction_id: str):
                     timestamp=now,
                     issue_type="asymmetric_flow",
                     severity="medium",
-                    description=f"Severe asymmetric flow detected: {heavy_dir} queue ({max(n_q, s_q):.1f}m) is over 2.5x {light_dir} queue ({min(n_q, s_q):.1f}m).",
-                    suggested_action=f"Activate dynamic overhead lane indicators to allocate one lane from {light_dir} to the opposing {heavy_dir} traffic flow.",
+                    description=f"🟢 Heavy traffic backlog in {heavy_dir} direction ({max(n_q, s_q):.0f}m queue) vs {light_dir}.",
+                    suggested_action=f"Extend {heavy_dir} green light time by +12s or open an extra lane to clear the traffic queue.",
                     status="pending"
                 )
                 db.add(rec)
@@ -144,8 +144,8 @@ async def run_recommendation_engine(db: Session, junction_id: str):
                     timestamp=now,
                     issue_type="queue_spillback",
                     severity="critical",
-                    description=f"Heavy queue spillback detected. Average junction queue is {avg_q:.1f}m, causing gridlock risk.",
-                    suggested_action="Engage adaptive signal algorithm (Max-Pressure) to dynamically extend green cycle, or adjust fixed offsets along the corridor to achieve green-wave coordination.",
+                    description=f"🚦 High traffic queue ({avg_q:.0f}m) creating risk of road junction jam.",
+                    suggested_action="Increase green light cycle time by +15s to clear queued traffic before gridlock forms.",
                     status="pending"
                 )
                 db.add(rec)

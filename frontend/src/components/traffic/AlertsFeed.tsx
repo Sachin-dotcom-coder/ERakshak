@@ -80,9 +80,9 @@ export function AlertsFeed({
           <div className="min-w-0 border-l-0 lg:border-l lg:border-border lg:pl-3">
             <div className="label-xs mb-2 flex items-center gap-1.5 text-muted-foreground font-semibold">
               <Brain className="h-3.5 w-3.5 text-sky-400" />
-              <span>Predictive recommendations</span>
+              <span>AI Simple Traffic Actions</span>
               <span className="num rounded-md border border-sky-500/30 bg-sky-500/10 px-1.5 py-0.5 text-[9px] font-mono font-bold text-sky-400 tracking-wider">
-                MODEL v2.4
+                OPERATOR ACTION GUIDE
               </span>
             </div>
             <div className="max-h-36 2xl:max-h-52 space-y-2 overflow-y-auto pr-1">
