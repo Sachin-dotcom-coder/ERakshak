@@ -5,4 +5,5 @@ psycopg2-binary
 geoalchemy2
 kafka-python
 pydantic
+python-dotenv
 reportlab

@@ -7,10 +7,11 @@ import {
   HeadContent,
   Scripts,
 } from "@tanstack/react-router";
-import { useEffect, type ReactNode } from "react";
+import { useEffect, useState, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import LoginModal from "../components/loginmodal";
 
 function NotFoundComponent() {
   return (
@@ -124,11 +125,15 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      {isAuthenticated ? (
+        <Outlet />
+      ) : (
+        <LoginModal onLoginSuccess={() => setIsAuthenticated(true)} />
+      )}
     </QueryClientProvider>
   );
 }

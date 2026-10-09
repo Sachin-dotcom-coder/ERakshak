@@ -19,6 +19,7 @@ from app.event_bus import event_bus
 from app.report_generator import generate_pdf_report
 from app.schemas import Junction as JunctionSchema
 from app.routers_events import router as vision_events_router
+from routers import auth_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
@@ -51,6 +52,7 @@ app.add_middleware(
 )
 
 app.include_router(vision_events_router)
+app.include_router(auth_router.router)
 
 @app.get("/")
 def read_root():

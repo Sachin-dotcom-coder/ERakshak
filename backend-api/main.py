@@ -2,25 +2,17 @@
 from fastapi import FastAPI, Depends, WebSocket, HTTPException
 from auth import get_current_user, get_websocket_user, TokenData
 from routers import auth_router
-# backend-api/main.py
-from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from routers import auth_router
 
-app = FastAPI(title="E-Rakshak API Core")
+app = FastAPI(title="E-Rakshak Traffic Intelligence Core")
 
-# Enable CORS for frontend dev server ports
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],  # Allows requests from localhost:8080, 5173, etc.
+    allow_origins=["*"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
-
-# Register Auth Router
-app.include_router(auth_router.router)
-app = FastAPI(title="E-Rakshak Traffic Intelligence Core")
 
 # Register Auth Router
 app.include_router(auth_router.router)
