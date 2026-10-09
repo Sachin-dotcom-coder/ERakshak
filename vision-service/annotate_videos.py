@@ -47,6 +47,82 @@ VIDEOS_TO_PROCESS = [
         "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic5.mp4",
         "output": PUBLIC_VIDEOS / "traffic5.mp4",
         "max_frames": 141,
+        "has_brts": True,
+    },
+    {
+        "name": "traffic6",
+        "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic6.mp4",
+        "output": PUBLIC_VIDEOS / "traffic6.mp4",
+        "max_frames": 141,
+        "has_brts": False,
+        "lane_1_pts": np.array([
+            [191, 157],
+            [211, 159],
+            [54, 460],
+            [2, 343]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [222, 149],
+            [249, 150],
+            [302, 730],
+            [4, 611]
+        ], dtype=np.int32),
+        "lane_3_pts": np.array([
+            [255, 146],
+            [280, 142],
+            [701, 694],
+            [328, 707]
+        ], dtype=np.int32)
+    },
+    {
+        "name": "traffic7",
+        "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic7.mp4",
+        "output": PUBLIC_VIDEOS / "traffic7.mp4",
+        "max_frames": 141,
+        "has_brts": False,
+        "lane_1_pts": np.array([
+            [421, 389],
+            [459, 386],
+            [251, 625],
+            [63, 513]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [465, 385],
+            [506, 388],
+            [801, 712],
+            [210, 696]
+        ], dtype=np.int32),
+        "lane_3_pts": np.array([
+            [520, 396],
+            [558, 393],
+            [1264, 594],
+            [828, 684]
+        ], dtype=np.int32)
+    },
+    {
+        "name": "traffic8",
+        "input": SCRIPT_DIR / "sample_videos" / "raw" / "traffic8.mp4",
+        "output": PUBLIC_VIDEOS / "traffic8.mp4",
+        "max_frames": 141,
+        "has_brts": False,
+        "lane_1_pts": np.array([
+            [666, 488],
+            [708, 494],
+            [545, 745],
+            [152, 690]
+        ], dtype=np.int32),
+        "lane_2_pts": np.array([
+            [718, 491],
+            [772, 489],
+            [998, 640],
+            [584, 726]
+        ], dtype=np.int32),
+        "lane_3_pts": np.array([
+            [780, 488],
+            [818, 480],
+            [1008, 535],
+            [951, 593]
+        ], dtype=np.int32)
     },
 ]
 
@@ -78,19 +154,32 @@ def annotate_video(cfg):
         [int(250 * sx), int(1006 * sy)]
     ], dtype=np.int32)
 
-    lane_1_pts = np.array([
-        [int(849 * sx), int(145 * sy)],
-        [int(928 * sx), int(144 * sy)],
-        [int(1376 * sx), int(976 * sy)],
-        [int(967 * sx), int(1027 * sy)]
-    ], dtype=np.int32)
+    if "lane_1_pts" in cfg:
+        lane_1_pts = cfg["lane_1_pts"].copy()
+        lane_1_pts = np.array([[int(p[0]), int(p[1])] for p in lane_1_pts], dtype=np.int32)
+    else:
+        lane_1_pts = np.array([
+            [int(849 * sx), int(145 * sy)],
+            [int(928 * sx), int(144 * sy)],
+            [int(1376 * sx), int(976 * sy)],
+            [int(967 * sx), int(1027 * sy)]
+        ], dtype=np.int32)
 
-    lane_2_pts = np.array([
-        [int(909 * sx), int(103 * sy)],
-        [int(967 * sx), int(103 * sy)],
-        [int(1728 * sx), int(948 * sy)],
-        [int(1431 * sx), int(1015 * sy)]
-    ], dtype=np.int32)
+    if "lane_2_pts" in cfg:
+        lane_2_pts = cfg["lane_2_pts"].copy()
+        lane_2_pts = np.array([[int(p[0]), int(p[1])] for p in lane_2_pts], dtype=np.int32)
+    else:
+        lane_2_pts = np.array([
+            [int(909 * sx), int(103 * sy)],
+            [int(967 * sx), int(103 * sy)],
+            [int(1728 * sx), int(948 * sy)],
+            [int(1431 * sx), int(1015 * sy)]
+        ], dtype=np.int32)
+
+    lane_3_pts = None
+    if "lane_3_pts" in cfg:
+        lane_3_pts = cfg["lane_3_pts"].copy()
+        lane_3_pts = np.array([[int(p[0]), int(p[1])] for p in lane_3_pts], dtype=np.int32)
 
     fourcc = cv2.VideoWriter_fourcc(*'MJPG')
     out = cv2.VideoWriter(temp_avi, fourcc, fps, (width, height))
@@ -105,8 +194,9 @@ def annotate_video(cfg):
         overlay = frame.copy()
 
         # BRTS Corridor: Red
-        cv2.fillPoly(overlay, [brts_pts], (0, 0, 255))
-        cv2.polylines(frame, [brts_pts], isClosed=True, color=(0, 0, 255), thickness=3)
+        if cfg.get("has_brts", True):
+            cv2.fillPoly(overlay, [brts_pts], (0, 0, 255))
+            cv2.polylines(frame, [brts_pts], isClosed=True, color=(0, 0, 255), thickness=3)
 
         # Lane 1: Green
         cv2.fillPoly(overlay, [lane_1_pts], (0, 220, 0))
@@ -116,14 +206,20 @@ def annotate_video(cfg):
         cv2.fillPoly(overlay, [lane_2_pts], (255, 140, 0))
         cv2.polylines(frame, [lane_2_pts], isClosed=True, color=(255, 140, 0), thickness=2)
 
+        # Lane 3: Yellow/Cyan (if defined)
+        if lane_3_pts is not None:
+            cv2.fillPoly(overlay, [lane_3_pts], (0, 255, 255))
+            cv2.polylines(frame, [lane_3_pts], isClosed=True, color=(0, 255, 255), thickness=2)
+
         # Blend semi-transparent lane color fill (15% opacity)
         cv2.addWeighted(overlay, 0.15, frame, 0.85, 0, frame)
 
         # Centroid Labels
-        M_b = cv2.moments(brts_pts)
-        if M_b["m00"] != 0:
-            cx, cy = int(M_b["m10"] / M_b["m00"]), int(M_b["m01"] / M_b["m00"])
-            cv2.putText(frame, "BRTS", (cx - int(25 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75 * sy, (255, 255, 255), 2, cv2.LINE_AA)
+        if cfg.get("has_brts", True):
+            M_b = cv2.moments(brts_pts)
+            if M_b["m00"] != 0:
+                cx, cy = int(M_b["m10"] / M_b["m00"]), int(M_b["m01"] / M_b["m00"])
+                cv2.putText(frame, "BRTS", (cx - int(25 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.75 * sy, (255, 255, 255), 2, cv2.LINE_AA)
 
         M_1 = cv2.moments(lane_1_pts)
         if M_1["m00"] != 0:
@@ -134,6 +230,12 @@ def annotate_video(cfg):
         if M_2["m00"] != 0:
             cx, cy = int(M_2["m10"] / M_2["m00"]), int(M_2["m01"] / M_2["m00"])
             cv2.putText(frame, "LANE 2", (cx - int(30 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.65 * sy, (255, 255, 255), 2, cv2.LINE_AA)
+            
+        if lane_3_pts is not None:
+            M_3 = cv2.moments(lane_3_pts)
+            if M_3["m00"] != 0:
+                cx, cy = int(M_3["m10"] / M_3["m00"]), int(M_3["m01"] / M_3["m00"])
+                cv2.putText(frame, "LANE 3", (cx - int(30 * sx), cy), cv2.FONT_HERSHEY_SIMPLEX, 0.65 * sy, (255, 255, 255), 2, cv2.LINE_AA)
 
         # 2. Run Real YOLO Inference for Vehicles
         results = model(frame, conf=0.28, iou=0.45, verbose=False)[0]

@@ -59,6 +59,24 @@ video_sources:
     fps: 20.0
     junction_notes: "Rokadiya Hanuman towards Bhatena — daytime footage"
 
+  traffic6:
+    name: "Traffic 6"
+    path: "sample_videos/raw/traffic6.mp4"
+    fps: 30.0
+    junction_notes: "Traffic 6 video"
+
+  traffic7:
+    name: "Traffic 7"
+    path: "sample_videos/raw/traffic7.mp4"
+    fps: 30.0
+    junction_notes: "Traffic 7 video"
+
+  traffic8:
+    name: "Traffic 8"
+    path: "sample_videos/raw/traffic8.mp4"
+    fps: 30.0
+    junction_notes: "Traffic 8 video"
+
 # --- Preprocessing ---
 # Lighting-aware preprocessing: CLAHE engages automatically when frame is dark.
 preprocessing:

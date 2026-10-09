@@ -19,12 +19,13 @@ export function useAnalytics() {
       const res = await fetch(BASE + '/api/metrics/compare/' + junctionId);
       if (res.ok) {
         const data = await res.json();
-        const points: ComparePoint[] = (data.comparison || []).map((row: any, i: number) => ({
+        const pointsArray = Array.isArray(data) ? data : (data.comparison || []);
+        const points: ComparePoint[] = pointsArray.map((row: any, i: number) => ({
           step: i,
-          adaptive: row.adaptive_wait ?? row.adaptive_avg_wait ?? 0,
-          fixed: row.fixed_wait ?? row.fixed_avg_wait ?? 0,
-          throughputAdaptive: row.adaptive_throughput ?? 0,
-          throughputFixed: row.fixed_throughput ?? 0,
+          adaptive: row.adaptive_avg_wait_sec ?? row.adaptive_wait ?? row.adaptive_avg_wait ?? 0,
+          fixed: row.fixed_avg_wait_sec ?? row.fixed_wait ?? row.fixed_avg_wait ?? 0,
+          throughputAdaptive: row.adaptive_throughput_veh ?? row.adaptive_throughput ?? 0,
+          throughputFixed: row.fixed_throughput_veh ?? row.fixed_throughput ?? 0,
         }));
         setCompareData(prev => ({ ...prev, [junctionId]: points }));
       }

@@ -17,11 +17,17 @@ export const LIVE_FEEDS: Record<string, string> = {
   "CAM-A03": `/videos/traffic3.mp4${CACHE_KEY}`,
   "CAM-P04": `/videos/traffic4.mp4${CACHE_KEY}`,
   "CAM-V05": `/videos/traffic5.mp4${CACHE_KEY}`,
+  "CAM-K06": `/videos/traffic6.mp4${CACHE_KEY}`,
+  "CAM-T07": `/videos/traffic7.mp4${CACHE_KEY}`,
+  "CAM-D08": `/videos/traffic8.mp4${CACHE_KEY}`,
   "CAM-01": `/videos/traffic1.mp4${CACHE_KEY}`,
   "CAM-02": `/videos/traffic2.mp4${CACHE_KEY}`,
   "CAM-03": `/videos/traffic3.mp4${CACHE_KEY}`,
   "CAM-04": `/videos/traffic4.mp4${CACHE_KEY}`,
   "CAM-05": `/videos/traffic5.mp4${CACHE_KEY}`,
+  "CAM-06": `/videos/traffic6.mp4${CACHE_KEY}`,
+  "CAM-07": `/videos/traffic7.mp4${CACHE_KEY}`,
+  "CAM-08": `/videos/traffic8.mp4${CACHE_KEY}`,
 };
 
 export function getVideoForFeed(feed: { id?: string; junctionId?: string } | string | null | undefined): string | null {

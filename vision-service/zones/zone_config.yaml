@@ -49,3 +49,30 @@ junction_02:
         - [986, 205]    # Far-Right
         - [1667, 1037]  # Near-Right
         - [1253, 1068]  # Near-Left
+
+traffic6:
+  lanes:
+    lane_1:
+      polygon:
+        - [0, 0]
+        - [1920, 0]
+        - [1920, 1080]
+        - [0, 1080]
+
+traffic7:
+  lanes:
+    lane_1:
+      polygon:
+        - [0, 0]
+        - [1920, 0]
+        - [1920, 1080]
+        - [0, 1080]
+
+traffic8:
+  lanes:
+    lane_1:
+      polygon:
+        - [0, 0]
+        - [1920, 0]
+        - [1920, 1080]
+        - [0, 1080]
