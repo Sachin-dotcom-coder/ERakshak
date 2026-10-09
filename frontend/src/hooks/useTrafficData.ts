@@ -249,6 +249,59 @@ export function useTrafficData() {
           }
         }
 
+const SURAT_JUNCTION_NAMES: Record<string, string> = {
+  J001: "Majura Gate Flyover",
+  J002: "Sahara Darwaja Junction",
+  J003: "Athwa Gate Circle",
+  J004: "Ring Road / Delhi Gate",
+  J005: "Adajan Gam / Patia",
+  J006: "Piplod Junction",
+  J007: "Varachha / Sardar Chowk",
+  J008: "Udhna Darwaja",
+  J009: "Khatodara GIDC Cross",
+  J010: "Katargam Darwaja",
+  J011: "Vesu VIP Road Crossing",
+  J012: "Dindoli Bridge Approach",
+  J013: "Kamrej Highway Junction",
+  J014: "Textile Market Corridor",
+  J015: "Palanpur Jakatnaka",
+  J016: "Sarthana Jakatnaka",
+  J017: "Cable Bridge Adajan",
+  J018: "Gopipura Main Road",
+  J019: "Bhatar Char Rasta",
+  J020: "Althan Canal Road",
+  J021: "Ichhapore GIDC Cross",
+  J022: "Dumas Beach Approach",
+  "JN-01": "Udhna Darwaja",
+  "JN-02": "Ring Road / Delhi Gate",
+  "JN-03": "Athwa Gate Circle",
+  "JN-04": "Majura Gate",
+  "JN-05": "Varachha / Sardar Chowk",
+  "JN-06": "Kargil Chowk",
+  "JN-07": "Textile Market",
+  "JN-08": "Delhi Gate",
+  "JN-09": "Majura Gate",
+};
+
+function formatSimpleTitle(issueType?: string, suggestedAction?: string): string {
+  if (suggestedAction) {
+    if (suggestedAction.startsWith("🚨") || suggestedAction.startsWith("🟢") || suggestedAction.startsWith("🚦") || suggestedAction.startsWith("⚠️")) {
+      return suggestedAction.split(".")[0];
+    }
+  }
+  const type = (issueType || "").toLowerCase();
+  if (type.includes("brts") || type.includes("intrusion")) {
+    return "🚨 Send Police Officer — Bus Lane Intrusion Warning";
+  }
+  if (type.includes("asymmetric") || type.includes("flow")) {
+    return "🟢 Open Extra Inbound Lane for Evening Rush";
+  }
+  if (type.includes("spillback") || type.includes("queue")) {
+    return "🚦 Increase Green Light Time (+15s) to Clear Backlog";
+  }
+  return "🟢 Extend Green Light Phase (+12s)";
+}
+
         if (rRes && rRes.ok) {
           const rawRecs = await rRes.json();
           if (Array.isArray(rawRecs)) {
@@ -256,8 +309,8 @@ export function useTrafficData() {
               id: `P-${r.id}`,
               type: "prediction" as const,
               junctionId: r.junction_id,
-              junctionName: `Junction ${r.junction_id}`,
-              title: r.issue_type?.replace("_", " ").toUpperCase() || "INFRASTRUCTURE REC",
+              junctionName: SURAT_JUNCTION_NAMES[r.junction_id] || r.junction_name || `Junction ${r.junction_id}`,
+              title: formatSimpleTitle(r.issue_type, r.suggested_action),
               detail: r.suggested_action || r.description,
               confidence: r.severity === "critical" ? 96 : 88,
               window: "Next 15m",
@@ -330,9 +383,9 @@ export function useTrafficData() {
                   id: uniqueId,
                   type: "prediction",
                   junctionId: data.junction_id,
-                  junctionName: data.junction_name || "Surat Junction",
-                  title: data.issue_type?.replace("_", " ").toUpperCase() || "CORRIDOR OPTIMIZATION",
-                  detail: data.suggested_action || data.description || "Adaptive cycle balancing recommended",
+                  junctionName: SURAT_JUNCTION_NAMES[data.junction_id] || data.junction_name || "Surat Junction",
+                  title: formatSimpleTitle(data.issue_type, data.suggested_action),
+                  detail: data.suggested_action || data.description || "Extend green light by +12s to clear queue",
                   confidence: data.severity === "critical" ? 95 : 85,
                   window: "Next 15m",
                   series: [
