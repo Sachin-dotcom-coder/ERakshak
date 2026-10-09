@@ -5,13 +5,20 @@ def seed_db():
     # Ensure all tables are created
     Base.metadata.create_all(bind=engine)
     
+    from app.seed_full_history import run_rich_seed
     db = SessionLocal()
     try:
-        # Check if we already have junctions
+        from app.models import Violation
+        if db.query(Violation).count() < 100:
+            print("Database: Populating comprehensive 60-day Surat traffic history...")
+            db.close()
+            run_rich_seed()
+            return
+
         if db.query(Junction).count() > 0:
             print("Database: Tables verified. Seed data already exists.")
             return
-            
+
         print("Database: Seeding initial Surat junctions, lanes, and spatial parameters...")
         
         # 1. Majura Gate Intersection (Center of Ring Road & BRTS)

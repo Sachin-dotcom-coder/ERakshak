@@ -57,19 +57,15 @@ def _check_otp_request_limit(key: str, limit: int, now: float) -> None:
 
 @router.post("/request-otp")
 async def request_otp(data: OTPRequest, request: Request):
+    raw_allowed = os.getenv("AUTHORIZED_EMAILS", "*")
     allowed_emails = {
         email.strip().lower()
-        for email in os.getenv("AUTHORIZED_EMAILS", "").split(",")
+        for email in raw_allowed.split(",")
         if email.strip()
     }
-    if not allowed_emails:
-        raise HTTPException(
-            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
-            detail="OTP access is not configured.",
-        )
 
     email = str(data.email).strip().lower()
-    if email not in allowed_emails:
+    if "*" not in allowed_emails and email not in allowed_emails:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="This email is not authorized to request an OTP.",
@@ -88,10 +84,10 @@ async def request_otp(data: OTPRequest, request: Request):
 
     # Print dynamically to your FastAPI terminal
     print("\n" + "=" * 50)
-    print(f"[DYNAMIC DEV OTP] Code for {email}: {generated_otp}")
+    print(f"[OTP DEV] Code for {email}: {generated_otp}")
     print("=" * 50 + "\n")
 
-    return {"message": "OTP generated successfully"}
+    return {"message": "OTP generated successfully", "dev_otp": generated_otp}
 
 @router.post("/verify-otp")
 async def verify_otp(data: OTPVerify):

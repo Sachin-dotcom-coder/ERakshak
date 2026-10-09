@@ -42,11 +42,8 @@ async def start_mock_traffic_loop():
     # We maintain in-memory counters to cycle phases if junctions are in 'fixed' mode
     phase_counters = {}
     
-    # Clear out old metrics, violations, and recs on fresh start to keep the demo clean
-    db.query(TrafficMetric).delete()
-    db.query(Violation).delete()
-    db.query(Recommendation).delete()
-    db.commit()
+    # Preserve historical logs for reporting (do not wipe on startup)
+    pass
 
     try:
         while True:
@@ -238,8 +235,8 @@ async def start_mock_traffic_loop():
                     "lanes": lanes_data
                 })
 
-            # 6. Database Housekeeping: Delete metrics older than 30 mins to avoid infinite table growth
-            threshold = datetime.datetime.utcnow() - datetime.timedelta(minutes=30)
+            # 6. Database Housekeeping: Delete metrics older than 90 days to retain historical reports
+            threshold = datetime.datetime.utcnow() - datetime.timedelta(days=90)
             db.query(TrafficMetric).filter(TrafficMetric.timestamp < threshold).delete()
             db.commit()
 
