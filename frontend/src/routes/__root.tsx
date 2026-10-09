@@ -12,6 +12,7 @@ import { useEffect, useState, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import LoginModal from "../components/loginmodal";
+import { AuthProvider, useAuth } from "../lib/auth-context";
 
 function NotFoundComponent() {
   return (
@@ -126,15 +127,22 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
   return (
     <QueryClientProvider client={queryClient}>
-      {isAuthenticated ? (
-        <Outlet />
-      ) : (
-        <LoginModal onLoginSuccess={() => setIsAuthenticated(true)} />
-      )}
+      <AuthProvider>
+        <RootAuthGuard />
+      </AuthProvider>
     </QueryClientProvider>
+  );
+}
+
+function RootAuthGuard() {
+  const { isAuthenticated, login } = useAuth();
+
+  return isAuthenticated ? (
+    <Outlet />
+  ) : (
+    <LoginModal onLoginSuccess={(data) => login(data.access_token)} />
   );
 }

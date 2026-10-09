@@ -56,6 +56,7 @@ export default function loginmodal({ onLoginSuccess }: loginmodalProps) {
       if (!res.ok) throw new Error(data.detail || 'Verification failed');
 
       localStorage.setItem('erakshak_jwt', data.access_token);
+      localStorage.setItem('erakshak_operator_email', email.trim());
       onLoginSuccess(data);
     } catch (err: any) {
       setError(err.message);

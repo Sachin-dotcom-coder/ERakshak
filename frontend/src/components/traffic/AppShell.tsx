@@ -1,6 +1,7 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Map, Camera, BarChart3 } from "lucide-react";
+import { Map, Camera, BarChart3, LogOut } from "lucide-react";
 import { SuratTrafficNexusLogo } from "./Logo";
+import { useAuth } from "@/lib/auth-context";
 import type { ReactNode } from "react";
 
 const NAV = [
@@ -11,6 +12,7 @@ const NAV = [
 
 export function AppShell({ children }: { children: ReactNode }) {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const { logout } = useAuth();
 
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-background">
@@ -40,9 +42,19 @@ export function AppShell({ children }: { children: ReactNode }) {
           })}
         </div>
 
-        {/* Bottom branding */}
-        <div className="mt-auto px-2 pb-2 flex flex-col items-center">
-          <div className="label-xs text-center" style={{ fontSize: 7 }}>
+        {/* Bottom branding and Logout */}
+        <div className="mt-auto px-2 pb-2 flex flex-col items-center gap-2 w-full">
+          <button
+            onClick={logout}
+            title="Logout Operator Session"
+            className="nav-item text-muted-foreground hover:text-rose-400 hover:bg-rose-500/10 hover:border-rose-500/30 transition-all cursor-pointer group"
+            aria-label="Logout"
+          >
+            <LogOut className="h-5 w-5 text-muted-foreground group-hover:text-rose-400 transition-colors" strokeWidth={1.8} />
+            <span className="nav-label text-[8px] text-muted-foreground group-hover:text-rose-400">Logout</span>
+          </button>
+
+          <div className="label-xs text-center opacity-60" style={{ fontSize: 7 }}>
             E·RAKSHAK<br />2026
           </div>
         </div>

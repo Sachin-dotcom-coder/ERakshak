@@ -7,7 +7,7 @@ import { DetectionLog } from "./DetectionLog";
 import { useTrafficData } from "@/hooks/useTrafficData";
 import { useCameraFeeds } from "@/hooks/useCameraFeeds";
 import { fmtTime } from "@/lib/mock-traffic";
-import { getVideoKeyForFeed, getRealDetectionsForVideoTime } from "@/lib/video-detections";
+import { getVideoKeyForFeed, getRealDetectionsForVideoTime, type RealCheckpointEvent } from "@/lib/video-detections";
 import type { DetectionEvent } from "@/lib/traffic-types";
 
 const GRID_SIZE = 9; // 3×3
