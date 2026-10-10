@@ -1,8 +1,10 @@
 import React, { useState } from "react";
+import { Download, ArrowLeft } from "lucide-react";
 import { AppShell } from "./AppShell";
+import { TopStatusBar } from "./TopStatusBar";
 import { ExportModal } from "./ExportModal";
+import { useTrafficData } from "@/hooks/useTrafficData";
 import { useReportsData } from "@/hooks/useReportsData";
-import { ReportsFilterBar } from "./reports/ReportsFilterBar";
 import { ReportsKpiRow } from "./reports/ReportsKpiRow";
 import { ReportsChartsRow } from "./reports/ReportsChartsRow";
 import { ReportsHeatmapRow } from "./reports/ReportsHeatmapRow";
@@ -21,17 +23,8 @@ type SubTab =
   | "RECOMMENDATIONS"
   | "SYSTEM HEALTH";
 
-const SUB_TABS: SubTab[] = [
-  "OVERVIEW",
-  "CONGESTION",
-  "SIGNALS",
-  "ENFORCEMENT",
-  "INCIDENTS",
-  "RECOMMENDATIONS",
-  "SYSTEM HEALTH",
-];
-
 export function Reports() {
+  const { stats, connected } = useTrafficData();
   const [activeTab, setActiveTab] = useState<SubTab>("OVERVIEW");
   const [exportOpen, setExportOpen] = useState(false);
 
@@ -84,58 +77,39 @@ export function Reports() {
 
   return (
     <AppShell>
+      <TopStatusBar
+        junctionsOnline={stats.junctionsOnline}
+        intrusions={stats.activeIntrusions}
+        avgCongestion={stats.avgCongestion}
+        connected={connected}
+        right={
+          <button
+            onClick={() => setExportOpen(true)}
+            className="num flex items-center gap-1.5 border border-foreground/20 bg-foreground/5 px-3 py-1.5 text-[11px] font-bold uppercase tracking-wider text-foreground rounded-lg transition-all hover:bg-foreground hover:text-background shadow-sm cursor-pointer"
+          >
+            <Download className="h-3.5 w-3.5" />
+            Export Report
+          </button>
+        }
+      />
+
       <div className="flex h-full w-full flex-col bg-[#0A0A0B] text-[#FFFFFF] overflow-hidden">
-        {/* Sub-Navigation Tabs Bar */}
-        <div className="flex items-center justify-between border-b border-[#1C1C20] bg-[#0E0E10] px-6 pt-3">
-          <div className="flex items-center gap-6 overflow-x-auto">
-            {SUB_TABS.map((tab) => {
-              const isActive = activeTab === tab;
-              return (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`relative pb-3 font-mono text-[12px] font-semibold uppercase tracking-[0.14em] transition-colors ${
-                    isActive ? "text-[#FFFFFF]" : "text-[#6B6B73] hover:text-[#A1A1A8]"
-                  }`}
-                >
-                  <span className="flex items-center gap-1.5">
-                    {tab}
-                    {tab === "RECOMMENDATIONS" && pendingRecsCount > 0 && (
-                      <span className="rounded-full bg-[#E8A838] px-1.5 py-0.2 text-[9px] font-bold text-[#0A0A0B]">
-                        {pendingRecsCount}
-                      </span>
-                    )}
-                  </span>
-                  {isActive && (
-                    <div className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#FFFFFF]" />
-                  )}
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="hidden pb-3 text-right font-mono text-[11px] text-[#6B6B73] md:block">
-            <span>22 JUNCTIONS · 6 ZONES · SURAT SMART CITY</span>
-          </div>
-        </div>
-
-        {/* Global Filter Bar */}
-        <ReportsFilterBar
-          range={range}
-          setRange={setRange}
-          compare={compare}
-          setCompare={setCompare}
-          zone={zone}
-          setZone={setZone}
-          corridor={corridor}
-          setCorridor={setCorridor}
-          freshnessSeconds={summary.freshness_seconds}
-          isStale={summary.is_stale}
-          onExportClick={() => setExportOpen(true)}
-        />
-
         {/* Main Content Area */}
         <div className="flex-1 min-h-0 overflow-y-auto p-6 space-y-6">
+          {activeTab !== "OVERVIEW" && (
+            <div className="flex items-center justify-between pb-2 border-b border-[#1C1C20]">
+              <button
+                onClick={() => setActiveTab("OVERVIEW")}
+                className="flex items-center gap-2 text-xs font-mono text-[#A1A1A8] hover:text-[#FFFFFF] transition-colors cursor-pointer"
+              >
+                <ArrowLeft className="h-3.5 w-3.5" /> Back to Overview Report
+              </button>
+              <span className="font-mono text-xs uppercase text-[#E8A838] font-semibold">
+                Viewing: {activeTab}
+              </span>
+            </div>
+          )}
+
           {activeTab === "OVERVIEW" && (
             <>
               {/* Row 1: 6 KPI Cards */}
@@ -213,7 +187,18 @@ export function Reports() {
       />
 
       {/* Export Report Modal */}
-      <ExportModal open={exportOpen} onClose={() => setExportOpen(false)} />
+      <ExportModal
+        open={exportOpen}
+        onClose={() => setExportOpen(false)}
+        range={range}
+        setRange={setRange}
+        compare={compare}
+        setCompare={setCompare}
+        zone={zone}
+        setZone={setZone}
+        corridor={corridor}
+        setCorridor={setCorridor}
+      />
     </AppShell>
   );
 }

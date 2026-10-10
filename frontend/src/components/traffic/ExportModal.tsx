@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Download,
   FileText,
@@ -12,11 +12,17 @@ import {
   AlertCircle,
   ShieldCheck,
   Lock,
+  Filter,
+  MapPin,
+  GitCompare,
+  Route,
 } from "lucide-react";
 
 const BASE = "http://localhost:8000";
 
 export type PeriodKey =
+  | "today"
+  | "24h"
   | "previous_week"
   | "previous_month"
   | "last_7_days"
@@ -24,12 +30,42 @@ export type PeriodKey =
   | "custom";
 
 const PERIOD_OPTIONS = [
-  { id: "previous_week", label: "Previous Week (Mon–Sun)", desc: "Completed cycle preceding current week" },
-  { id: "previous_month", label: "Previous Month", desc: "Whole prior calendar month" },
+  { id: "today", label: "Today (Live Cycle)", desc: "Current day traffic observations" },
+  { id: "24h", label: "Past 24 Hours", desc: "Rolling 24-hour cycle performance" },
   { id: "last_7_days", label: "Last 7 Days", desc: "Past rolling 168 hours of activity" },
   { id: "last_30_days", label: "Last 30 Days", desc: "Past rolling monthly trends" },
+  { id: "previous_week", label: "Previous Week (Mon–Sun)", desc: "Completed cycle preceding current week" },
+  { id: "previous_month", label: "Previous Month", desc: "Whole prior calendar month" },
   { id: "custom", label: "Custom Date Range…", desc: "Select arbitrary start and end dates" },
 ] as const;
+
+export const COMPARES = [
+  "vs yesterday",
+  "vs same weekday last week",
+  "vs 7-day average",
+  "vs fixed-timing baseline",
+  "none",
+];
+
+export const ZONES = [
+  "All zones",
+  "South Zone",
+  "Central Surat",
+  "Ring Road",
+  "West Zone",
+  "East Zone",
+  "North Zone",
+  "Dumas Road",
+];
+
+export const CORRIDORS = [
+  "All corridors",
+  "BRTS Corridor 1",
+  "Ring Road Arterial",
+  "Diamond Corridor",
+  "Airport Corridor",
+  "Hazira Link Corridor",
+];
 
 const FORMATS = [
   {
@@ -69,16 +105,57 @@ const FORMATS = [
 type FormatId = (typeof FORMATS)[number]["id"];
 type Status = "idle" | "loading" | "done" | "error";
 
+interface ExportModalProps {
+  open: boolean;
+  onClose: () => void;
+  range?: "today" | "24h" | "7d" | "30d" | "custom";
+  setRange?: (r: "today" | "24h" | "7d" | "30d" | "custom") => void;
+  compare?: string;
+  setCompare?: (c: string) => void;
+  zone?: string;
+  setZone?: (z: string) => void;
+  corridor?: string;
+  setCorridor?: (c: string) => void;
+}
+
 export function ExportModal({
   open,
   onClose,
-}: {
-  open: boolean;
-  onClose: () => void;
-}) {
+  range = "today",
+  setRange,
+  compare = "vs yesterday",
+  setCompare,
+  zone = "all",
+  setZone,
+  corridor = "all",
+  setCorridor,
+}: ExportModalProps) {
   const [format, setFormat] = useState<FormatId>("pdf");
-  const [period, setPeriod] = useState<PeriodKey>("last_7_days");
+  const [period, setPeriod] = useState<PeriodKey>(
+    range === "7d" ? "last_7_days" : range === "30d" ? "last_30_days" : range
+  );
+  const [selectedCompare, setSelectedCompare] = useState(compare);
+  const [selectedZone, setSelectedZone] = useState(zone === "all" ? "All zones" : zone);
+  const [selectedCorridor, setSelectedCorridor] = useState(corridor === "all" ? "All corridors" : corridor);
   const [useAi, setUseAi] = useState(true);
+
+  // Sync external state if changed
+  useEffect(() => {
+    const mapped = range === "7d" ? "last_7_days" : range === "30d" ? "last_30_days" : range;
+    setPeriod(mapped);
+  }, [range]);
+
+  useEffect(() => {
+    setSelectedCompare(compare);
+  }, [compare]);
+
+  useEffect(() => {
+    setSelectedZone(zone === "all" ? "All zones" : zone);
+  }, [zone]);
+
+  useEffect(() => {
+    setSelectedCorridor(corridor === "all" ? "All corridors" : corridor);
+  }, [corridor]);
 
   // Custom date range state
   const todayStr = new Date().toISOString().slice(0, 10);
@@ -95,10 +172,21 @@ export function ExportModal({
 
   function buildExportUrl(): string {
     const params = new URLSearchParams();
-    params.set("period", period);
+    const backendPeriod =
+      period === "today" ? "last_7_days" : period === "24h" ? "last_7_days" : period;
+    params.set("period", backendPeriod);
     if (period === "custom") {
       if (from) params.set("start", from);
       if (to) params.set("end", to);
+    }
+    if (selectedZone && selectedZone !== "All zones" && selectedZone !== "all") {
+      params.set("zone", selectedZone);
+    }
+    if (selectedCorridor && selectedCorridor !== "All corridors" && selectedCorridor !== "all") {
+      params.set("corridor", selectedCorridor);
+    }
+    if (selectedCompare && selectedCompare !== "none") {
+      params.set("compare", selectedCompare);
     }
 
     if (format === "pdf") {
@@ -243,12 +331,28 @@ export function ExportModal({
           <div className="space-y-1.5">
             <label className="label-xs flex items-center gap-1.5 text-foreground/80">
               <Calendar className="h-3 w-3 text-emerald-400" />
-              <span>Reporting Period</span>
+              <span>Reporting Range & Period</span>
             </label>
             <div className="relative">
               <select
                 value={period}
-                onChange={(e) => setPeriod(e.target.value as PeriodKey)}
+                onChange={(e) => {
+                  const val = e.target.value as PeriodKey;
+                  setPeriod(val);
+                  if (setRange) {
+                    const mappedRange =
+                      val === "last_7_days"
+                        ? "7d"
+                        : val === "last_30_days"
+                        ? "30d"
+                        : val === "previous_week"
+                        ? "7d"
+                        : val === "previous_month"
+                        ? "30d"
+                        : (val as any);
+                    setRange(mappedRange);
+                  }
+                }}
                 disabled={status === "loading"}
                 className="w-full appearance-none rounded-lg border border-border bg-foreground/[0.04] px-3.5 py-2.5 text-xs font-medium text-foreground transition-all hover:bg-foreground/[0.08] focus:border-foreground/40 focus:outline-none"
               >
@@ -262,6 +366,107 @@ export function ExportModal({
                 <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                 </svg>
+              </div>
+            </div>
+          </div>
+
+          {/* 2. Scope Filters: Baseline Compare, Zone, Corridor */}
+          <div className="rounded-lg border border-border bg-foreground/[0.02] p-3 space-y-3">
+            <div className="flex items-center gap-1.5 text-[11px] font-semibold uppercase tracking-wider text-muted-foreground font-mono">
+              <Filter className="h-3 w-3 text-emerald-400" />
+              <span>Target Scope & Filters</span>
+            </div>
+
+            {/* Baseline Comparison */}
+            <div className="space-y-1">
+              <label className="label-xs flex items-center gap-1 text-muted-foreground">
+                <GitCompare className="h-3 w-3 text-emerald-400" />
+                <span>Baseline Comparison</span>
+              </label>
+              <div className="relative">
+                <select
+                  value={selectedCompare}
+                  onChange={(e) => {
+                    setSelectedCompare(e.target.value);
+                    setCompare?.(e.target.value);
+                  }}
+                  disabled={status === "loading"}
+                  className="w-full appearance-none rounded-md border border-border bg-panel px-3 py-1.5 text-xs font-mono text-foreground focus:border-foreground/40 focus:outline-none"
+                >
+                  {COMPARES.map((c) => (
+                    <option key={c} value={c} className="bg-panel text-foreground">
+                      {c}
+                    </option>
+                  ))}
+                </select>
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2.5 text-muted-foreground">
+                  <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </div>
+              </div>
+            </div>
+
+            {/* Zone & Corridor 2-Col Grid */}
+            <div className="grid grid-cols-2 gap-3">
+              <div className="space-y-1">
+                <label className="label-xs flex items-center gap-1 text-muted-foreground">
+                  <MapPin className="h-3 w-3 text-emerald-400" />
+                  <span>Zone</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedZone}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSelectedZone(val);
+                      setZone?.(val === "All zones" ? "all" : val);
+                    }}
+                    disabled={status === "loading"}
+                    className="w-full appearance-none rounded-md border border-border bg-panel px-3 py-1.5 text-xs font-mono text-foreground focus:border-foreground/40 focus:outline-none"
+                  >
+                    {ZONES.map((z) => (
+                      <option key={z} value={z} className="bg-panel text-foreground">
+                        {z}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
+                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+
+              <div className="space-y-1">
+                <label className="label-xs flex items-center gap-1 text-muted-foreground">
+                  <Route className="h-3 w-3 text-emerald-400" />
+                  <span>Corridor</span>
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedCorridor}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setSelectedCorridor(val);
+                      setCorridor?.(val === "All corridors" ? "all" : val);
+                    }}
+                    disabled={status === "loading"}
+                    className="w-full appearance-none rounded-md border border-border bg-panel px-3 py-1.5 text-xs font-mono text-foreground focus:border-foreground/40 focus:outline-none"
+                  >
+                    {CORRIDORS.map((c) => (
+                      <option key={c} value={c} className="bg-panel text-foreground">
+                        {c}
+                      </option>
+                    ))}
+                  </select>
+                  <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-muted-foreground">
+                    <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
