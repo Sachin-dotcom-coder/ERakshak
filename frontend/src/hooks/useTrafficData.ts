@@ -17,6 +17,7 @@ import type {
   Prediction,
 } from "@/lib/traffic-types";
 import { VIDEO_DETECTIONS } from "@/lib/video-detections";
+import { apiUrl, wsUrl } from "../config";
 
 type QueueRow = { t: string } & Record<string, number | string>;
 
@@ -269,9 +270,9 @@ export function useTrafficData() {
     async function loadBackendData() {
       try {
         const [jRes, vRes, rRes] = await Promise.all([
-          fetch("http://localhost:8000/api/junctions").catch(() => null),
-          fetch("http://localhost:8000/api/violations").catch(() => null),
-          fetch("http://localhost:8000/api/recommendations").catch(() => null),
+          fetch(apiUrl("/api/junctions")).catch(() => null),
+          fetch(apiUrl("/api/violations")).catch(() => null),
+          fetch(apiUrl("/api/recommendations")).catch(() => null),
         ]);
 
         let fetchedJunctions: Junction[] | undefined;
@@ -357,7 +358,7 @@ export function useTrafficData() {
 
     function connect() {
       try {
-        socket = new WebSocket("ws://localhost:8000/api/ws/traffic");
+        socket = new WebSocket(wsUrl("/api/ws/traffic"));
 
         socket.onopen = () => {
           console.log("Connected to E-Rakshak Live Traffic WebSocket Stream");

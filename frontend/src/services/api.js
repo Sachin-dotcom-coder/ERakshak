@@ -35,5 +35,10 @@ export async function authFetch(url, options = {}) {
   return response.json();
 }
 
+// Note: this module-level WebSocket instantiation is legacy and kept for reference.
+// The actual WebSocket connection is managed in useTrafficData.ts via wsUrl().
 const token = localStorage.getItem('erakshak_jwt');
-const ws = new WebSocket(`ws://localhost:8000/api/ws/traffic?token=${token}`);
+const _wsBase = import.meta.env.VITE_API_URL
+  ? (import.meta.env.VITE_API_URL.replace(/^https:\/\//, 'wss://').replace(/^http:\/\//, 'ws://'))
+  : `${window.location.protocol === 'https:' ? 'wss:' : 'ws:'}//${window.location.host}`;
+const ws = new WebSocket(`${_wsBase}/api/ws/traffic?token=${token}`);

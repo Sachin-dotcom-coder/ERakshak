@@ -6,6 +6,9 @@ __pycache__/
 
 # Environments & Dependencies
 .env
+.env.local
+# Allow .env.production as a deployment template (no secrets inside)
+!frontend/.env.production
 .venv
 venv/
 env/
@@ -16,8 +19,9 @@ build/
 # Videos (Person A)
 vision-service/public/videos/
 vision-service/sample_videos/
-frontend/public/videos/
 *.mp4
+# Allow frontend demo and junction videos for hosted deployment
+!frontend/public/videos/*.mp4
 
 # ML Weights (Person A)
 vision-service/models/*.pt

@@ -2,6 +2,7 @@ import React from "react";
 import { X, ExternalLink, Download, Clock, ShieldAlert, Route } from "lucide-react";
 import { ResponsiveContainer, LineChart, Line, XAxis, YAxis, Tooltip } from "recharts";
 import type { JunctionDetailData } from "@/hooks/useReportsData";
+import { apiUrl } from "../../../config";
 
 interface DrawerProps {
   open: boolean;
@@ -179,7 +180,7 @@ export const JunctionDetailDrawer: React.FC<DrawerProps> = ({ open, onClose, dat
           </button>
           <button
             onClick={() => {
-              window.open(`http://localhost:8000/api/reports/download/pdf?period=last_7_days`, "_blank");
+              window.open(apiUrl(`/api/reports/download/pdf?period=last_7_days`), "_blank");
             }}
             className="flex items-center justify-center gap-2 rounded-xl border border-[#1C1C20] bg-[#1A1A1D] px-4 py-2 font-mono text-[11px] font-bold text-[#FFFFFF] hover:border-[#6B6B73]"
           >

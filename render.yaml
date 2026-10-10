@@ -1,0 +1,17 @@
+services:
+  - type: web
+    name: erakshak-api
+    runtime: python
+    region: singapore  # closest to India
+    plan: free
+    rootDir: backend-api
+    buildCommand: pip install -r requirements.txt
+    startCommand: python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /
+    envVars:
+      - key: AUTHORIZED_EMAILS
+        value: "*"
+      - key: JWT_SECRET_KEY
+        generateValue: true
+      - key: PYTHON_VERSION
+        value: "3.11.0"

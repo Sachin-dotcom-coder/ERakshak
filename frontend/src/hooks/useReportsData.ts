@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from "react";
+import { apiUrl } from "../config";
 
-const BASE = "http://localhost:8000";
+const BASE = ""; // resolved via apiUrl() helper
 
 export type KpiCardData = {
   id: string;
@@ -192,7 +193,7 @@ export function useReportsData() {
   // Fetch Summary KPIs
   const fetchSummary = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/summary?range=${range}&compare=${encodeURIComponent(compare)}&zone=${zone}&corridor=${corridor}`);
+      const res = await fetch(apiUrl(`/api/reports/summary?range=${range}&compare=${encodeURIComponent(compare)}&zone=${zone}&corridor=${corridor}`));
       if (res.ok) {
         const data = await res.json();
         setSummary(data);
@@ -205,7 +206,7 @@ export function useReportsData() {
   // Fetch Delay series
   const fetchDelaySeries = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/delay-series?scope=${delayScope}&range=${range}`);
+      const res = await fetch(apiUrl(`/api/reports/delay-series?scope=${delayScope}&range=${range}`));
       if (res.ok) {
         const data = await res.json();
         setDelaySeries(data.data || []);
@@ -218,7 +219,7 @@ export function useReportsData() {
   // Fetch LOS distribution
   const fetchLos = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/los-distribution?range=${range}`);
+      const res = await fetch(apiUrl(`/api/reports/los-distribution?range=${range}`));
       if (res.ok) {
         const data = await res.json();
         setLosDistribution(data.blocks || []);
@@ -231,7 +232,7 @@ export function useReportsData() {
   // Fetch Violations trend
   const fetchViolations = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/violations?range=${range}`);
+      const res = await fetch(apiUrl(`/api/reports/violations?range=${range}`));
       if (res.ok) {
         const data = await res.json();
         setViolations(data.data || []);
@@ -244,7 +245,7 @@ export function useReportsData() {
   // Fetch Heatmap
   const fetchHeatmap = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/heatmap?metric=${heatmapMetric}&range=${range}`);
+      const res = await fetch(apiUrl(`/api/reports/heatmap?metric=${heatmapMetric}&range=${range}`));
       if (res.ok) {
         const data = await res.json();
         setHeatmapRows(data.rows || []);
@@ -257,7 +258,7 @@ export function useReportsData() {
   // Fetch Bottlenecks
   const fetchBottlenecks = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/bottlenecks`);
+      const res = await fetch(apiUrl('/api/reports/bottlenecks'));
       if (res.ok) {
         const data = await res.json();
         setBottlenecks(data || []);
@@ -270,7 +271,7 @@ export function useReportsData() {
   // Fetch Adaptive Benefit
   const fetchAdaptiveBenefit = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/adaptive-benefit`);
+      const res = await fetch(apiUrl('/api/reports/adaptive-benefit'));
       if (res.ok) {
         const data = await res.json();
         setAdaptiveBenefit(data);
@@ -283,7 +284,7 @@ export function useReportsData() {
   // Fetch Junctions Table
   const fetchJunctions = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/junctions-performance`);
+      const res = await fetch(apiUrl('/api/reports/junctions-performance'));
       if (res.ok) {
         const data = await res.json();
         setJunctions(data || []);
@@ -296,7 +297,7 @@ export function useReportsData() {
   // Fetch Recommendations
   const fetchRecommendations = useCallback(async () => {
     try {
-      const res = await fetch(`${BASE}/api/reports/recommendations-grouped`);
+      const res = await fetch(apiUrl('/api/reports/recommendations-grouped'));
       if (res.ok) {
         const data = await res.json();
         setRecommendations(data || []);
@@ -310,9 +311,9 @@ export function useReportsData() {
   const fetchSecondaryData = useCallback(async () => {
     try {
       const [incRes, sigRes, sysRes] = await Promise.all([
-        fetch(`${BASE}/api/reports/incidents`),
-        fetch(`${BASE}/api/reports/signals`),
-        fetch(`${BASE}/api/reports/system-health`),
+        fetch(apiUrl('/api/reports/incidents')),
+        fetch(apiUrl('/api/reports/signals')),
+        fetch(apiUrl('/api/reports/system-health')),
       ]);
       if (incRes.ok) setIncidents(await incRes.json());
       if (sigRes.ok) setSignals(await sigRes.json());
@@ -325,7 +326,7 @@ export function useReportsData() {
   // Open Drawer for a Junction
   const openJunctionDrawer = useCallback(async (junctionId: string) => {
     try {
-      const res = await fetch(`${BASE}/api/reports/junction/${junctionId}`);
+      const res = await fetch(apiUrl(`/api/reports/junction/${junctionId}`));
       if (res.ok) {
         const data = await res.json();
         setDrawerJunction(data);
@@ -339,7 +340,7 @@ export function useReportsData() {
   // Approve / Reject recommendation
   const handleRecDecision = useCallback(async (recId: number, action: "approve" | "reject" | "defer", reason?: string) => {
     try {
-      await fetch(`${BASE}/api/reports/recommendations/${recId}/decision?action=${action}&reason=${encodeURIComponent(reason || "")}`, {
+      await fetch(apiUrl(`/api/reports/recommendations/${recId}/decision?action=${action}&reason=${encodeURIComponent(reason || "")}`), {
         method: "POST",
       });
       setRecommendations(prev =>

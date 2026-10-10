@@ -18,7 +18,9 @@ import {
   Route,
 } from "lucide-react";
 
-const BASE = "http://localhost:8000";
+import { apiUrl } from "../../config";
+
+const BASE = ""; // resolved via apiUrl() — not used directly anymore
 
 export type PeriodKey =
   | "today"
@@ -191,18 +193,18 @@ export function ExportModal({
 
     if (format === "pdf") {
       params.set("ai", String(useAi));
-      return `${BASE}/api/reports/download/pdf?${params.toString()}`;
+      return apiUrl(`/api/reports/download/pdf?${params.toString()}`);
     }
     if (format === "violations_csv") {
       params.set("type", "violations");
-      return `${BASE}/api/reports/download/csv?${params.toString()}`;
+      return apiUrl(`/api/reports/download/csv?${params.toString()}`);
     }
     if (format === "metrics_csv") {
       params.set("type", "metrics");
-      return `${BASE}/api/reports/download/csv?${params.toString()}`;
+      return apiUrl(`/api/reports/download/csv?${params.toString()}`);
     }
     // format === 'json'
-    return `${BASE}/api/reports/preview?${params.toString()}`;
+    return apiUrl(`/api/reports/preview?${params.toString()}`);
   }
 
   async function handleExport() {

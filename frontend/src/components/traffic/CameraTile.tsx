@@ -39,6 +39,12 @@ export function CameraTile({
           <video
             src={videoUrl}
             autoPlay loop muted playsInline
+            onError={(e) => {
+              const target = e.currentTarget;
+              if (!target.src.includes("traffic_demo.mp4")) {
+                target.src = "/videos/traffic_demo.mp4";
+              }
+            }}
             onTimeUpdate={(e) => onTimeUpdate?.(e.currentTarget.currentTime, e.currentTarget.duration)}
             className="absolute inset-0 h-full w-full object-cover"
             style={{ opacity: 0.85 }}

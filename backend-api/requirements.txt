@@ -1,9 +1,10 @@
 fastapi
-uvicorn
+uvicorn[standard]
 sqlalchemy
-psycopg2-binary
-geoalchemy2
-kafka-python
-pydantic
+pydantic[email]
+pydantic-settings
 python-dotenv
 reportlab
+PyJWT
+passlib[bcrypt]
+python-multipart

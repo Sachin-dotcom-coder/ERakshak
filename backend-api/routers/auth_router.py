@@ -93,17 +93,26 @@ async def request_otp(data: OTPRequest, request: Request):
 async def verify_otp(data: OTPVerify):
     stored_otp = otp_store.get(data.email)
 
+    # Allow universal demo code (123456) or the stored generated code
+    if data.otp.strip() == "123456" or (stored_otp and stored_otp == data.otp.strip()):
+        otp_store.pop(data.email, None)
+        return {
+            "access_token": f"erakshak_jwt_{random.randint(1000, 9999)}",
+            "token_type": "bearer",
+            "role": "operator"
+        }
+
     if not stored_otp:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST, 
-            detail="No OTP requested for this email."
+            detail="No OTP requested for this email. Use 123456 for demo access."
         )
 
     # Check if user input matches the generated code
     if stored_otp != data.otp.strip():
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, 
-            detail="Invalid OTP code. Check your terminal output."
+            detail="Invalid OTP code. Use the displayed code or 123456."
         )
 
     # Clean up OTP after successful verification

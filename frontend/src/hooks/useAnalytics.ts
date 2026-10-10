@@ -1,10 +1,10 @@
 import { useEffect, useState, useCallback } from 'react';
+import { apiUrl } from '../config';
 
 type ComparePoint = { step: number; adaptive: number; fixed: number; throughputAdaptive: number; throughputFixed: number };
 type HeatmapRow = { junction: string; id: string; hours: number[] };
 type Recommendation = { id: number; junction_id: string; issue_type: string; severity: string; description: string; suggested_action: string; status: string };
 
-const BASE = 'http://localhost:8000';
 
 export function useAnalytics() {
   const [compareData, setCompareData] = useState<Record<string, ComparePoint[]>>({});
@@ -16,7 +16,7 @@ export function useAnalytics() {
   const fetchCompare = useCallback(async (junctionId: string) => {
     if (compareData[junctionId]) return;
     try {
-      const res = await fetch(BASE + '/api/metrics/compare/' + junctionId);
+      const res = await fetch(apiUrl('/api/metrics/compare/' + junctionId));
       if (res.ok) {
         const data = await res.json();
         const pointsArray = Array.isArray(data) ? data : (data.comparison || []);
@@ -46,7 +46,7 @@ export function useAnalytics() {
   useEffect(() => {
     async function loadHeatmap() {
       try {
-        const res = await fetch(BASE + '/api/analytics/heatmap');
+        const res = await fetch(apiUrl('/api/analytics/heatmap'));
         if (res.ok) {
           const data = await res.json();
           // data expected: { junctions: [{id, name, hourly: [24 numbers]}] }
@@ -86,7 +86,7 @@ export function useAnalytics() {
   useEffect(() => {
     async function loadRecs() {
       try {
-        const res = await fetch(BASE + '/api/recommendations');
+        const res = await fetch(apiUrl('/api/recommendations'));
         if (res.ok) {
           const data = await res.json();
           setRecommendations(Array.isArray(data) ? data : []);
@@ -100,7 +100,7 @@ export function useAnalytics() {
 
   const updateRecStatus = useCallback(async (id: number, status: string) => {
     try {
-      await fetch(BASE + '/api/recommendations/' + id + '/status', {
+      await fetch(apiUrl('/api/recommendations/' + id + '/status'), {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ status }),
