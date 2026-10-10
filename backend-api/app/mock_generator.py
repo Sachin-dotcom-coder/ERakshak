@@ -42,8 +42,8 @@ async def start_mock_traffic_loop():
     # We maintain in-memory counters to cycle phases if junctions are in 'fixed' mode
     phase_counters = {}
     
-    # Preserve historical logs for reporting (do not wipe on startup)
-    pass
+    # Preserving historical logs
+    adaptive_controller_state = {}
 
     try:
         while True:
@@ -59,8 +59,20 @@ async def start_mock_traffic_loop():
                     continue
 
                 # 1. Manage signal phases based on mode
+
+                # Initialize junction controller state if needed
                 if junction.id not in phase_counters:
                     phase_counters[junction.id] = 0
+                if junction.id not in adaptive_controller_state:
+                    # Initialize with North or West, 0 ticks held, and balanced wait times
+                    adaptive_controller_state[junction.id] = {
+                        "current_arm": "N",
+                        "ticks_held": 0,
+                        "allocated_ticks": 6,  # 12 seconds initial
+                        "wait_ticks": {"N": 0, "S": 2, "E": 4, "W": 6}
+                    }
+
+                ctrl = adaptive_controller_state[junction.id]
 
                 if junction.signal_mode == "fixed":
                     # Cycle phases sequentially every 10 iterations (20 seconds)
@@ -72,73 +84,112 @@ async def start_mock_traffic_loop():
                         junction.current_phase = PHASES[next_phase_idx]
                         db.commit()
                 else:
-                    # Adaptive Mode: Apply simplified Max-Pressure logic.
-                    # Direct the green phase toward the lane with the longest queue.
-                    max_queue_lane = None
-                    max_queue = -1.0
+                    # --- REAL MAX-PRESSURE CONTROLLER WITH MIN-GREEN (>=10s) & STARVATION PREVENTION ---
+                    MIN_GREEN_TICKS = 5   # At least 10 seconds green before switching
+                    MAX_GREEN_TICKS = 15  # At most 30 seconds max green to avoid starvation
+
+                    ctrl["ticks_held"] += 1
+
+                    # Increment red waiting ticks for all non-green arms to track starvation
+                    for d in ["N", "S", "E", "W"]:
+                        if d != ctrl["current_arm"]:
+                            ctrl["wait_ticks"][d] = ctrl["wait_ticks"].get(d, 0) + 1
+
+                    # Gather latest queue per direction
+                    dir_queues = {"N": 15.0, "S": 15.0, "E": 15.0, "W": 15.0}
+                    dir_lanes = {}
                     for lane in junction.lanes:
-                        if lane.is_brts:
-                            continue
-                        # Get latest queue length
                         latest_m = db.query(TrafficMetric).filter(
                             TrafficMetric.lane_id == lane.id
                         ).order_by(TrafficMetric.timestamp.desc()).first()
-                        if latest_m and latest_m.queue_length_m > max_queue:
-                            max_queue = latest_m.queue_length_m
-                            max_queue_lane = lane
-                    
-                    if max_queue_lane:
-                        dir_name = {
-                            "N": "Northbound", "S": "Southbound",
-                            "E": "Eastbound", "W": "Westbound"
-                        }.get(max_queue_lane.direction, "Northbound")
-                        junction.current_phase = f"Adaptive: {dir_name} Green Priority"
-                        db.commit()
+                        q_val = latest_m.queue_length_m if latest_m else 20.0
+                        dir_queues[lane.direction] = max(dir_queues.get(lane.direction, 0.0), q_val)
+                        if lane.direction not in dir_lanes:
+                            dir_lanes[lane.direction] = lane
+
+                    current_arm = ctrl["current_arm"]
+                    current_queue = dir_queues.get(current_arm, 0.0)
+
+                    # Check if phase change is permissible
+                    can_switch = False
+                    if ctrl["ticks_held"] >= ctrl["allocated_ticks"]:
+                        can_switch = True
+                    elif ctrl["ticks_held"] >= MIN_GREEN_TICKS and current_queue < 5.0:
+                        # Queue cleared before allocated time: cut green early to save cycle time
+                        can_switch = True
+                    elif ctrl["ticks_held"] >= MAX_GREEN_TICKS:
+                        # Forced switch to prevent cross-traffic gridlock
+                        can_switch = True
+
+                    if can_switch:
+                        # Calculate starvation-weighted pressure score for every arm:
+                        # Pressure = Queue Length + (Red Wait Seconds * Starvation Factor)
+                        scores = {}
+                        for d in ["N", "E", "S", "W"]:
+                            if d == current_arm and ctrl["ticks_held"] >= MIN_GREEN_TICKS:
+                                # Penalize recently serviced arm slightly to give waiting arms a turn
+                                scores[d] = dir_queues.get(d, 0.0) * 0.7
+                            else:
+                                wait_seconds = ctrl["wait_ticks"].get(d, 0) * 2.0
+                                # Starvation weight: after 20s of waiting, adds +30 pressure!
+                                scores[d] = dir_queues.get(d, 0.0) + (wait_seconds * 1.5)
+
+                        # Select highest pressure arm
+                        best_arm = max(scores.keys(), key=lambda d: scores[d])
+
+                        if best_arm != current_arm:
+                            ctrl["current_arm"] = best_arm
+                            ctrl["ticks_held"] = 0
+                            ctrl["wait_ticks"][best_arm] = 0
+                            # Dynamically allocate green duration based on incoming queue (10s to 26s)
+                            best_q = dir_queues.get(best_arm, 20.0)
+                            allocated_secs = min(30, max(10, round(10 + best_q * 0.25)))
+                            ctrl["allocated_ticks"] = max(MIN_GREEN_TICKS, round(allocated_secs / 2))
+                            junction.cycle_length = allocated_secs
+
+                    dir_name = {
+                        "N": "Northbound", "S": "Southbound",
+                        "E": "Eastbound", "W": "Westbound"
+                    }.get(ctrl["current_arm"], "Northbound")
+                    junction.current_phase = f"Adaptive: {dir_name} Green Priority"
+                    db.commit()
 
                 # 2. Simulate Traffic Metrics for each lane of this junction
                 total_vehicles = 0
                 total_queue = 0.0
                 lanes_data = []
 
+                active_dir = ctrl["current_arm"] if junction.signal_mode != "fixed" else None
+                if junction.signal_mode == "fixed":
+                    if "North" in junction.current_phase: active_dir = "N"
+                    elif "East" in junction.current_phase: active_dir = "E"
+                    elif "South" in junction.current_phase: active_dir = "S"
+                    elif "West" in junction.current_phase: active_dir = "W"
+
                 for lane in junction.lanes:
-                    # BRTS lanes have low standard traffic unless there is a BRTS bus
-                    if lane.is_brts:
-                        # 3% chance a BRTS bus is passing through legally
-                        has_bus = random.random() < 0.03
-                        v_count = 1 if has_bus else 0
-                        q_length = 0.0
-                        occupancy = 0.05 if has_bus else 0.0
-                        avg_speed = 45.0 + random.uniform(-5.0, 5.0) if has_bus else 60.0
+                    is_green = (lane.direction == active_dir)
+
+                    # Fetch latest metric to iterate smoothly
+                    prev = db.query(TrafficMetric).filter(
+                        TrafficMetric.lane_id == lane.id
+                    ).order_by(TrafficMetric.timestamp.desc()).first()
+
+                    prev_count = prev.vehicle_count if prev else random.randint(12, 22)
+                    prev_queue = prev.queue_length_m if prev else random.uniform(20.0, 35.0)
+
+                    if is_green:
+                        # Green phase: discharge waiting queue smoothly
+                        v_count = max(3, prev_count - random.randint(2, 5) + random.randint(1, 2))
+                        q_length = max(2.0, prev_queue - random.uniform(6.0, 12.0) + random.uniform(1.0, 3.0))
+                        avg_speed = max(28.0, 42.0 - (q_length * 0.15) + random.uniform(-2.0, 2.0))
                     else:
-                        # Regular lanes fluctuate dynamically
-                        # If green phase matches direction, drain queue, else build queue
-                        is_green = False
-                        if "Green" in junction.current_phase or "Priority" in junction.current_phase:
-                            # Simple match: check if the direction letter is in the phase text
-                            dir_fullname = {"N": "North", "S": "South", "E": "East", "W": "West"}.get(lane.direction)
-                            if dir_fullname and dir_fullname in junction.current_phase:
-                                is_green = True
-                        
-                        # Fetch latest metric to iterate from it
-                        prev = db.query(TrafficMetric).filter(
-                            TrafficMetric.lane_id == lane.id
-                        ).order_by(TrafficMetric.timestamp.desc()).first()
+                        # Red phase: accumulate arriving queue
+                        v_count = min(42, prev_count + random.randint(1, 3))
+                        q_length = min(110.0, prev_queue + random.uniform(3.0, 6.0))
+                        avg_speed = max(4.0, 24.0 - (q_length * 0.18) + random.uniform(-1.5, 1.5))
 
-                        prev_count = prev.vehicle_count if prev else random.randint(10, 20)
-                        prev_queue = prev.queue_length_m if prev else random.uniform(15.0, 30.0)
-
-                        if is_green:
-                            # Drain queue
-                            v_count = max(2, prev_count - random.randint(3, 7) + random.randint(1, 3))
-                            q_length = max(0.0, prev_queue - random.uniform(5.0, 15.0) + random.uniform(1.0, 4.0))
-                            avg_speed = max(25.0, 40.0 - (q_length * 0.2) + random.uniform(-3.0, 3.0))
-                        else:
-                            # Accumulate queue
-                            v_count = min(45, prev_count + random.randint(1, 4))
-                            q_length = min(120.0, prev_queue + random.uniform(2.0, 8.0))
-                            avg_speed = max(2.0, 25.0 - (q_length * 0.2) + random.uniform(-2.0, 2.0))
-
-                        occupancy = min(1.0, q_length / 120.0)
+                    # Road Density (occupancy ratio): percentage of road storage capacity occupied
+                    occupancy = min(0.95, max(0.12, q_length / 110.0))
 
                     # Create and store metric
                     metric = TrafficMetric(
@@ -154,7 +205,7 @@ async def start_mock_traffic_loop():
 
                     total_vehicles += v_count
                     total_queue += q_length
-                    
+
                     lanes_data.append({
                         "lane_id": lane.id,
                         "lane_name": lane.lane_name,

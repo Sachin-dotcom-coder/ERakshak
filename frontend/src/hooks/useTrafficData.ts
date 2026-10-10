@@ -92,10 +92,15 @@ function reducer(state: State, action: Action): State {
             ? ("YELLOW" as const)
             : ("GREEN" as const);
 
+          // Only reset countdown when phase changes, allowing smooth 1s decrements
+          const phaseChanged = (j as any).current_phase !== eventData.current_phase;
+          const nextCountdown = phaseChanged ? allocatedGreen : Math.max(1, j.signalCountdown);
+
           return {
             ...j,
+            current_phase: eventData.current_phase,
             congestionIndex: ci,
-            signalCountdown: allocatedGreen,
+            signalCountdown: nextCountdown,
             congestion:
               ci > 80
                 ? ("gridlock" as const)

@@ -303,7 +303,7 @@ export function JunctionDrawer({
                   <FourWayIntersectionDiagram junction={junction} />
 
                   <div className="mt-2 text-center text-[10px] text-zinc-400 font-mono">
-                    Green arrow indicates active discharge corridor · Red indicators hold approaching queues
+                    <span className="text-zinc-300 font-bold">D = Road Density</span> (% physical capacity occupied) · <span className="text-zinc-300 font-bold">Q = Vehicle Queue</span> (waiting cars) · Green arm discharges inbound flow into junction
                   </div>
                 </div>
 
@@ -343,20 +343,29 @@ export function JunctionDrawer({
                     </div>
                   </div>
 
-                  <div className="mt-2 grid grid-cols-4 gap-2 text-center text-[10px] font-mono text-zinc-400">
-                    <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
-                      Cars: <span className="text-zinc-200 font-bold">34</span>
-                    </div>
-                    <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
-                      2-Wheelers: <span className="text-zinc-200 font-bold">58</span>
-                    </div>
-                    <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
-                      Buses: <span className="text-zinc-200 font-bold">4</span>
-                    </div>
-                    <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
-                      Autos: <span className="text-zinc-200 font-bold">18</span>
-                    </div>
-                  </div>
+                  {(() => {
+                    const totalVehs = junction.lanes.reduce((acc, l) => acc + (l.arrivalRate || l.queue || 10), 0);
+                    const twoWheelers = Math.round(totalVehs * 0.50);
+                    const cars = Math.round(totalVehs * 0.31);
+                    const autos = Math.round(totalVehs * 0.15);
+                    const buses = Math.max(1, totalVehs - twoWheelers - cars - autos);
+                    return (
+                      <div className="mt-2 grid grid-cols-4 gap-2 text-center text-[10px] font-mono text-zinc-400">
+                        <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
+                          Cars: <span className="text-zinc-200 font-bold">{cars}</span>
+                        </div>
+                        <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
+                          2-Wheelers: <span className="text-zinc-200 font-bold">{twoWheelers}</span>
+                        </div>
+                        <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
+                          Buses: <span className="text-zinc-200 font-bold">{buses}</span>
+                        </div>
+                        <div className="bg-zinc-950/60 p-1.5 rounded border border-zinc-800">
+                          Autos: <span className="text-zinc-200 font-bold">{autos}</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -472,28 +481,42 @@ export function JunctionDrawer({
                       <p className="text-xs text-zinc-400 mt-1">
                         Controller calculated dynamic extension based on <strong className="text-zinc-200">{density}% road density</strong>. Static schedule would have forced a premature red.
                       </p>
-                      <div className="mt-2 flex items-center gap-3 text-[11px] font-mono text-zinc-400">
-                        <span>Total Allocated: <strong className="text-zinc-200">58s</strong></span>
-                        <span>·</span>
-                        <span className="text-emerald-400 font-bold">+23s dynamic boost</span>
-                        <span>·</span>
-                        <span>Next Phase: <strong className="text-zinc-300">Yellow in {junction.signalCountdown}s</strong></span>
-                      </div>
+                      {(() => {
+                        const staticBase = junction.staticCycle?.find((p) => p.phase === "GREEN")?.seconds || 35;
+                        const currentAlloc = junction.signalCountdown > 0 ? junction.signalCountdown : 28;
+                        const boost = Math.max(0, currentAlloc - staticBase);
+                        return (
+                          <div className="mt-2 flex items-center gap-3 text-[11px] font-mono text-zinc-400">
+                            <span>Total Allocated: <strong className="text-zinc-200">{currentAlloc}s</strong></span>
+                            <span>·</span>
+                            <span className="text-emerald-400 font-bold">+{boost}s dynamic boost</span>
+                            <span>·</span>
+                            <span>Next Phase: <strong className="text-zinc-300">Yellow in {junction.signalCountdown}s</strong></span>
+                          </div>
+                        );
+                      })()}
                     </div>
                   </div>
 
                   {/* Quick Cycle Pill */}
-                  <div className="bg-zinc-950/80 border border-zinc-800 p-3 rounded-xl min-w-[200px]">
-                    <div className="text-[10px] font-mono font-bold text-zinc-400 uppercase">
-                      Current Cycle Length
-                    </div>
-                    <div className="text-xl font-bold font-mono text-zinc-100 mt-0.5">
-                      106 seconds
-                    </div>
-                    <div className="text-[10px] text-zinc-500 mt-1">
-                      Adaptive: 58s Green · 4s Amber · 44s Red
-                    </div>
-                  </div>
+                  {(() => {
+                    const currentAlloc = junction.signalCountdown > 0 ? junction.signalCountdown : 28;
+                    const cycleLen = junction.adaptiveCycle?.reduce((s, p) => s + p.seconds, 0) || 90;
+                    const redSecs = Math.max(16, cycleLen - currentAlloc - 4);
+                    return (
+                      <div className="bg-zinc-950/80 border border-zinc-800 p-3 rounded-xl min-w-[200px]">
+                        <div className="text-[10px] font-mono font-bold text-zinc-400 uppercase">
+                          Current Cycle Length
+                        </div>
+                        <div className="text-xl font-bold font-mono text-zinc-100 mt-0.5">
+                          {cycleLen} seconds
+                        </div>
+                        <div className="text-[10px] text-zinc-500 mt-1">
+                          Adaptive: {currentAlloc}s Green · 4s Amber · {redSecs}s Red
+                        </div>
+                      </div>
+                    );
+                  })()}
                 </div>
               </div>
 
@@ -978,10 +1001,10 @@ export function JunctionDrawer({
 
 // 4-Way Intersection Physical Diagram Component
 function FourWayIntersectionDiagram({ junction }: { junction: Junction }) {
-  const nLane = junction.lanes.find((l) => l.name.toLowerCase().includes("north")) || junction.lanes[0];
-  const sLane = junction.lanes.find((l) => l.name.toLowerCase().includes("south")) || junction.lanes[1];
-  const eLane = junction.lanes.find((l) => l.name.toLowerCase().includes("east")) || junction.lanes[2];
-  const wLane = junction.lanes.find((l) => l.name.toLowerCase().includes("west")) || junction.lanes[3];
+  const nLane = junction.lanes.find((l) => l.name.toLowerCase().includes("north") || (l as any).direction === "N") || junction.lanes[0];
+  const sLane = junction.lanes.find((l) => l.name.toLowerCase().includes("south") || (l as any).direction === "S") || junction.lanes[1];
+  const eLane = junction.lanes.find((l) => l.name.toLowerCase().includes("east") || (l as any).direction === "E") || junction.lanes[2];
+  const wLane = junction.lanes.find((l) => l.name.toLowerCase().includes("west") || (l as any).direction === "W") || junction.lanes[3];
 
   let activeArm: "N" | "E" | "S" | "W" = "N";
 
@@ -1006,8 +1029,15 @@ function FourWayIntersectionDiagram({ junction }: { junction: Junction }) {
   const statusColor = (st: string) =>
     st === "GREEN" ? "#22c55e" : st === "YELLOW" ? "#f59e0b" : "#ef4444";
 
+  const armFullTitle = {
+    N: "North Approach (Southbound Inflow)",
+    S: "South Approach (Northbound Inflow)",
+    E: "East Approach (Westbound Inflow)",
+    W: "West Approach (Eastbound Inflow)",
+  }[activeArm];
+
   return (
-    <div className="relative mx-auto my-3 flex h-60 w-full max-w-[360px] items-center justify-center rounded-2xl border border-zinc-800 bg-[#07090e] p-2 overflow-hidden shadow-inner">
+    <div className="relative mx-auto my-3 flex h-64 w-full max-w-[390px] items-center justify-center rounded-2xl border border-zinc-800 bg-[#07090e] p-2 overflow-hidden shadow-inner">
       {/* Asphalt Roads */}
       <div className="absolute inset-x-0 top-1/2 h-20 -translate-y-1/2 bg-[#12161f] border-y border-zinc-700/60" />
       <div className="absolute inset-y-0 left-1/2 w-20 -translate-x-1/2 bg-[#12161f] border-x border-zinc-700/60" />
@@ -1016,76 +1046,85 @@ function FourWayIntersectionDiagram({ junction }: { junction: Junction }) {
       <div className="absolute inset-x-0 top-1/2 h-0 border-t border-dashed border-zinc-600/50" />
       <div className="absolute inset-y-0 left-1/2 w-0 border-l border-dashed border-zinc-600/50" />
 
-      {/* Center Intersection Box with Countdown */}
-      <div className="relative z-10 flex h-20 w-20 flex-col items-center justify-center rounded-2xl border-2 border-zinc-700 bg-zinc-950 text-center shadow-2xl">
+      {/* Center Intersection Box with Countdown & Discharge Corridor */}
+      <div className="relative z-10 flex h-24 w-28 flex-col items-center justify-center rounded-2xl border-2 border-zinc-700 bg-zinc-950 text-center shadow-2xl p-1">
         <span className="text-[8px] font-bold text-zinc-400 uppercase tracking-wider">CORRIDOR</span>
-        <span className="num text-base font-black text-white">{junction.signalCountdown}s</span>
-        <span className="text-[7px] text-emerald-400 font-mono font-bold">{activeArm}-ARM DISCHARGE</span>
+        <span className="num text-lg font-black text-white">{junction.signalCountdown}s</span>
+        <span className="text-[7.5px] text-emerald-400 font-mono font-bold leading-tight">
+          {activeArm}-ARM DISCHARGE
+        </span>
+        <span className="text-[6.5px] text-zinc-400 font-mono mt-0.5">
+          Flowing to All Exits
+        </span>
       </div>
 
-      {/* NORTH ARM (Top) */}
-      <div className="absolute top-2 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center">
+      {/* NORTH ARM (Top) — Vehicles approach SOUTHBOUND (⬇) into junction */}
+      <div className="absolute top-1.5 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center">
         <span className="text-[9px] font-mono font-bold text-zinc-400">NORTH (N)</span>
         <div
-          className="my-1 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-bold shadow-sm"
+          className="my-0.5 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[9.5px] font-bold shadow-sm"
           style={{
             borderColor: statusColor(nStatus),
             color: statusColor(nStatus),
             backgroundColor: `${statusColor(nStatus)}20`,
           }}
+          title="Vehicles approaching Southbound into intersection"
         >
-          <span>⬆ {nStatus}</span>
+          <span>⬇ {nStatus}</span>
           <span className="num font-mono text-zinc-200">D:{nLane?.density ?? 0}%</span>
           <span className="num font-mono text-zinc-400">Q:{nLane?.queue ?? 0}</span>
         </div>
       </div>
 
-      {/* SOUTH ARM (Bottom) */}
-      <div className="absolute bottom-2 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center">
+      {/* SOUTH ARM (Bottom) — Vehicles approach NORTHBOUND (⬆) into junction */}
+      <div className="absolute bottom-1.5 left-1/2 z-20 flex -translate-x-1/2 flex-col items-center">
         <div
-          className="my-1 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-bold shadow-sm"
+          className="my-0.5 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[9.5px] font-bold shadow-sm"
           style={{
             borderColor: statusColor(sStatus),
             color: statusColor(sStatus),
             backgroundColor: `${statusColor(sStatus)}20`,
           }}
+          title="Vehicles approaching Northbound into intersection"
         >
-          <span>⬇ {sStatus}</span>
+          <span>⬆ {sStatus}</span>
           <span className="num font-mono text-zinc-200">D:{sLane?.density ?? 0}%</span>
           <span className="num font-mono text-zinc-400">Q:{sLane?.queue ?? 0}</span>
         </div>
         <span className="text-[9px] font-mono font-bold text-zinc-400">SOUTH (S)</span>
       </div>
 
-      {/* WEST ARM (Left) */}
-      <div className="absolute left-2 top-1/2 z-20 flex -translate-y-1/2 flex-col items-start">
+      {/* WEST ARM (Left) — Vehicles approach EASTBOUND (➡) into junction */}
+      <div className="absolute left-1.5 top-1/2 z-20 flex -translate-y-1/2 flex-col items-start">
         <span className="text-[9px] font-mono font-bold text-zinc-400">WEST (W)</span>
         <div
-          className="my-1 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-bold shadow-sm"
+          className="my-0.5 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[9.5px] font-bold shadow-sm"
           style={{
             borderColor: statusColor(wStatus),
             color: statusColor(wStatus),
             backgroundColor: `${statusColor(wStatus)}20`,
           }}
+          title="Vehicles approaching Eastbound into intersection"
         >
-          <span>⬅ {wStatus}</span>
+          <span>➡ {wStatus}</span>
           <span className="num font-mono text-zinc-200">D:{wLane?.density ?? 0}%</span>
           <span className="num font-mono text-zinc-400">Q:{wLane?.queue ?? 0}</span>
         </div>
       </div>
 
-      {/* EAST ARM (Right) */}
-      <div className="absolute right-2 top-1/2 z-20 flex -translate-y-1/2 flex-col items-end">
+      {/* EAST ARM (Right) — Vehicles approach WESTBOUND (⬅) into junction */}
+      <div className="absolute right-1.5 top-1/2 z-20 flex -translate-y-1/2 flex-col items-end">
         <span className="text-[9px] font-mono font-bold text-zinc-400">EAST (E)</span>
         <div
-          className="my-1 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[10px] font-bold shadow-sm"
+          className="my-0.5 flex items-center gap-1.5 rounded-md border px-2 py-0.5 text-[9.5px] font-bold shadow-sm"
           style={{
             borderColor: statusColor(eStatus),
             color: statusColor(eStatus),
             backgroundColor: `${statusColor(eStatus)}20`,
           }}
+          title="Vehicles approaching Westbound into intersection"
         >
-          <span>➡ {eStatus}</span>
+          <span>⬅ {eStatus}</span>
           <span className="num font-mono text-zinc-200">D:{eLane?.density ?? 0}%</span>
           <span className="num font-mono text-zinc-400">Q:{eLane?.queue ?? 0}</span>
         </div>
